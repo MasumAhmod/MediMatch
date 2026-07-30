@@ -28,7 +28,10 @@ models = {
         joblib.load(MODEL_DIR / "random_forest.pkl"),
 
     "Logistic Regression":
-        joblib.load(MODEL_DIR / "logistic_regression.pkl")
+        joblib.load(MODEL_DIR / "logistic_regression.pkl"),
+
+    "Linear SVM":
+        joblib.load(MODEL_DIR / "linear_svm.pkl")
 }
 
 results = []
