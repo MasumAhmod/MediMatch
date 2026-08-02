@@ -1,5 +1,4 @@
 import joblib
-import pandas as pd
 from pathlib import Path
 
 from sklearn.metrics import (
@@ -12,71 +11,61 @@ from sklearn.metrics import (
 
 from preprocess import load_data, preprocess_patient_data
 
-# Load data
+
+# Load Dataset
 doctorData, PatientData = load_data()
+
+# Split Dataset
 X_train, X_test, y_train, y_test = preprocess_patient_data(PatientData)
 
-# Load encoder
+# Model Directory
 MODEL_DIR = Path(__file__).parent
-label_encoder = joblib.load(MODEL_DIR / "label_encoder.pkl")
 
-# Encode test labels
+# Load Trained Model
+model = joblib.load(
+    MODEL_DIR / "catboost.pkl"
+)
+
+# Load Label Encoder
+label_encoder = joblib.load(
+    MODEL_DIR / "label_encoder.pkl"
+)
+
+# Encode Test Labels
 y_test_encoded = label_encoder.transform(y_test)
 
-# Load models
-models = {
-    "Decision Tree": joblib.load(MODEL_DIR / "decision_tree.pkl"),
-    "Random Forest": joblib.load(MODEL_DIR / "random_forest.pkl"),
-    "Logistic Regression": joblib.load(MODEL_DIR / "logistic_regression.pkl"),
-    "Linear SVM": joblib.load(MODEL_DIR / "linear_svm.pkl"),
-    "XGBoost": joblib.load(MODEL_DIR / "xgboost.pkl"),
-    "CatBoost": joblib.load(MODEL_DIR / "catboost.pkl"),
-}
+# Predict
+pred = model.predict(X_test)
 
-results = []
+# Convert predictions from (n,1) -> (n,)
+pred = pred.ravel().astype(int)
 
-for name, model in models.items():
+# Evaluation Metrics
+print("=" * 50)
+print("CatBoost Model Evaluation")
+print("=" * 50)
 
-    pred = model.predict(X_test)
+print(f"Accuracy : {accuracy_score(y_test_encoded, pred):.4f}")
 
-    if len(pred.shape) > 1:
-        pred = pred.ravel()
+print(
+    f"Precision: {precision_score(y_test_encoded, pred, average='weighted'):.4f}"
+)
 
-    results.append({
-        "Model": name,
-        "Accuracy": accuracy_score(y_test_encoded, pred),
-        "Precision": precision_score(
-            y_test_encoded,
-            pred,
-            average="weighted",
-            zero_division=0
-        ),
-        "Recall": recall_score(
-            y_test_encoded,
-            pred,
-            average="weighted",
-            zero_division=0
-        ),
-        "F1-score": f1_score(
-            y_test_encoded,
-            pred,
-            average="weighted",
-            zero_division=0
-        )
-    })
+print(
+    f"Recall   : {recall_score(y_test_encoded, pred, average='weighted'):.4f}"
+)
 
-    print(f"\n{name}")
-    print(classification_report(
+print(
+    f"F1-score : {f1_score(y_test_encoded, pred, average='weighted'):.4f}"
+)
+
+print("\nClassification Report")
+print("=" * 50)
+
+print(
+    classification_report(
         y_test_encoded,
         pred,
-        zero_division=0
-    ))
-
-results_df = pd.DataFrame(results)
-
-print(results_df)
-
-results_df.to_csv(
-    MODEL_DIR / "model_comparison.csv",
-    index=False
+        target_names=label_encoder.classes_
+    )
 )

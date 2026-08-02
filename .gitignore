@@ -1,0 +1,9 @@
+# CatBoost
+catboost_info/
+
+# If it is inside app/
+app/catboost_info/
+
+# Python cache
+__pycache__/
+*.pyc

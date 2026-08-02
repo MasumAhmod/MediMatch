@@ -1,6 +1,0 @@
-from pathlib import Path
-import joblib
-
-MODEL_PATH = Path(__file__).parent / "disease_model.pkl"
-
-joblib.dump(lr, MODEL_PATH)
