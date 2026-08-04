@@ -7,3 +7,13 @@ app/catboost_info/
 # Python cache
 __pycache__/
 *.pyc
+
+# ML model files
+app/ml/decision_tree.pkl
+app/ml/disease_model.pkl
+app/ml/linear_svm.pkl
+app/ml/random_forest.pkl
+app/ml/symptom_encoder.pkl
+app/ml/xgboost.pkl
+app/ml/label_encoder.pkl
+app/ml/old_train.py

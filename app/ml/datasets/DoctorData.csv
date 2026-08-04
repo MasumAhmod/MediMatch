@@ -1,4 +1,4 @@
-doctor_name,degree,specialization,designation,current_workplace,chamber_hospital,city,Visiting Hour,Appointment,Appointment Fee,
+doctor_name,degree,specialization,designation,current_workplace,chamber_hospital,city,Visiting_Hour,Appointment_Phone,Appointment_Fee,
 Dr. Ajoy Kumar Dutta,"MBBS, MD (Cardiology), NICVD","Cardiology, Hypertension & Rheumatic Fever Specialist","Chief Consultant, Cardiology",Al Haramain Hospital Private Limited,Al Haramain Hospital,Sylhet,9am to 1pm,8801931225555,700,
 Dr. Md. Suhail Alam,"MBBS, MD (Cardiology, BSMMU)","Cardiology, Heart Diseases & Rheumatic Fever Specialist","Consultant, Cardiology",Al Haramain Hospital Private Limited,Al Haramain Hospital,Sylhet,5pm to 8pm,8801931225555,700,
 Dr. Md. Jakaria Mahmud,"MBBS, BCS (Health), CCD (BIRDEM), DTCD (Dhaka)","Respiratory Disease, Cough, Tuberculosis, Thoracic Medicine Specialist","Assistant Professor, Respiratory Medicine",Sylhet MAG Osmani Medical College & Hospital,Al Haramain Hospital,Sylhet,3pm to 8pm,8801715971685,700,
