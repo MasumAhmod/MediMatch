@@ -1,0 +1,18 @@
+# DATABASE CONFIGURATION
+DB_HOST = "localhost"
+
+DB_PORT = 3306
+
+DB_USER = "root"
+
+DB_PASSWORD = "@Lovedit0"
+
+DB_NAME = "medimatch"
+
+
+# APPLICATION CONFIGURATION
+APP_NAME = "MediMatch"
+
+APP_VERSION = "1.0.0"
+
+DEBUG = True

@@ -1,5 +1,13 @@
 import pymysql
 
+from config import (
+    DB_HOST,
+    DB_PORT,
+    DB_USER,
+    DB_PASSWORD,
+    DB_NAME
+)
+
 
 def get_connection():
     """
@@ -8,11 +16,11 @@ def get_connection():
 
     try:
         connection = pymysql.connect(
-            host="127.0.0.1",
-            port=3306,
-            user="root",
-            password="@Lovedit0",
-            database="medimatch",
+            host=DB_HOST,
+            port=DB_PORT,
+            user=DB_USER,
+            password=DB_PASSWORD,
+            database=DB_NAME,
             cursorclass=pymysql.cursors.DictCursor
         )
 
@@ -20,4 +28,5 @@ def get_connection():
 
     except pymysql.MySQLError as e:
         print(f"Database Connection Error: {e}")
-        return None
+
+    return None
