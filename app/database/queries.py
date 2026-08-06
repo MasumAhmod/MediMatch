@@ -164,7 +164,7 @@ def filter_doctors(
 # ...........get_all_specializations
 def get_all_specializations():
     """
-    Returns all active specializations.
+    Returns all unique specializations.
     """
 
     connection = get_connection()
@@ -176,8 +176,8 @@ def get_all_specializations():
         with connection.cursor() as cursor:
 
             sql = """
-                SELECT *
-                FROM specializations
+                SELECT DISTINCT specialization
+                FROM doctors
                 WHERE is_active = 1
                 ORDER BY specialization
             """
@@ -192,41 +192,10 @@ def get_all_specializations():
         connection.close()
 
 
-# ...........get_specialization_by_id
-def get_specialization_by_id(specialization_id: int):
-    """
-    Returns a specialization by ID.
-    """
-
-    connection = get_connection()
-
-    if connection is None:
-        return None
-
-    try:
-        with connection.cursor() as cursor:
-
-            sql = """
-                SELECT *
-                FROM specializations
-                WHERE id = %s
-                AND is_active = 1
-            """
-
-            cursor.execute(sql, (specialization_id,))
-
-            specialization = cursor.fetchone()
-
-            return specialization
-
-    finally:
-        connection.close()
-
-
 # ...........search_specializations
 def search_specializations(name: str):
     """
-    Search specialization by name.
+    Returns all doctors belonging to a specialization.
     """
 
     connection = get_connection()
@@ -239,17 +208,17 @@ def search_specializations(name: str):
 
             sql = """
                 SELECT *
-                FROM specializations
+                FROM doctors
                 WHERE specialization LIKE %s
                 AND is_active = 1
-                ORDER BY specialization
+                ORDER BY doctor_name
             """
 
             cursor.execute(sql, (f"%{name}%",))
 
-            specializations = cursor.fetchall()
+            doctors = cursor.fetchall()
 
-            return specializations
+            return doctors
 
     finally:
         connection.close()

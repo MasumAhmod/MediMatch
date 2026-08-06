@@ -1,39 +1,53 @@
 import joblib
+import pandas as pd
 from pathlib import Path
 
-
-# Model Directory
 MODEL_DIR = Path(__file__).parent
 
-# Load Trained CatBoost Model
-model = joblib.load(
-    MODEL_DIR / "catboost.pkl"
-)
+model = joblib.load(MODEL_DIR / "catboost.pkl")
+label_encoder = joblib.load(MODEL_DIR / "label_encoder.pkl")
 
-# Load Label Encoder
-label_encoder = joblib.load(
-    MODEL_DIR / "label_encoder.pkl"
-)
+FEATURE_NAMES = model.feature_names_
 
 
-def predict_disease(symptoms):
+def predict_disease(selected_symptoms: list[str]):
     """
-    Predict disease from symptom vector.
+    Predict disease from symptom names.
 
-    Parameters:
-        symptoms (list): A list of symptom values (0/1).
-
-    Returns:
-        str: Predicted disease name.
+    Example:
+        ["fever", "cough", "fatigue"]
     """
 
-    # Predict encoded disease label
-    prediction = model.predict([symptoms])
+    # Create dictionary with every symptom = 0
+    symptom_vector = {
+        feature: 0
+        for feature in FEATURE_NAMES
+    }
 
-    # Convert shape (1,1) -> (1,)
+    # Validate symptoms
+    invalid_symptoms = []
+
+    for symptom in selected_symptoms:
+
+        symptom = symptom.strip()
+
+        if symptom in symptom_vector:
+            symptom_vector[symptom] = 1
+        else:
+            invalid_symptoms.append(symptom)
+
+    if invalid_symptoms:
+        raise ValueError(
+            f"Unknown symptom(s): {', '.join(invalid_symptoms)}"
+        )
+
+    # Convert to DataFrame
+    X = pd.DataFrame([symptom_vector])
+
+    prediction = model.predict(X)
+
     prediction = prediction.ravel().astype(int)
 
-    # Decode label back to disease name
     disease = label_encoder.inverse_transform(prediction)
 
     return disease[0]

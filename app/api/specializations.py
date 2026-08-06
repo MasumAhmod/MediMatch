@@ -1,10 +1,7 @@
 from fastapi import APIRouter, HTTPException
 
-from fastapi import APIRouter, HTTPException
-
 from app.database.queries import (
     get_all_specializations,
-    get_specialization_by_id,
     search_specializations
 )
 
@@ -15,9 +12,11 @@ router = APIRouter(
 
 
 # GET /specializations
-# Get all active specializations
 @router.get("/")
 def get_specializations():
+    """
+    Get all available specializations.
+    """
 
     specializations = get_all_specializations()
 
@@ -27,35 +26,30 @@ def get_specializations():
             detail="No specializations found."
         )
 
-    return {"specializations": specializations}
+    return {
+        "specializations": specializations
+    }
 
 
 # GET /specializations/search
-# Search specialization by name
+# /specializations/search?name=Cardiology
+
 @router.get("/search")
 def search_specialization(name: str):
+    """
+    Return all doctors of a specialization.
+    """
 
-    specializations = search_specializations(name)
+    doctors = search_specializations(name)
 
-    if not specializations:
+    if not doctors:
         raise HTTPException(
             status_code=404,
-            detail="No matching specialization found."
+            detail="No doctors found."
         )
 
-    return {"specializations": specializations}
-
-# GET /specializations/{id}
-# Get specialization by ID
-@router.get("/{id}")
-def get_specialization(id: int):
-
-    specialization = get_specialization_by_id(id)
-
-    if specialization is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Specialization not found."
-        )
-
-    return {"specialization": specialization}
+    return {
+        "specialization": name,
+        "total_doctors": len(doctors),
+        "doctors": doctors
+    }

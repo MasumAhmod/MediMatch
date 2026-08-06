@@ -10,23 +10,24 @@ router = APIRouter(
 
 
 class PredictionRequest(BaseModel):
-    symptoms: list[int]
+    symptoms: list[str]
 
 
 @router.post("/")
 def predict(request: PredictionRequest):
     """
-    Predict disease from symptoms.
+    Predict disease from symptom names.
     """
 
-    result = predict_disease(request.symptoms)
+    try:
+        disease = predict_disease(request.symptoms)
 
-    if result is None:
+        return {
+            "disease": disease
+        }
+
+    except ValueError as e:
         raise HTTPException(
             status_code=400,
-            detail="Prediction failed."
+            detail=str(e)
         )
-
-    return {
-        "disease": result
-    }
