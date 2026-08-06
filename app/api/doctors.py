@@ -31,10 +31,7 @@ def get_doctors():
 
 
 @router.get("/search")
-def search_doctor(
-    name: str | None = None,
-    specialization: str | None = None
-):
+def search_doctor(name: str | None = None, specialization: str | None = None):
     """
     Search doctors by name or specialization.
     """

@@ -10,7 +10,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
-app.include_router(health_router)
-app.include_router(doctors_router)
-app.include_router(prediction_router)
-app.include_router(specializations_router)
+API_PREFIX = "/api/v1"
+
+app.include_router(health_router, prefix=API_PREFIX)
+app.include_router(doctors_router, prefix=API_PREFIX)
+app.include_router(prediction_router, prefix=API_PREFIX)
+app.include_router(specializations_router, prefix=API_PREFIX)
