@@ -2,6 +2,8 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app.ml.predictor import predict_disease
+from app.utils.specialist import get_specialization
+
 
 router = APIRouter(
     prefix="/predict",
@@ -16,18 +18,27 @@ class PredictionRequest(BaseModel):
 @router.post("/")
 def predict(request: PredictionRequest):
     """
-    Predict disease from symptom names.
+    Predict disease and recommended medical specialization.
     """
+
+    if not request.symptoms:
+        raise HTTPException(
+            status_code=400,
+            detail="At least one symptom is required."
+        )
 
     try:
         disease = predict_disease(request.symptoms)
 
+        specialization = get_specialization(disease)
+
         return {
-            "disease": disease
+            "disease": disease,
+            "specialization": specialization
         }
 
-    except ValueError as e:
+    except Exception as e:
         raise HTTPException(
-            status_code=400,
-            detail=str(e)
+            status_code=500,
+            detail=f"Prediction failed: {str(e)}"
         )

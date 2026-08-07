@@ -7,17 +7,17 @@ from app.database.queries import (
     filter_doctors
 )
 
+
 router = APIRouter(
     prefix="/doctors",
     tags=["Doctors"]
 )
 
+# GET /api/v1/doctors/
+# Get all doctors
 
 @router.get("/")
 def get_doctors():
-    """
-    Retrieve all active doctors.
-    """
 
     doctors = get_all_doctors()
 
@@ -27,14 +27,19 @@ def get_doctors():
             detail="No active doctors found."
         )
 
-    return {"doctors": doctors}
+    return {
+        "doctors": doctors
+    }
 
+
+# GET /api/v1/doctors/search
+# Search doctors
 
 @router.get("/search")
-def search_doctor(name: str | None = None, specialization: str | None = None):
-    """
-    Search doctors by name or specialization.
-    """
+def search_doctor(
+    name: str | None = None,
+    specialization: str | None = None
+):
 
     doctors = search_doctors(
         name=name,
@@ -47,8 +52,12 @@ def search_doctor(name: str | None = None, specialization: str | None = None):
             detail="No matching doctors found."
         )
 
-    return {"doctors": doctors}
+    return {
+        "doctors": doctors
+    }
 
+# GET /api/v1/doctors/filter
+# Filter doctors
 
 @router.get("/filter")
 def filter_doctor(
@@ -56,11 +65,8 @@ def filter_doctor(
     specialization: str | None = None,
     min_fee: float | None = None,
     max_fee: float | None = None,
-    availability: bool | None = None
+    availability: str | None = None
 ):
-    """
-    Filter doctors.
-    """
 
     doctors = filter_doctors(
         city=city,
@@ -70,14 +76,22 @@ def filter_doctor(
         availability=availability
     )
 
-    return {"doctors": doctors}
+    if not doctors:
+        raise HTTPException(
+            status_code=404,
+            detail="No doctors found matching the filters."
+        )
 
+    return {
+        "doctors": doctors
+    }
+
+
+# GET /api/v1/doctors/{doctor_id}
+# Get doctor by ID
 
 @router.get("/{doctor_id}")
-def doctor_by_id(doctor_id: int):
-    """
-    Retrieve a doctor by ID.
-    """
+def get_doctor(doctor_id: int):
 
     doctor = get_doctor_by_id(doctor_id)
 
@@ -87,4 +101,6 @@ def doctor_by_id(doctor_id: int):
             detail="Doctor not found."
         )
 
-    return {"doctor": doctor}
+    return {
+        "doctor": doctor
+    }

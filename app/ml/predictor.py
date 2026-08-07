@@ -1,53 +1,62 @@
 import joblib
-import pandas as pd
 from pathlib import Path
+
 
 MODEL_DIR = Path(__file__).parent
 
-model = joblib.load(MODEL_DIR / "catboost.pkl")
-label_encoder = joblib.load(MODEL_DIR / "label_encoder.pkl")
 
-FEATURE_NAMES = model.feature_names_
+# ---------------------------------------------------------
+# Load model
+# ---------------------------------------------------------
+
+model = joblib.load(
+    MODEL_DIR / "catboost.pkl"
+)
 
 
-def predict_disease(selected_symptoms: list[str]):
+# ---------------------------------------------------------
+# Load label encoder
+# ---------------------------------------------------------
+
+label_encoder = joblib.load(
+    MODEL_DIR / "label_encoder.pkl"
+)
+
+
+# ---------------------------------------------------------
+# Get model symptoms
+# ---------------------------------------------------------
+
+MODEL_FEATURES = model.feature_names_
+
+
+# ---------------------------------------------------------
+# Disease prediction
+# ---------------------------------------------------------
+
+def predict_disease(symptoms: list[str]):
     """
     Predict disease from symptom names.
-
-    Example:
-        ["fever", "cough", "fatigue"]
     """
 
-    # Create dictionary with every symptom = 0
-    symptom_vector = {
-        feature: 0
-        for feature in FEATURE_NAMES
-    }
+    # Normalize input symptoms
+    symptoms = [
+        symptom.strip().lower()
+        for symptom in symptoms
+    ]
 
-    # Validate symptoms
-    invalid_symptoms = []
+    # Create a binary feature vector
+    feature_vector = [
+        1 if feature.lower() in symptoms else 0
+        for feature in model.feature_names_
+    ]
 
-    for symptom in selected_symptoms:
-
-        symptom = symptom.strip()
-
-        if symptom in symptom_vector:
-            symptom_vector[symptom] = 1
-        else:
-            invalid_symptoms.append(symptom)
-
-    if invalid_symptoms:
-        raise ValueError(
-            f"Unknown symptom(s): {', '.join(invalid_symptoms)}"
-        )
-
-    # Convert to DataFrame
-    X = pd.DataFrame([symptom_vector])
-
-    prediction = model.predict(X)
+    # Predict disease
+    prediction = model.predict([feature_vector])
 
     prediction = prediction.ravel().astype(int)
 
+    # Decode disease label
     disease = label_encoder.inverse_transform(prediction)
 
     return disease[0]
