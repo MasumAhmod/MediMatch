@@ -1,6 +1,7 @@
 from app.database.db import get_connection
 
-# ................get_all_doctors
+# DOCTORS
+
 def get_all_doctors():
     """
     Returns all active doctors.
@@ -12,6 +13,7 @@ def get_all_doctors():
         return []
 
     try:
+
         with connection.cursor() as cursor:
 
             sql = """
@@ -22,17 +24,18 @@ def get_all_doctors():
 
             cursor.execute(sql)
 
-            doctors = cursor.fetchall()
-
-            return doctors
+            return cursor.fetchall()
 
     finally:
+
         connection.close()
 
-#............get_doctor_by_id
+
+# GET DOCTOR BY ID
+
 def get_doctor_by_id(doctor_id: int):
     """
-    Returns a doctor by ID.
+    Returns an active doctor by ID.
     """
 
     connection = get_connection()
@@ -41,6 +44,7 @@ def get_doctor_by_id(doctor_id: int):
         return None
 
     try:
+
         with connection.cursor() as cursor:
 
             sql = """
@@ -50,16 +54,20 @@ def get_doctor_by_id(doctor_id: int):
                 AND is_active = 1
             """
 
-            cursor.execute(sql, (doctor_id,))
+            cursor.execute(
+                sql,
+                (doctor_id,)
+            )
 
-            doctor = cursor.fetchone()
-
-            return doctor
+            return cursor.fetchone()
 
     finally:
+
         connection.close()
 
-# ...........get_doctors_by_name
+
+# SEARCH DOCTORS
+
 def search_doctors(
     name=None,
     specialization=None
@@ -74,6 +82,7 @@ def search_doctors(
         return []
 
     try:
+
         with connection.cursor() as cursor:
 
             sql = """
@@ -85,24 +94,43 @@ def search_doctors(
             params = []
 
             if name:
-                sql += " AND doctor_name LIKE %s"
-                params.append(f"%{name}%")
+
+                sql += """
+                    AND doctor_name LIKE %s
+                """
+
+                params.append(
+                    f"%{name}%"
+                )
 
             if specialization:
-                sql += " AND specialization = %s"
-                params.append(specialization)
 
-            cursor.execute(sql, tuple(params))
+                sql += """
+                    AND specialization LIKE %s
+                """
 
-            doctors = cursor.fetchall()
+                params.append(
+                    f"%{specialization}%"
+                )
 
-            return doctors
+            sql += """
+                ORDER BY doctor_name
+            """
+
+            cursor.execute(
+                sql,
+                tuple(params)
+            )
+
+            return cursor.fetchall()
 
     finally:
+
         connection.close()
 
 
-# ...........filter_doctors
+# FILTER DOCTORS
+
 def filter_doctors(
     city=None,
     specialization=None,
@@ -111,7 +139,7 @@ def filter_doctors(
     availability=None
 ):
     """
-    Filter doctors based on given criteria.
+    Filter doctors using optional criteria.
     """
 
     connection = get_connection()
@@ -120,6 +148,7 @@ def filter_doctors(
         return []
 
     try:
+
         with connection.cursor() as cursor:
 
             sql = """
@@ -130,41 +159,145 @@ def filter_doctors(
 
             params = []
 
+            # City
             if city:
-                sql += " AND city = %s"
+
+                sql += """
+                    AND city = %s
+                """
+
                 params.append(city)
 
+            # Specialization
             if specialization:
-                sql += " AND specialization = %s"
-                params.append(specialization)
 
+                sql += """
+                    AND specialization LIKE %s
+                """
+
+                params.append(
+                    f"%{specialization}%"
+                )
+
+            # Minimum appointment fee
             if min_fee is not None:
-                sql += " AND appointment_fee >= %s"
+
+                sql += """
+                    AND appointment_fee >= %s
+                """
+
                 params.append(min_fee)
 
+            # Maximum appointment fee
             if max_fee is not None:
-                sql += " AND appointment_fee <= %s"
+
+                sql += """
+                    AND appointment_fee <= %s
+                """
+
                 params.append(max_fee)
 
-            if availability is not None:
-                sql += " AND availability = %s"
+            # Availability
+            if availability:
+
+                sql += """
+                    AND availability = %s
+                """
+
                 params.append(availability)
 
-            cursor.execute(sql, tuple(params))
+            sql += """
+                ORDER BY appointment_fee ASC
+            """
 
-            doctors = cursor.fetchall()
+            cursor.execute(
+                sql,
+                tuple(params)
+            )
 
-            return doctors
+            return cursor.fetchall()
 
     finally:
+
         connection.close()
 
 
+# GET DOCTORS BY SPECIALIZATION
 
-# ...........get_all_specializations
+# =========================================================
+# GET DOCTORS BY SPECIALIZATION CATEGORY
+# =========================================================
+
+def get_doctors_by_specialization(
+    specialization: str
+):
+    """
+    Returns doctors matching a medical specialization
+    category.
+
+    The database contains detailed specialization names,
+    so multiple keywords are used for matching.
+    """
+
+    from app.utils.specialist import get_specialization_keywords
+
+    connection = get_connection()
+
+    if connection is None:
+        return []
+
+    try:
+
+        keywords = get_specialization_keywords(
+            specialization
+        )
+
+        with connection.cursor() as cursor:
+
+            conditions = []
+
+            params = []
+
+            for keyword in keywords:
+
+                conditions.append(
+                    "LOWER(specialization) LIKE %s"
+                )
+
+                params.append(
+                    f"%{keyword.lower()}%"
+                )
+
+            where_clause = " OR ".join(
+                conditions
+            )
+
+            sql = f"""
+                SELECT *
+                FROM doctors
+                WHERE is_active = 1
+                AND ({where_clause})
+                ORDER BY appointment_fee ASC
+            """
+
+            cursor.execute(
+                sql,
+                tuple(params)
+            )
+
+            return cursor.fetchall()
+
+    finally:
+
+        connection.close()
+
+
+# SPECIALIZATIONS FROM DOCTORS TABLE
+
 def get_all_specializations():
     """
-    Returns all unique specializations.
+    Returns all unique active specializations
+    directly from the doctors table.
     """
 
     connection = get_connection()
@@ -173,29 +306,35 @@ def get_all_specializations():
         return []
 
     try:
+
         with connection.cursor() as cursor:
 
             sql = """
                 SELECT DISTINCT specialization
                 FROM doctors
                 WHERE is_active = 1
+                AND specialization IS NOT NULL
+                AND specialization != ''
                 ORDER BY specialization
             """
 
             cursor.execute(sql)
 
-            specializations = cursor.fetchall()
-
-            return specializations
+            return cursor.fetchall()
 
     finally:
+
         connection.close()
 
 
-# ...........search_specializations
-def search_specializations(name: str):
+# SEARCH SPECIALIZATIONS
+
+def search_specializations(
+    name: str
+):
     """
-    Returns all doctors belonging to a specialization.
+    Search unique specializations directly
+    from the doctors table.
     """
 
     connection = get_connection()
@@ -204,21 +343,26 @@ def search_specializations(name: str):
         return []
 
     try:
+
         with connection.cursor() as cursor:
 
             sql = """
-                SELECT *
+                SELECT DISTINCT specialization
                 FROM doctors
-                WHERE specialization LIKE %s
-                AND is_active = 1
-                ORDER BY doctor_name
+                WHERE is_active = 1
+                AND specialization IS NOT NULL
+                AND specialization != ''
+                AND specialization LIKE %s
+                ORDER BY specialization
             """
 
-            cursor.execute(sql, (f"%{name}%",))
+            cursor.execute(
+                sql,
+                (f"%{name}%",)
+            )
 
-            doctors = cursor.fetchall()
-
-            return doctors
+            return cursor.fetchall()
 
     finally:
+
         connection.close()

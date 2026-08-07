@@ -1,225 +1,352 @@
-"""
-MediMatch Specialist Utility
-
-Converts predicted diseases into appropriate medical specializations.
-
-The disease is predicted by the ML model, and this module determines
-which type of specialist should handle that disease.
-
-No additional database table is required.
-"""
+# =========================================================
+# SPECIALIST / DISEASE MAPPING
+# =========================================================
 
 
-# ---------------------------------------------------------
-# Disease -> Specialization mapping
-# ---------------------------------------------------------
+# =========================================================
+# DISEASE -> SPECIALIZATION
+# =========================================================
 
-DISEASE_SPECIALIST_MAP = {
+DISEASE_SPECIALIZATION = {
 
-    # -------------------------
-    # Cardiology
-    # -------------------------
+    # =====================================================
+    # ENT
+    # =====================================================
+
+    "otitis externa (swimmer's ear)": "ENT",
+    "otitis media": "ENT",
+    "ear infection": "ENT",
+    "hearing loss": "ENT",
+    "tinnitus": "ENT",
+    "sinusitis": "ENT",
+    "pharyngitis": "ENT",
+    "tonsillitis": "ENT",
+    "laryngitis": "ENT",
+    "rhinitis": "ENT",
+    "nasal congestion": "ENT",
+    "sore throat": "ENT",
+    "ear pain": "ENT",
+    "diminished hearing": "ENT",
+
+    # =====================================================
+    # CARDIOLOGY
+    # =====================================================
+
     "heart attack": "Cardiology",
     "myocardial infarction": "Cardiology",
-    "coronary artery disease": "Cardiology",
-    "heart failure": "Cardiology",
     "angina": "Cardiology",
-    "cardiac arrhythmia": "Cardiology",
+    "coronary artery disease": "Cardiology",
+    "congestive heart failure": "Cardiology",
+    "heart failure": "Cardiology",
+    "cardiomyopathy": "Cardiology",
+    "arrhythmia": "Cardiology",
     "atrial fibrillation": "Cardiology",
     "hypertension": "Cardiology",
+    "high blood pressure": "Cardiology",
+    "palpitations": "Cardiology",
 
-    # -------------------------
-    # Neurology
-    # -------------------------
-    "migraine": "Neurology",
-    "epilepsy": "Neurology",
-    "seizure": "Neurology",
-    "parkinson disease": "Neurology",
-    "multiple sclerosis": "Neurology",
-    "stroke": "Neurology",
-    "dementia": "Neurology",
-    "neuropathy": "Neurology",
+    # =====================================================
+    # GASTROENTEROLOGY
+    # =====================================================
 
-    # -------------------------
-    # Dermatology
-    # -------------------------
+    "esophagitis": "Gastroenterology",
+    "gastritis": "Gastroenterology",
+    "gastroenteritis": "Gastroenterology",
+    "peptic ulcer": "Gastroenterology",
+    "stomach ulcer": "Gastroenterology",
+    "gerd": "Gastroenterology",
+    "gastroesophageal reflux disease": "Gastroenterology",
+    "irritable bowel syndrome": "Gastroenterology",
+    "ibs": "Gastroenterology",
+    "ulcerative colitis": "Gastroenterology",
+    "crohn disease": "Gastroenterology",
+    "crohn's disease": "Gastroenterology",
+    "hepatitis": "Gastroenterology",
+    "fatty liver": "Gastroenterology",
+    "cirrhosis": "Gastroenterology",
+    "pancreatitis": "Gastroenterology",
+    "constipation": "Gastroenterology",
+    "diarrhea": "Gastroenterology",
+
+    # =====================================================
+    # UROLOGY
+    # =====================================================
+
+    "benign prostatic hyperplasia (bph)": "Urology",
+    "benign prostatic hyperplasia": "Urology",
+    "prostate cancer": "Urology",
+    "prostatitis": "Urology",
+    "kidney stone": "Urology",
+    "kidney stones": "Urology",
+    "urinary tract infection": "Urology",
+    "urinary retention": "Urology",
+    "urinary incontinence": "Urology",
+    "bladder infection": "Urology",
+    "bladder cancer": "Urology",
+    "kidney disease": "Urology",
+    "kidney infection": "Urology",
+
+    # =====================================================
+    # DERMATOLOGY
+    # =====================================================
+
     "acne": "Dermatology",
+    "acne vulgaris": "Dermatology",
     "eczema": "Dermatology",
     "psoriasis": "Dermatology",
     "dermatitis": "Dermatology",
     "skin infection": "Dermatology",
     "skin rash": "Dermatology",
-    "urticaria": "Dermatology",
+    "warts": "Dermatology",
+    "skin cancer": "Dermatology",
+    "melanoma": "Dermatology",
+    "alopecia": "Dermatology",
+    "hair loss": "Dermatology",
 
-    # -------------------------
-    # Gastroenterology
-    # -------------------------
-    "gastritis": "Gastroenterology",
-    "peptic ulcer": "Gastroenterology",
-    "ulcerative colitis": "Gastroenterology",
-    "crohn disease": "Gastroenterology",
-    "irritable bowel syndrome": "Gastroenterology",
-    "gastroesophageal reflux disease": "Gastroenterology",
-    "hepatitis": "Gastroenterology",
+    # =====================================================
+    # NEUROLOGY
+    # =====================================================
 
-    # -------------------------
-    # Pulmonology
-    # -------------------------
+    "migraine": "Neurology",
+    "migraine headache": "Neurology",
+    "epilepsy": "Neurology",
+    "seizure": "Neurology",
+    "stroke": "Neurology",
+    "parkinson disease": "Neurology",
+    "parkinson's disease": "Neurology",
+    "multiple sclerosis": "Neurology",
+    "dementia": "Neurology",
+    "alzheimer disease": "Neurology",
+    "alzheimer's disease": "Neurology",
+    "neuropathy": "Neurology",
+
+    # =====================================================
+    # ORTHOPEDICS
+    # =====================================================
+
+    "arthritis": "Orthopedics",
+    "osteoarthritis": "Orthopedics",
+    "rheumatoid arthritis": "Orthopedics",
+    "osteoporosis": "Orthopedics",
+    "fracture": "Orthopedics",
+    "bone fracture": "Orthopedics",
+    "back pain": "Orthopedics",
+    "low back pain": "Orthopedics",
+    "joint pain": "Orthopedics",
+    "knee pain": "Orthopedics",
+    "shoulder pain": "Orthopedics",
+
+    # =====================================================
+    # OPHTHALMOLOGY
+    # =====================================================
+
+    "cataract": "Ophthalmology",
+    "glaucoma": "Ophthalmology",
+    "conjunctivitis": "Ophthalmology",
+    "pink eye": "Ophthalmology",
+    "retinal detachment": "Ophthalmology",
+    "eye infection": "Ophthalmology",
+    "vision loss": "Ophthalmology",
+    "blindness": "Ophthalmology",
+
+    # =====================================================
+    # GYNECOLOGY / OBSTETRICS
+    # =====================================================
+
+    "endometriosis": "Gynecology",
+    "polycystic ovary syndrome": "Gynecology",
+    "pcos": "Gynecology",
+    "ovarian cyst": "Gynecology",
+    "uterine fibroid": "Gynecology",
+    "fibroids": "Gynecology",
+    "infertility": "Gynecology",
+    "menstrual disorder": "Gynecology",
+    "pregnancy": "Gynecology",
+
+    # =====================================================
+    # PSYCHIATRY
+    # =====================================================
+
+    "depression": "Psychiatry",
+    "major depressive disorder": "Psychiatry",
+    "anxiety disorder": "Psychiatry",
+    "generalized anxiety disorder": "Psychiatry",
+    "panic disorder": "Psychiatry",
+    "bipolar disorder": "Psychiatry",
+    "schizophrenia": "Psychiatry",
+    "obsessive compulsive disorder": "Psychiatry",
+    "ocd": "Psychiatry",
+
+    # =====================================================
+    # ENDOCRINOLOGY
+    # =====================================================
+
+    "diabetes": "Endocrinology",
+    "diabetes mellitus": "Endocrinology",
+    "type 1 diabetes": "Endocrinology",
+    "type 2 diabetes": "Endocrinology",
+    "hypothyroidism": "Endocrinology",
+    "hyperthyroidism": "Endocrinology",
+    "thyroid disease": "Endocrinology",
+
+    # =====================================================
+    # PULMONOLOGY
+    # =====================================================
+
     "asthma": "Pulmonology",
     "pneumonia": "Pulmonology",
     "bronchitis": "Pulmonology",
-    "chronic obstructive pulmonary disease": "Pulmonology",
     "copd": "Pulmonology",
+    "chronic obstructive pulmonary disease": "Pulmonology",
     "tuberculosis": "Pulmonology",
 
-    # -------------------------
-    # ENT
-    # -------------------------
-    "otitis externa (swimmer's ear)": "ENT",
-    "otitis media": "ENT",
-    "sinusitis": "ENT",
-    "tonsillitis": "ENT",
-    "pharyngitis": "ENT",
-    "laryngitis": "ENT",
+    # =====================================================
+    # GENERAL MEDICINE
+    # =====================================================
 
-    # -------------------------
-    # Ophthalmology
-    # -------------------------
-    "conjunctivitis": "Ophthalmology",
-    "cataract": "Ophthalmology",
-    "glaucoma": "Ophthalmology",
-    "retinal disorder": "Ophthalmology",
-
-    # -------------------------
-    # Orthopedics
-    # -------------------------
-    "arthritis": "Orthopedics",
-    "osteoarthritis": "Orthopedics",
-    "rheumatoid arthritis": "Rheumatology",
-    "fracture": "Orthopedics",
-    "osteoporosis": "Orthopedics",
-    "back pain": "Orthopedics",
-
-    # -------------------------
-    # Urology
-    # -------------------------
-    "urinary tract infection": "Urology",
-    "kidney stone": "Urology",
-    "kidney stones": "Urology",
-    "prostatitis": "Urology",
-    "benign prostatic hyperplasia": "Urology",
-
-    # -------------------------
-    # Gynecology
-    # -------------------------
-    "endometriosis": "Gynecology",
-    "ovarian cyst": "Gynecology",
-    "polycystic ovary syndrome": "Gynecology",
-    "pcos": "Gynecology",
-
-    # -------------------------
-    # Psychiatry
-    # -------------------------
-    "depression": "Psychiatry",
-    "anxiety disorder": "Psychiatry",
-    "bipolar disorder": "Psychiatry",
-    "schizophrenia": "Psychiatry",
-    "panic disorder": "Psychiatry",
-
-    # -------------------------
-    # Endocrinology
-    # -------------------------
-    "diabetes": "Endocrinology",
-    "diabetes mellitus": "Endocrinology",
-    "hypothyroidism": "Endocrinology",
-    "hyperthyroidism": "Endocrinology",
+    "common cold": "General Medicine",
+    "influenza": "General Medicine",
+    "flu": "General Medicine",
+    "viral infection": "General Medicine",
+    "fever": "General Medicine",
 }
 
 
-# ---------------------------------------------------------
-# Keyword based fallback
-# ---------------------------------------------------------
+# =========================================================
+# GET SPECIALIZATION
+# =========================================================
 
-SPECIALIST_KEYWORDS = {
-
-    "cardio": "Cardiology",
-    "heart": "Cardiology",
-    "hypertension": "Cardiology",
-
-    "brain": "Neurology",
-    "neuro": "Neurology",
-    "migraine": "Neurology",
-    "seizure": "Neurology",
-
-    "skin": "Dermatology",
-    "acne": "Dermatology",
-    "eczema": "Dermatology",
-
-    "stomach": "Gastroenterology",
-    "gastric": "Gastroenterology",
-    "intestinal": "Gastroenterology",
-    "liver": "Gastroenterology",
-
-    "lung": "Pulmonology",
-    "pulmonary": "Pulmonology",
-    "asthma": "Pulmonology",
-    "pneumonia": "Pulmonology",
-
-    "ear": "ENT",
-    "nose": "ENT",
-    "throat": "ENT",
-    "sinus": "ENT",
-
-    "eye": "Ophthalmology",
-    "vision": "Ophthalmology",
-    "retina": "Ophthalmology",
-
-    "bone": "Orthopedics",
-    "joint": "Orthopedics",
-    "fracture": "Orthopedics",
-    "muscle": "Orthopedics",
-
-    "kidney": "Urology",
-    "urinary": "Urology",
-    "prostate": "Urology",
-
-    "pregnancy": "Gynecology",
-    "ovary": "Gynecology",
-    "uterus": "Gynecology",
-
-    "depression": "Psychiatry",
-    "anxiety": "Psychiatry",
-    "psychotic": "Psychiatry",
-
-    "diabetes": "Endocrinology",
-    "thyroid": "Endocrinology",
-}
-
-
-# ---------------------------------------------------------
-# Main function
-# ---------------------------------------------------------
-
-def get_specialization(disease: str) -> str:
+def get_specialization(
+    disease: str
+) -> str:
     """
-    Return the most appropriate medical specialization
+    Return the recommended medical specialization
     for a predicted disease.
     """
 
     if not disease:
         return "General Medicine"
 
-    disease_normalized = disease.strip().lower()
+    disease = disease.strip().lower()
 
-    # Exact match
-    if disease_normalized in DISEASE_SPECIALIST_MAP:
-        return DISEASE_SPECIALIST_MAP[disease_normalized]
+    return DISEASE_SPECIALIZATION.get(
+        disease,
+        "General Medicine"
+    )
 
-    # Keyword fallback
-    for keyword, specialization in SPECIALIST_KEYWORDS.items():
 
-        if keyword in disease_normalized:
-            return specialization
+# =========================================================
+# SPECIALIZATION -> DATABASE SEARCH KEYWORDS
+# =========================================================
 
-    # Default
-    return "General Medicine"
+SPECIALIZATION_KEYWORDS = {
+
+    "ENT": [
+        "ent",
+        "ear",
+        "nose",
+        "throat",
+        "otolaryng"
+    ],
+
+    "Cardiology": [
+        "cardio",
+        "heart",
+        "cardiac"
+    ],
+
+    "Gastroenterology": [
+        "gastro",
+        "digestive",
+        "hepatology",
+        "liver",
+        "stomach"
+    ],
+
+    "Urology": [
+        "urolog",
+        "urinary",
+        "kidney",
+        "prostate",
+        "bladder"
+    ],
+
+    "Dermatology": [
+        "dermat",
+        "skin"
+    ],
+
+    "Neurology": [
+        "neuro",
+        "brain",
+        "nerve"
+    ],
+
+    "Orthopedics": [
+        "ortho",
+        "bone",
+        "joint",
+        "musculoskeletal"
+    ],
+
+    "Ophthalmology": [
+        "ophthalm",
+        "eye",
+        "vision"
+    ],
+
+    "Gynecology": [
+        "gyne",
+        "gynae",
+        "obstetric"
+    ],
+
+    "Psychiatry": [
+        "psychi",
+        "mental"
+    ],
+
+    "Endocrinology": [
+        "endocrin",
+        "diabetes",
+        "thyroid"
+    ],
+
+    "Pulmonology": [
+        "pulmon",
+        "respiratory",
+        "chest",
+        "lung"
+    ],
+
+    "General Medicine": [
+        "medicine",
+        "physician",
+        "internal medicine",
+        "general"
+    ]
+}
+
+
+# =========================================================
+# GET SEARCH KEYWORDS
+# =========================================================
+
+def get_specialization_keywords(
+    specialization: str
+) -> list[str]:
+    """
+    Return keywords used to match the specialization
+    against detailed specialization names in the
+    doctors table.
+    """
+
+    if not specialization:
+        return []
+
+    specialization = specialization.strip()
+
+    return SPECIALIZATION_KEYWORDS.get(
+        specialization,
+        [specialization]
+    )

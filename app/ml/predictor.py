@@ -5,34 +5,26 @@ from pathlib import Path
 MODEL_DIR = Path(__file__).parent
 
 
-# ---------------------------------------------------------
 # Load model
-# ---------------------------------------------------------
 
 model = joblib.load(
     MODEL_DIR / "catboost.pkl"
 )
 
 
-# ---------------------------------------------------------
 # Load label encoder
-# ---------------------------------------------------------
 
 label_encoder = joblib.load(
     MODEL_DIR / "label_encoder.pkl"
 )
 
 
-# ---------------------------------------------------------
 # Get model symptoms
-# ---------------------------------------------------------
 
 MODEL_FEATURES = model.feature_names_
 
 
-# ---------------------------------------------------------
 # Disease prediction
-# ---------------------------------------------------------
 
 def predict_disease(symptoms: list[str]):
     """
