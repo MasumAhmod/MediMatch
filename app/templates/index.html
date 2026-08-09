@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+
+{% block title %}
+MediMatch - Find the Right Doctor
+{% endblock %}
+
+{% block content %}
+
+<!-- =========================================================
+     HERO SECTION
+     ========================================================= -->
+
+<section class="relative overflow-hidden">
+
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+        <div
+            class="grid lg:grid-cols-2
+                   gap-8 lg:gap-0
+                   items-center
+                   min-h-[560px]
+                   py-10 lg:py-0"
+        >
+
+            <!-- =================================================
+                 LEFT SIDE
+                 ================================================= -->
+
+            <div class="relative z-20 py-10 lg:py-16">
+
+                <!-- Small Badge -->
+
+                <span
+                    class="inline-flex
+                           items-center
+                           px-3 py-1
+                           rounded-full
+                           bg-blue-50
+                           text-blue-700
+                           text-sm
+                           font-semibold
+                           mb-6"
+                >
+                    AI-Powered Healthcare
+                </span>
+
+
+                <!-- Heading -->
+
+                <h1
+                    class="text-4xl
+                           sm:text-5xl
+                           lg:text-6xl
+                           font-extrabold
+                           leading-tight
+                           tracking-tight
+                           text-slate-900"
+                >
+
+                    Find the Right Doctor
+
+                    <br>
+
+                    for
+
+                    <span class="text-teal-500">
+                        Your Health
+                    </span>
+
+                </h1>
+
+
+                <!-- Description -->
+
+                <p
+                    class="mt-6
+                           text-lg
+                           text-slate-600
+                           leading-8
+                           max-w-xl"
+                >
+                    Describe your symptoms, get AI-powered disease
+                    prediction and find the right specialist near you.
+                </p>
+
+
+                <!-- Buttons -->
+
+                <div
+                    class="mt-8
+                           flex
+                           flex-wrap
+                           gap-4"
+                >
+
+                    <!-- Check Symptoms -->
+
+                    <a
+                        href="/symptoms"
+                        class="inline-flex
+                               items-center
+                               gap-2
+                               bg-blue-600
+                               hover:bg-blue-700
+                               text-white
+                               px-6 py-3.5
+                               rounded-lg
+                               font-semibold
+                               transition
+                               shadow-lg
+                               shadow-blue-600/20"
+                    >
+
+                        <!-- Search Icon -->
+
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+
+                            <circle
+                                cx="11"
+                                cy="11"
+                                r="7"
+                                stroke-width="2"
+                            ></circle>
+
+                            <path
+                                d="M20 20l-4-4"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            ></path>
+
+                        </svg>
+
+                        Check Symptoms
+
+                    </a>
+
+
+                    <!-- Find Doctors -->
+
+                    <a
+                        href="/doctors"
+                        class="inline-flex
+                               items-center
+                               gap-2
+                               bg-white
+                               border
+                               border-slate-200
+                               hover:border-blue-400
+                               hover:text-blue-600
+                               text-slate-700
+                               px-6 py-3.5
+                               rounded-lg
+                               font-semibold
+                               transition"
+                    >
+
+                        <!-- Doctor Icon -->
+
+                        <svg
+                            class="w-5 h-5"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+
+                            <path
+                                d="M20 21a8 8 0 0 0-16 0"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                            ></path>
+
+                            <circle
+                                cx="12"
+                                cy="7"
+                                r="4"
+                                stroke-width="2"
+                            ></circle>
+
+                        </svg>
+
+                        Find Doctors
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!--RIGHT SIDE - HERO DOCTOR IMAGE-->
+
+            <div
+                class="relative
+                       flex
+                       justify-center
+                       lg:justify-end
+                       items-end
+                       h-full
+                       min-h-[450px]
+                       lg:min-h-[560px]"
+            >
+
+                <!-- Doctor Hero Image -->
+
+                <img
+                    src="{{ url_for('static', path='images/frontDOC.png') }}"
+                    alt="MediMatch Doctor"
+                    class="relative
+                           z-10
+                           w-full
+                           h-full
+                           max-w-[650px]
+                           object-contain
+                           object-bottom
+                           lg:translate-x-8"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!--FEATURES SECTION-->
+
+<section class="relative py-12 lg:py-16">
+
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+
+        <div
+            class="grid
+                   md:grid-cols-3
+                   gap-6"
+        >
+
+            <!-- =================================================
+                 AI PREDICTION
+                 ================================================= -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <svg
+                        class="w-7 h-7"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+
+                        <!-- AI / Brain -->
+
+                        <path
+                            d="M9 3a3 3 0 0 0-3 3v1a3 3 0 0 0-3 3
+                               3 3 0 0 0 3 3v2a3 3 0 0 0 3 3h1V3H9z"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></path>
+
+                        <path
+                            d="M15 3a3 3 0 0 1 3 3v1a3 3 0 0 1 3 3
+                               3 3 0 0 1-3 3v2a3 3 0 0 1-3 3h-1V3h1z"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></path>
+
+                        <path
+                            d="M9 8h2M13 8h2M9 12h2M13 12h2M9 16h2M13 16h2"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <h3 class="feature-title">
+                    AI Powered Prediction
+                </h3>
+
+
+                <p class="feature-text">
+
+                    Advanced ML model predicts possible diseases
+                    based on your symptoms.
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 FIND SPECIALISTS
+                 ================================================= -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <svg
+                        class="w-7 h-7"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+
+                        <!-- Doctor -->
+
+                        <circle
+                            cx="12"
+                            cy="7"
+                            r="3.5"
+                            stroke-width="1.8"
+                        ></circle>
+
+                        <path
+                            d="M5 21a7 7 0 0 1 14 0"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                        ></path>
+
+                        <!-- Medical Cross -->
+
+                        <path
+                            d="M18 4v4M16 6h4"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                        ></path>
+
+                    </svg>
+
+                </div>
+
+
+                <h3 class="feature-title">
+                    Find Specialists
+                </h3>
+
+
+                <p class="feature-text">
+
+                    Get matched with the right medical specialist
+                    for your condition.
+
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 NEAR YOU
+                 ================================================= -->
+
+            <div class="feature-card">
+
+                <div class="feature-icon">
+
+                    <svg
+                        class="w-7 h-7"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+
+                        <!-- Location -->
+
+                        <path
+                            d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0z"
+                            stroke-width="1.8"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        ></path>
+
+                        <circle
+                            cx="12"
+                            cy="10"
+                            r="2.5"
+                            stroke-width="1.8"
+                        ></circle>
+
+                    </svg>
+
+                </div>
+
+
+                <h3 class="feature-title">
+                    Near You
+                </h3>
+
+
+                <p class="feature-text">
+
+                    Find doctors near you based on location,
+                    specialization and availability.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

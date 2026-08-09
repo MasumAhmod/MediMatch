@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+Doctor Profile - MediMatch
+{% endblock %}
+
+
+{% block content %}
+
+<section class="max-w-7xl mx-auto px-5 lg:px-8 py-10">
+
+
+    <a
+        href="/doctors"
+        class="text-sm text-blue-600 hover:text-blue-800"
+    >
+        ← Back to Doctors
+    </a>
+
+
+    <div
+        id="doctor-profile"
+        class="mt-6"
+    >
+
+        <!-- JS will populate this -->
+
+        <div class="text-center py-16 text-slate-500">
+            Loading doctor profile...
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script
+    src="{{ url_for('static', path='js/doctors.js') }}"
+></script>
+
+{% endblock %}

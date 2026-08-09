@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}
+Doctors - MediMatch
+{% endblock %}
+
+
+{% block content %}
+
+<section class="max-w-7xl mx-auto px-5 lg:px-8 py-12">
+
+
+    <h1 class="text-3xl font-bold">
+        Doctors
+    </h1>
+
+    <p class="mt-2 text-slate-500">
+        Find the best specialists near you.
+    </p>
+
+
+    <!-- Filters -->
+
+    <div class="bg-white border rounded-2xl p-5 mt-8">
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+
+
+            <input
+                id="doctor-search"
+                type="text"
+                placeholder="Search doctors..."
+                class="form-input"
+            >
+
+
+            <select
+                id="specialization-filter"
+                class="form-input"
+            >
+
+                <option value="">
+                    Specialization
+                </option>
+
+            </select>
+
+
+            <select
+                id="city-filter"
+                class="form-input"
+            >
+
+                <option value="">
+                    Location
+                </option>
+
+                <option value="Sylhet">
+                    Sylhet
+                </option>
+
+                <option value="Dhaka">
+                    Dhaka
+                </option>
+
+                <option value="Chattogram">
+                    Chattogram
+                </option>
+
+                <option value="Rajshahi">
+                    Rajshahi
+                </option>
+
+            </select>
+
+
+            <select
+                id="fee-filter"
+                class="form-input"
+            >
+
+                <option value="">
+                    Fees
+                </option>
+
+                <option value="500">
+                    Up to ৳500
+                </option>
+
+                <option value="1000">
+                    Up to ৳1000
+                </option>
+
+                <option value="1500">
+                    Up to ৳1500
+                </option>
+
+            </select>
+
+
+            <button
+                id="doctor-filter-button"
+                class="bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold"
+            >
+                Search
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- Loading -->
+
+    <div
+        id="doctors-loading"
+        class="text-center py-12 text-slate-500"
+    >
+        Loading doctors...
+    </div>
+
+
+    <!-- Doctors -->
+
+    <div
+        id="doctors-container"
+        class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8"
+    >
+    </div>
+
+
+    <!-- Error -->
+
+    <div
+        id="doctors-error"
+        class="hidden mt-6 p-4 bg-red-50 text-red-700 rounded-lg"
+    >
+    </div>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script
+    src="{{ url_for('static', path='js/doctors.js') }}"
+></script>
+
+{% endblock %}

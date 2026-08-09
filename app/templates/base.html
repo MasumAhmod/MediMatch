@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        {% block title %}
+        MediMatch
+        {% endblock %}
+    </title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Font -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Custom CSS -->
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', path='css/custom.css') }}"
+    >
+
+    {% block head %}
+    {% endblock %}
+
+</head>
+
+
+<body class="bg-white text-slate-900">
+
+    <!-- Header -->
+    {% include 'header.html' %}
+
+
+    <!-- Main Content -->
+
+    <main class="min-h-screen">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+
+    <!-- Footer -->
+    {% include 'footer.html' %}
+
+
+    <!-- Global JavaScript -->
+
+    <script
+        src="{{ url_for('static', path='js/script.js') }}"
+    ></script>
+
+
+    {% block scripts %}
+    {% endblock %}
+
+</body>
+
+</html>

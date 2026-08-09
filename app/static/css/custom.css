@@ -1,0 +1,578 @@
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: "Inter", sans-serif;
+    background: #ffffff;
+    color: #0f172a;
+}
+
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.nav-link {
+    color: #475569;
+    font-size: 0.78rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+    color: #2563eb;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: 0.65rem 0.75rem;
+    color: #475569;
+    border-radius: 0.5rem;
+}
+
+.mobile-nav-link:hover {
+    background: #f1f5f9;
+}
+
+
+/* =========================================================
+   SYMPTOMS PAGE
+   ========================================================= */
+
+.symptoms-page {
+    width: 100%;
+    background: #ffffff;
+    min-height: calc(100vh - 64px);
+}
+
+
+.symptoms-container {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 42px 30px 70px;
+}
+
+
+/* =========================================================
+   PAGE HEADING
+   ========================================================= */
+
+.symptoms-heading {
+    margin-bottom: 34px;
+}
+
+.symptoms-heading h1 {
+    margin: 0;
+    font-size: 28px;
+    line-height: 1.25;
+    font-weight: 800;
+    color: #0f172a;
+    letter-spacing: -0.025em;
+}
+
+.symptoms-heading p {
+    margin: 8px 0 0;
+    font-size: 12px;
+    color: #64748b;
+}
+
+
+/* =========================================================
+   TWO COLUMN LAYOUT
+   ========================================================= */
+
+.symptoms-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 255px;
+    gap: 52px;
+    align-items: start;
+}
+
+
+/* =========================================================
+   LEFT SIDE
+   ========================================================= */
+
+.symptoms-main {
+    min-width: 0;
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.symptom-search-section {
+    width: 100%;
+}
+
+
+.symptom-label {
+    display: block;
+    margin-bottom: 11px;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    color: #334155;
+}
+
+
+.symptom-search-box {
+    position: relative;
+    width: 100%;
+}
+
+
+.symptom-search-box input {
+    width: 100%;
+    height: 45px;
+
+    padding: 0 16px 0 43px;
+
+    border: 1px solid #dce3eb;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #334155;
+    font-family: inherit;
+    font-size: 12px;
+
+    outline: none;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.symptom-search-box input::placeholder {
+    color: #a1aab7;
+}
+
+
+.symptom-search-box input:focus {
+    border-color: #93c5fd;
+
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.08);
+}
+
+
+.search-icon {
+    position: absolute;
+
+    left: 15px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #a7b0bc;
+
+    pointer-events: none;
+}
+
+
+/* =========================================================
+   SUGGESTED SYMPTOMS
+   ========================================================= */
+
+.suggested-symptoms-box {
+    margin-top: 15px;
+
+    padding: 13px 0;
+
+    background: #fafbfc;
+}
+
+
+.suggested-symptoms {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 9px;
+}
+
+
+.symptom-chip {
+    border: 1px solid #e3e8ee;
+
+    background: #ffffff;
+
+    color: #64748b;
+
+    border-radius: 999px;
+
+    padding: 7px 12px;
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.symptom-chip:hover {
+    background: #eff6ff;
+
+    border-color: #bfdbfe;
+
+    color: #2563eb;
+
+    transform: translateY(-1px);
+}
+
+
+.symptom-chip:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   SELECTED SYMPTOMS
+   ========================================================= */
+
+.selected-section {
+    margin-top: 27px;
+}
+
+
+.selected-heading {
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+
+    margin-bottom: 11px;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    color: #334155;
+}
+
+
+.selected-count {
+    color: #64748b;
+}
+
+
+.selected-symptoms {
+    min-height: 38px;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+.selected-symptom {
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    padding: 7px 10px;
+
+    background: #e9f8f5;
+
+    border: 1px solid #d2eee8;
+
+    color: #168b7c;
+
+    border-radius: 999px;
+
+    font-size: 10px;
+    font-weight: 600;
+}
+
+
+.selected-symptom button {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 14px;
+    height: 14px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #4ba99d;
+
+    font-size: 13px;
+    line-height: 1;
+
+    cursor: pointer;
+}
+
+
+.selected-symptom button:hover {
+    color: #0f766e;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.prediction-error {
+    margin-top: 15px;
+
+    padding: 10px 13px;
+
+    border-radius: 7px;
+
+    background: #fef2f2;
+
+    border: 1px solid #fecaca;
+
+    color: #dc2626;
+
+    font-size: 11px;
+}
+
+
+/* =========================================================
+   PREDICT BUTTON
+   ========================================================= */
+
+.predict-button {
+    width: 100%;
+
+    height: 42px;
+
+    margin-top: 20px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    background: #1769d1;
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.predict-button:hover {
+    background: #155fc0;
+
+    box-shadow:
+        0 5px 15px rgba(23, 105, 209, 0.18);
+}
+
+
+.predict-button:active {
+    transform: translateY(1px);
+}
+
+
+.predict-button:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    box-shadow: none;
+}
+
+
+/* =========================================================
+   HOW IT WORKS
+   ========================================================= */
+
+.how-it-works {
+    padding: 18px 18px 20px;
+
+    background: #f8fafc;
+
+    border-radius: 9px;
+
+    border: 1px solid #f1f5f9;
+}
+
+
+.how-it-works h2 {
+    margin: 0 0 22px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    color: #1e293b;
+}
+
+
+/* =========================================================
+   HOW STEP
+   ========================================================= */
+
+.how-step {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 11px;
+
+    margin-bottom: 23px;
+}
+
+
+.how-step:last-child {
+    margin-bottom: 0;
+}
+
+
+.step-number {
+    flex-shrink: 0;
+
+    width: 23px;
+    height: 23px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 9px;
+
+    font-weight: 700;
+}
+
+
+/* Different colors like reference */
+
+.step-one {
+    background: #e7f8f4;
+    color: #149581;
+}
+
+
+.step-two {
+    background: #e8f1ff;
+    color: #2563eb;
+}
+
+
+.step-three {
+    background: #eaf8f4;
+    color: #15927e;
+}
+
+
+.step-content {
+    flex: 1;
+}
+
+
+.step-content h3 {
+    margin: 1px 0 5px;
+
+    font-size: 10px;
+
+    line-height: 1.4;
+
+    font-weight: 700;
+
+    color: #334155;
+}
+
+
+.step-content p {
+    margin: 0;
+
+    font-size: 9px;
+
+    line-height: 1.55;
+
+    color: #94a3b8;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+    .symptoms-container {
+        max-width: 760px;
+    }
+
+    .symptoms-layout {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .how-it-works {
+        width: 100%;
+    }
+
+}
+
+
+@media (max-width: 640px) {
+
+    .symptoms-container {
+        padding: 30px 18px 50px;
+    }
+
+    .symptoms-heading h1 {
+        font-size: 24px;
+    }
+
+    .symptoms-layout {
+        gap: 25px;
+    }
+
+    .suggested-symptoms {
+        gap: 7px;
+    }
+
+    .symptom-chip {
+        font-size: 10px;
+        padding: 6px 10px;
+    }
+
+}

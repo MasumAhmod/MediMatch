@@ -1,15 +1,17 @@
 from fastapi import APIRouter
 
+
 router = APIRouter(
-    prefix="/health",
+    prefix="/api/v1",
     tags=["Health"]
 )
 
 
-@router.get("/")
+@router.get("/health")
 def health_check():
+
     return {
-        "application": "MediMatch",
-        "status": "Healthy",
+        "status": "healthy",
+        "service": "MediMatch API",
         "version": "1.0.0"
     }
