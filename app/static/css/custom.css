@@ -1,4 +1,10 @@
 /* =========================================================
+   MEDIMATCH - GLOBAL CUSTOM CSS
+   Complete stylesheet
+   ========================================================= */
+
+
+/* =========================================================
    GLOBAL
    ========================================================= */
 
@@ -11,37 +17,136 @@ html {
 }
 
 body {
-    margin: 0;
     font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
     background: #ffffff;
     color: #0f172a;
 }
 
+a {
+    text-decoration: none;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    font-family: inherit;
+}
+
 
 /* =========================================================
-   NAVBAR
+   HEADER / NAVIGATION
    ========================================================= */
 
+header {
+    background: #ffffff;
+}
+
 .nav-link {
+    position: relative;
     color: #475569;
-    font-size: 0.78rem;
+    font-size: 0.95rem;
     font-weight: 500;
-    transition: color 0.2s ease;
+    padding: 0.45rem 0;
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .nav-link:hover {
     color: #2563eb;
 }
 
+.nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 0;
+    height: 2px;
+    background: #2563eb;
+    border-radius: 999px;
+    transition: width 0.2s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+
 .mobile-nav-link {
     display: block;
-    padding: 0.65rem 0.75rem;
+    padding: 0.75rem 0.5rem;
     color: #475569;
+    font-size: 0.95rem;
+    font-weight: 500;
     border-radius: 0.5rem;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
 }
 
 .mobile-nav-link:hover {
-    background: #f1f5f9;
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+
+/* =========================================================
+   GENERAL PAGE CONTAINERS
+   ========================================================= */
+
+.symptoms-page,
+.about-page,
+.contact-page {
+    width: 100%;
+    min-height: calc(100vh - 64px);
+    background: #ffffff;
+}
+
+.symptoms-container,
+.about-container,
+.contact-container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem 5rem;
+}
+
+
+/* =========================================================
+   COMMON PAGE HEADINGS
+   ========================================================= */
+
+.symptoms-heading,
+.about-heading,
+.contact-heading {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.symptoms-heading h1,
+.about-heading h1,
+.contact-heading h1 {
+    margin: 0;
+    color: #0f172a;
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    line-height: 1.15;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.symptoms-heading p,
+.about-heading p,
+.contact-heading p {
+    max-width: 700px;
+    margin: 0.8rem auto 0;
+    color: #64748b;
+    font-size: 1rem;
+    line-height: 1.65;
 }
 
 
@@ -49,138 +154,81 @@ body {
    SYMPTOMS PAGE
    ========================================================= */
 
-.symptoms-page {
-    width: 100%;
-    background: #ffffff;
-    min-height: calc(100vh - 64px);
-}
-
-
-.symptoms-container {
-    max-width: 980px;
-    margin: 0 auto;
-    padding: 42px 30px 70px;
-}
-
-
-/* =========================================================
-   PAGE HEADING
-   ========================================================= */
-
-.symptoms-heading {
-    margin-bottom: 34px;
-}
-
-.symptoms-heading h1 {
-    margin: 0;
-    font-size: 28px;
-    line-height: 1.25;
-    font-weight: 800;
-    color: #0f172a;
-    letter-spacing: -0.025em;
-}
-
-.symptoms-heading p {
-    margin: 8px 0 0;
-    font-size: 12px;
-    color: #64748b;
-}
-
-
-/* =========================================================
-   TWO COLUMN LAYOUT
-   ========================================================= */
-
 .symptoms-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 255px;
-    gap: 52px;
+    grid-template-columns: minmax(0, 1fr) 330px;
+    gap: 2rem;
     align-items: start;
 }
 
-
-/* =========================================================
-   LEFT SIDE
-   ========================================================= */
-
 .symptoms-main {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
 
 /* =========================================================
-   SEARCH
+   SYMPTOM SEARCH SECTION
    ========================================================= */
 
 .symptom-search-section {
     width: 100%;
 }
 
-
 .symptom-label {
     display: block;
-    margin-bottom: 11px;
-
-    font-size: 11px;
-    font-weight: 600;
-
+    margin-bottom: 0.65rem;
     color: #334155;
+    font-size: 0.9rem;
+    font-weight: 650;
 }
-
 
 .symptom-search-box {
     position: relative;
     width: 100%;
 }
 
+.symptom-search-box .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+}
 
 .symptom-search-box input {
     width: 100%;
-    height: 45px;
+    height: 52px;
+    padding: 0 1rem 0 2.9rem;
 
-    padding: 0 16px 0 43px;
-
-    border: 1px solid #dce3eb;
-    border-radius: 7px;
-
+    color: #0f172a;
     background: #ffffff;
 
-    color: #334155;
-    font-family: inherit;
-    font-size: 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 0.8rem;
 
     outline: none;
+
+    font-family: inherit;
+    font-size: 0.92rem;
 
     transition:
         border-color 0.2s ease,
         box-shadow 0.2s ease;
 }
 
-
 .symptom-search-box input::placeholder {
-    color: #a1aab7;
+    color: #94a3b8;
 }
-
 
 .symptom-search-box input:focus {
-    border-color: #93c5fd;
+    border-color: #60a5fa;
 
     box-shadow:
-        0 0 0 3px rgba(59, 130, 246, 0.08);
-}
-
-
-.search-icon {
-    position: absolute;
-
-    left: 15px;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    color: #a7b0bc;
-
-    pointer-events: none;
+        0 0 0 3px rgba(59, 130, 246, 0.12);
 }
 
 
@@ -189,61 +237,59 @@ body {
    ========================================================= */
 
 .suggested-symptoms-box {
-    margin-top: 15px;
+    width: 100%;
 
-    padding: 13px 0;
+    padding: 1.15rem;
 
-    background: #fafbfc;
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 0.9rem;
 }
-
 
 .suggested-symptoms {
     display: flex;
-
     flex-wrap: wrap;
-
-    gap: 9px;
+    gap: 0.55rem;
 }
 
-
 .symptom-chip {
-    border: 1px solid #e3e8ee;
+    padding: 0.55rem 0.85rem;
 
+    color: #475569;
     background: #ffffff;
 
-    color: #64748b;
-
+    border: 1px solid #cbd5e1;
     border-radius: 999px;
 
-    padding: 7px 12px;
-
-    font-family: inherit;
-    font-size: 10px;
-    font-weight: 500;
+    font-size: 0.8rem;
+    font-weight: 600;
 
     cursor: pointer;
 
     transition:
+        color 0.2s ease,
         background 0.2s ease,
         border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.2s ease;
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
-
 .symptom-chip:hover {
-    background: #eff6ff;
-
-    border-color: #bfdbfe;
-
     color: #2563eb;
+    background: #eff6ff;
+    border-color: #93c5fd;
 
     transform: translateY(-1px);
 }
 
+.symptom-chip.selected {
+    color: #ffffff;
+    background: #2563eb;
+    border-color: #2563eb;
 
-.symptom-chip:active {
-    transform: translateY(0);
+    box-shadow:
+        0 4px 10px rgba(37, 99, 235, 0.18);
 }
 
 
@@ -252,111 +298,116 @@ body {
    ========================================================= */
 
 .selected-section {
-    margin-top: 27px;
-}
+    width: 100%;
 
+    padding: 1.25rem;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 0.9rem;
+
+    min-height: 125px;
+}
 
 .selected-heading {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
-    gap: 5px;
-
-    margin-bottom: 11px;
-
-    font-size: 11px;
-    font-weight: 600;
+    margin-bottom: 1rem;
 
     color: #334155;
-}
 
+    font-size: 0.9rem;
+    font-weight: 700;
+}
 
 .selected-count {
-    color: #64748b;
-}
+    min-width: 28px;
+    height: 28px;
 
-
-.selected-symptoms {
-    min-height: 38px;
-
-    display: flex;
-    flex-wrap: wrap;
-
-    align-items: center;
-
-    gap: 8px;
-}
-
-
-.selected-symptom {
     display: inline-flex;
-
-    align-items: center;
-
-    gap: 7px;
-
-    padding: 7px 10px;
-
-    background: #e9f8f5;
-
-    border: 1px solid #d2eee8;
-
-    color: #168b7c;
-
-    border-radius: 999px;
-
-    font-size: 10px;
-    font-weight: 600;
-}
-
-
-.selected-symptom button {
-    display: flex;
-
     align-items: center;
     justify-content: center;
 
-    width: 14px;
-    height: 14px;
+    padding: 0 0.45rem;
+
+    color: #2563eb;
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+    border-radius: 999px;
+
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+.selected-symptoms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+}
+
+.selected-symptom {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+
+    padding: 0.5rem 0.75rem;
+
+    color: #1e40af;
+    background: #eff6ff;
+
+    border: 1px solid #bfdbfe;
+    border-radius: 999px;
+
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.selected-symptom button {
+    width: 18px;
+    height: 18px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 
     padding: 0;
 
-    border: none;
-
+    color: #2563eb;
     background: transparent;
 
-    color: #4ba99d;
-
-    font-size: 13px;
-    line-height: 1;
+    border: none;
 
     cursor: pointer;
-}
 
-
-.selected-symptom button:hover {
-    color: #0f766e;
+    font-size: 0.9rem;
 }
 
 
 /* =========================================================
-   ERROR
+   PREDICTION ERROR
    ========================================================= */
 
 .prediction-error {
-    margin-top: 15px;
+    width: 100%;
 
-    padding: 10px 13px;
+    padding: 0.9rem 1rem;
 
-    border-radius: 7px;
-
+    color: #991b1b;
     background: #fef2f2;
 
     border: 1px solid #fecaca;
+    border-radius: 0.75rem;
 
-    color: #dc2626;
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
 
-    font-size: 11px;
+.prediction-error.hidden {
+    display: none;
 }
 
 
@@ -366,53 +417,47 @@ body {
 
 .predict-button {
     width: 100%;
+    min-height: 52px;
 
-    height: 42px;
+    padding: 0.8rem 1.25rem;
 
-    margin-top: 20px;
+    color: #ffffff;
+    background: #2563eb;
 
     border: none;
+    border-radius: 0.8rem;
 
-    border-radius: 6px;
-
-    background: #1769d1;
-
-    color: white;
-
-    font-family: inherit;
-
-    font-size: 11px;
-
-    font-weight: 600;
+    font-size: 0.92rem;
+    font-weight: 700;
 
     cursor: pointer;
 
+    box-shadow:
+        0 8px 18px rgba(37, 99, 235, 0.18);
+
     transition:
         background 0.2s ease,
-        box-shadow 0.2s ease,
-        transform 0.2s ease;
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
-
 
 .predict-button:hover {
-    background: #155fc0;
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
 
     box-shadow:
-        0 5px 15px rgba(23, 105, 209, 0.18);
+        0 10px 22px rgba(37, 99, 235, 0.22);
 }
-
 
 .predict-button:active {
-    transform: translateY(1px);
+    transform: translateY(0);
 }
 
-
 .predict-button:disabled {
-    opacity: 0.65;
-
+    opacity: 0.6;
     cursor: not-allowed;
-
-    box-shadow: none;
+    transform: none;
 }
 
 
@@ -421,158 +466,1901 @@ body {
    ========================================================= */
 
 .how-it-works {
-    padding: 18px 18px 20px;
+    width: 100%;
 
-    background: #f8fafc;
+    padding: 1.5rem;
 
-    border-radius: 9px;
+    background: #ffffff;
 
-    border: 1px solid #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.045);
+
+    position: sticky;
+    top: 84px;
 }
 
-
 .how-it-works h2 {
-    margin: 0 0 22px;
+    margin: 0 0 1.35rem;
 
-    font-size: 13px;
+    color: #0f172a;
 
+    font-size: 1.2rem;
+    font-weight: 750;
+}
+
+.how-step {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 0.85rem;
+
+    padding: 1rem 0;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.how-step:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.step-number {
+    flex: 0 0 36px;
+
+    width: 36px;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 0.7rem;
+
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.step-one {
+    color: #1d4ed8;
+    background: #dbeafe;
+}
+
+.step-two {
+    color: #047857;
+    background: #d1fae5;
+}
+
+.step-three {
+    color: #9333ea;
+    background: #f3e8ff;
+}
+
+.step-content {
+    min-width: 0;
+}
+
+.step-content h3 {
+    margin: 0;
+
+    color: #334155;
+
+    font-size: 0.88rem;
     font-weight: 700;
+}
 
-    color: #1e293b;
+.step-content p {
+    margin: 0.3rem 0 0;
+
+    color: #64748b;
+
+    font-size: 0.78rem;
+    line-height: 1.5;
 }
 
 
 /* =========================================================
-   HOW STEP
+   ABOUT PAGE
    ========================================================= */
 
-.how-step {
-    display: flex;
-
-    align-items: flex-start;
-
-    gap: 11px;
-
-    margin-bottom: 23px;
+.about-container {
+    max-width: 1050px;
 }
 
+.about-card {
+    width: 100%;
 
-.how-step:last-child {
+    margin-bottom: 1.5rem;
+
+    padding: 1.75rem;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.045);
+}
+
+.about-card h2 {
+    margin: 0 0 0.85rem;
+
+    color: #0f172a;
+
+    font-size: 1.3rem;
+    font-weight: 750;
+}
+
+.about-card p {
+    margin: 0 0 0.9rem;
+
+    color: #64748b;
+
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+.about-card p:last-child {
     margin-bottom: 0;
 }
 
 
-.step-number {
-    flex-shrink: 0;
+/* =========================================================
+   ABOUT FEATURES
+   ========================================================= */
 
-    width: 23px;
-    height: 23px;
+.about-features {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, minmax(0, 1fr));
+
+    gap: 1.25rem;
+
+    margin-bottom: 1.5rem;
+}
+
+.about-feature-card {
+    padding: 1.5rem;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.045);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.about-feature-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #bfdbfe;
+
+    box-shadow:
+        0 12px 30px rgba(37, 99, 235, 0.08);
+}
+
+.about-feature-icon {
+    width: 48px;
+    height: 48px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
-    border-radius: 50%;
+    margin-bottom: 1rem;
 
-    font-size: 9px;
+    background: #eff6ff;
 
+    border: 1px solid #dbeafe;
+    border-radius: 0.8rem;
+
+    font-size: 1.4rem;
+}
+
+.about-feature-card h3 {
+    margin: 0 0 0.5rem;
+
+    color: #0f172a;
+
+    font-size: 1rem;
     font-weight: 700;
 }
 
-
-/* Different colors like reference */
-
-.step-one {
-    background: #e7f8f4;
-    color: #149581;
-}
-
-
-.step-two {
-    background: #e8f1ff;
-    color: #2563eb;
-}
-
-
-.step-three {
-    background: #eaf8f4;
-    color: #15927e;
-}
-
-
-.step-content {
-    flex: 1;
-}
-
-
-.step-content h3 {
-    margin: 1px 0 5px;
-
-    font-size: 10px;
-
-    line-height: 1.4;
-
-    font-weight: 700;
-
-    color: #334155;
-}
-
-
-.step-content p {
+.about-feature-card p {
     margin: 0;
 
-    font-size: 9px;
+    color: #64748b;
 
+    font-size: 0.82rem;
     line-height: 1.55;
-
-    color: #94a3b8;
 }
 
 
 /* =========================================================
-   RESPONSIVE
+   ABOUT STEPS
    ========================================================= */
 
-@media (max-width: 900px) {
+.about-steps {
+    display: flex;
+    flex-direction: column;
 
-    .symptoms-container {
-        max-width: 760px;
-    }
+    gap: 0;
+}
 
-    .symptoms-layout {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
+.about-step {
+    display: flex;
+    align-items: flex-start;
 
-    .how-it-works {
-        width: 100%;
-    }
+    gap: 1rem;
 
+    padding: 1.1rem 0;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.about-step:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.about-step-number {
+    flex: 0 0 38px;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 0.7rem;
+
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.about-step h3 {
+    margin: 0;
+
+    color: #334155;
+
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.about-step p {
+    margin: 0.3rem 0 0;
+
+    color: #64748b;
+
+    font-size: 0.82rem;
+    line-height: 1.55;
 }
 
 
-@media (max-width: 640px) {
+/* =========================================================
+   TECHNOLOGY
+   ========================================================= */
 
-    .symptoms-container {
-        padding: 30px 18px 50px;
-    }
+.technology-list {
+    display: flex;
+    flex-wrap: wrap;
 
-    .symptoms-heading h1 {
-        font-size: 24px;
+    gap: 0.6rem;
+
+    margin-top: 1.25rem;
+}
+
+.technology-item {
+    display: inline-flex;
+    align-items: center;
+
+    padding: 0.5rem 0.8rem;
+
+    color: #1e40af;
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+    border-radius: 999px;
+
+    font-size: 0.78rem;
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   ABOUT DISCLAIMER
+   ========================================================= */
+
+.about-note {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 0.5rem;
+
+    width: 100%;
+
+    padding: 1rem 1.15rem;
+
+    color: #78350f;
+    background: #fffbeb;
+
+    border: 1px solid #fde68a;
+    border-radius: 0.85rem;
+
+    font-size: 0.8rem;
+    line-height: 1.55;
+}
+
+.about-note strong {
+    flex: 0 0 auto;
+}
+
+
+/* =========================================================
+   CONTACT PAGE
+   ========================================================= */
+
+.contact-container {
+    max-width: 1100px;
+}
+
+.contact-layout {
+    display: grid;
+
+    grid-template-columns:
+        0.85fr
+        1.15fr;
+
+    gap: 2rem;
+
+    align-items: start;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+}
+
+
+/* =========================================================
+   CONTACT INFO CARDS
+   ========================================================= */
+
+.contact-info-card {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 1rem;
+
+    padding: 1.2rem;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 0.9rem;
+
+    box-shadow:
+        0 6px 20px rgba(15, 23, 42, 0.04);
+}
+
+.contact-icon {
+    flex: 0 0 44px;
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #2563eb;
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+    border-radius: 0.7rem;
+
+    font-size: 1.2rem;
+}
+
+.contact-info-card h3 {
+    margin: 0;
+
+    color: #334155;
+
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.contact-info-card p {
+    margin: 0.3rem 0 0;
+
+    color: #64748b;
+
+    font-size: 0.82rem;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   CONTACT HELP BOX
+   ========================================================= */
+
+.contact-help-box {
+    padding: 1.4rem;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+    border-radius: 0.9rem;
+}
+
+.contact-help-box h3 {
+    margin: 0 0 0.55rem;
+
+    color: #1e3a8a;
+
+    font-size: 1rem;
+    font-weight: 750;
+}
+
+.contact-help-box p {
+    margin: 0 0 0.9rem;
+
+    color: #475569;
+
+    font-size: 0.8rem;
+    line-height: 1.55;
+}
+
+.contact-help-box a {
+    display: inline-flex;
+    align-items: center;
+
+    color: #2563eb;
+
+    font-size: 0.82rem;
+    font-weight: 700;
+
+    transition: color 0.2s ease;
+}
+
+.contact-help-box a:hover {
+    color: #1d4ed8;
+}
+
+
+/* =========================================================
+   CONTACT FORM CARD
+   ========================================================= */
+
+.contact-form-card {
+    padding: 1.75rem;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 1rem;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.045);
+}
+
+.contact-form-card h2 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 1.3rem;
+    font-weight: 750;
+}
+
+.contact-form-description {
+    margin: 0.45rem 0 1.5rem;
+
+    color: #64748b;
+
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   CONTACT FORM
+   ========================================================= */
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+}
+
+.contact-form-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.4rem;
+}
+
+.contact-form-group label {
+    color: #334155;
+
+    font-size: 0.82rem;
+    font-weight: 650;
+}
+
+.contact-form-group input,
+.contact-form-group textarea {
+    width: 100%;
+
+    padding: 0.75rem 0.85rem;
+
+    color: #0f172a;
+    background: #ffffff;
+
+    border: 1px solid #cbd5e1;
+    border-radius: 0.7rem;
+
+    outline: none;
+
+    font-family: inherit;
+    font-size: 0.85rem;
+
+    resize: vertical;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.contact-form-group input {
+    height: 44px;
+}
+
+.contact-form-group textarea {
+    min-height: 130px;
+}
+
+.contact-form-group input::placeholder,
+.contact-form-group textarea::placeholder {
+    color: #94a3b8;
+}
+
+.contact-form-group input:focus,
+.contact-form-group textarea:focus {
+    border-color: #60a5fa;
+
+    box-shadow:
+        0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+
+/* =========================================================
+   CONTACT SUBMIT
+   ========================================================= */
+
+.contact-submit-button {
+    min-height: 48px;
+
+    margin-top: 0.25rem;
+
+    padding: 0.75rem 1.25rem;
+
+    color: #ffffff;
+    background: #2563eb;
+
+    border: none;
+    border-radius: 0.75rem;
+
+    font-size: 0.85rem;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 7px 16px rgba(37, 99, 235, 0.17);
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.contact-submit-button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+.contact-submit-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   DOCTOR PROFILE PAGE
+   ========================================================= */
+
+#doctor-profile {
+    width: 100%;
+    max-width: 1280px;
+
+    margin: 0 auto;
+
+    padding: 3rem 1.5rem 5rem;
+}
+
+
+/* =========================================================
+   DOCTOR HERO
+   ========================================================= */
+
+.doctor-hero-card {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 2rem;
+
+    padding: 2rem 2.25rem;
+
+    margin-bottom: 2rem;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 1.25rem;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.06);
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.doctor-hero-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 4px;
+
+    background: linear-gradient(
+        90deg,
+        #2563eb,
+        #3b82f6,
+        #60a5fa
+    );
+}
+
+
+/* =========================================================
+   DOCTOR AVATAR
+   ========================================================= */
+
+.doctor-avatar-large {
+    flex: 0 0 110px;
+
+    width: 110px;
+    height: 110px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: linear-gradient(
+        135deg,
+        #eff6ff,
+        #dbeafe
+    );
+
+    border: 1px solid #bfdbfe;
+    border-radius: 1.25rem;
+
+    font-size: 3.5rem;
+
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+
+
+/* =========================================================
+   HERO INFORMATION
+   ========================================================= */
+
+.doctor-hero-info {
+    min-width: 0;
+    flex: 1;
+}
+
+.doctor-specialist-badge {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 0.45rem;
+
+    margin-bottom: 0.75rem;
+
+    padding: 0.35rem 0.7rem;
+
+    color: #166534;
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+    border-radius: 999px;
+
+    font-size: 0.72rem;
+    font-weight: 700;
+
+    letter-spacing: 0.05em;
+}
+
+.doctor-specialist-badge span {
+    color: #22c55e;
+
+    font-size: 0.6rem;
+}
+
+.doctor-name {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: clamp(
+        1.8rem,
+        4vw,
+        2.5rem
+    );
+
+    line-height: 1.15;
+
+    font-weight: 800;
+
+    letter-spacing: -0.025em;
+}
+
+.doctor-specialization {
+    margin: 0.65rem 0 0;
+
+    color: #2563eb;
+
+    font-size: 1.05rem;
+    line-height: 1.55;
+
+    font-weight: 600;
+}
+
+.doctor-designation {
+    margin: 0.35rem 0 0;
+
+    color: #64748b;
+
+    font-size: 0.95rem;
+    line-height: 1.5;
+
+    font-weight: 500;
+}
+
+
+/* =========================================================
+   DOCTOR PROFILE GRID
+   ========================================================= */
+
+.doctor-profile-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        350px;
+
+    gap: 2rem;
+
+    align-items: start;
+}
+
+.doctor-main-column {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.5rem;
+}
+
+.doctor-sidebar {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 1.5rem;
+
+    align-self: start;
+}
+
+
+/* =========================================================
+   DOCTOR INFORMATION CARDS
+   ========================================================= */
+
+.doctor-info-card {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 1.1rem;
+
+    padding: 1.75rem;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.045);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   DOCTOR CARD HEADER
+   ========================================================= */
+
+.doctor-card-header {
+    display: flex;
+    align-items: center;
+
+    gap: 0.9rem;
+
+    padding-bottom: 1.25rem;
+
+    margin-bottom: 0.25rem;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.doctor-card-icon {
+    flex: 0 0 46px;
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+    border-radius: 0.75rem;
+
+    font-size: 1.35rem;
+}
+
+.doctor-card-header h2 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 1.15rem;
+
+    font-weight: 700;
+
+    line-height: 1.3;
+}
+
+.doctor-card-header p {
+    margin: 0.25rem 0 0;
+
+    color: #64748b;
+
+    font-size: 0.82rem;
+
+    line-height: 1.45;
+}
+
+
+/* =========================================================
+   DOCTOR INFORMATION LIST
+   ========================================================= */
+
+.doctor-info-list {
+    width: 100%;
+}
+
+.doctor-info-row {
+    display: grid;
+
+    grid-template-columns:
+        minmax(170px, 0.4fr)
+        minmax(0, 1fr);
+
+    gap: 1.5rem;
+
+    padding: 1rem 0;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.doctor-info-row:last-child {
+    border-bottom: none;
+}
+
+.doctor-info-label {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 0.55rem;
+
+    color: #64748b;
+
+    font-size: 0.88rem;
+
+    font-weight: 600;
+
+    line-height: 1.5;
+}
+
+.info-icon {
+    flex: 0 0 auto;
+
+    font-size: 1rem;
+}
+
+.doctor-info-value {
+    min-width: 0;
+
+    color: #0f172a;
+
+    font-size: 0.92rem;
+
+    font-weight: 600;
+
+    line-height: 1.55;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   VISITING HOURS
+   ========================================================= */
+
+.visiting-hours-box {
+    display: flex;
+    align-items: center;
+
+    gap: 0.9rem;
+
+    margin-top: 1.25rem;
+
+    padding: 1rem 1.1rem;
+
+    background: #eff6ff;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 0.85rem;
+}
+
+.visiting-hours-icon {
+    flex: 0 0 42px;
+
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #bfdbfe;
+
+    border-radius: 0.7rem;
+
+    font-size: 1.2rem;
+}
+
+.visiting-hours-box > div:last-child {
+    min-width: 0;
+}
+
+.visiting-hours-box span {
+    display: block;
+
+    margin-bottom: 0.15rem;
+
+    color: #64748b;
+
+    font-size: 0.72rem;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.04em;
+}
+
+.visiting-hours-box strong {
+    display: block;
+
+    color: #1e3a8a;
+
+    font-size: 0.92rem;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   APPOINTMENT CARD
+   ========================================================= */
+
+/*
+   IMPORTANT:
+   The appointment card stays attached to the top of the
+   sidebar while scrolling. It does NOT move based on
+   the changing height of the left column.
+*/
+
+.appointment-card {
+    width: 100%;
+
+    position: sticky;
+
+    top: 84px;
+
+    z-index: 10;
+
+    padding: 1.5rem;
+
+    background: #ffffff;
+
+    border: 1px solid #dbeafe;
+
+    border-radius: 1.1rem;
+
+    box-shadow:
+        0 12px 30px rgba(37, 99, 235, 0.08);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   APPOINTMENT CARD TOP
+   ========================================================= */
+
+.appointment-card-top {
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 1rem;
+}
+
+.appointment-small-title {
+    color: #2563eb;
+
+    font-size: 0.7rem;
+
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+.appointment-icon {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #eff6ff;
+
+    border-radius: 0.75rem;
+
+    font-size: 1.2rem;
+}
+
+.appointment-card h2 {
+    margin: 0;
+
+    color: #0f172a;
+
+    font-size: 1.35rem;
+
+    font-weight: 750;
+}
+
+.appointment-description {
+    margin: 0.55rem 0 1.25rem;
+
+    color: #64748b;
+
+    font-size: 0.84rem;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   APPOINTMENT FEE
+   ========================================================= */
+
+.appointment-fee {
+    display: flex;
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 1rem;
+
+    padding: 1rem;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 0.8rem;
+}
+
+.appointment-fee span {
+    color: #64748b;
+
+    font-size: 0.78rem;
+
+    font-weight: 600;
+}
+
+.appointment-fee strong {
+    color: #2563eb;
+
+    font-size: 1.15rem;
+
+    font-weight: 800;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   APPOINTMENT PHONE
+   ========================================================= */
+
+.appointment-phone {
+    display: flex;
+    align-items: center;
+
+    gap: 0.75rem;
+
+    margin-top: 1rem;
+
+    padding-top: 1rem;
+
+    border-top: 1px solid #f1f5f9;
+}
+
+.phone-icon {
+    flex: 0 0 40px;
+
+    width: 40px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f0fdf4;
+
+    border: 1px solid #bbf7d0;
+
+    border-radius: 0.7rem;
+
+    font-size: 1rem;
+}
+
+.appointment-phone > div:last-child {
+    min-width: 0;
+}
+
+.appointment-phone small {
+    display: block;
+
+    margin-bottom: 0.15rem;
+
+    color: #64748b;
+
+    font-size: 0.7rem;
+
+    font-weight: 600;
+}
+
+.appointment-phone strong {
+    display: block;
+
+    color: #0f172a;
+
+    font-size: 0.9rem;
+
+    font-weight: 700;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   QUICK INFORMATION CARD
+   ========================================================= */
+
+.doctor-quick-card {
+    width: 100%;
+
+    padding: 1.5rem;
+
+    background: #ffffff;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 1.1rem;
+
+    box-shadow:
+        0 8px 25px rgba(15, 23, 42, 0.045);
+}
+
+.doctor-quick-card h3 {
+    margin: 0 0 1rem;
+
+    color: #0f172a;
+
+    font-size: 1.05rem;
+
+    font-weight: 750;
+}
+
+
+/* =========================================================
+   QUICK ITEMS
+   ========================================================= */
+
+.quick-item {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 0.75rem;
+
+    padding: 0.9rem 0;
+
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.quick-item:last-child {
+    border-bottom: none;
+
+    padding-bottom: 0;
+}
+
+.quick-item > span {
+    flex: 0 0 38px;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f8fafc;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 0.65rem;
+
+    font-size: 1rem;
+}
+
+.quick-item > div {
+    min-width: 0;
+}
+
+.quick-item small {
+    display: block;
+
+    margin-bottom: 0.15rem;
+
+    color: #94a3b8;
+
+    font-size: 0.7rem;
+
+    font-weight: 600;
+
+    text-transform: uppercase;
+
+    letter-spacing: 0.03em;
+}
+
+.quick-item strong {
+    display: block;
+
+    color: #334155;
+
+    font-size: 0.82rem;
+
+    font-weight: 650;
+
+    line-height: 1.45;
+
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================================
+   DOCTOR PROFILE NOTE
+   ========================================================= */
+
+.doctor-profile-note {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 0.75rem;
+
+    width: 100%;
+
+    padding: 1rem 1.15rem;
+
+    background: #fffbeb;
+
+    border: 1px solid #fde68a;
+
+    border-radius: 0.85rem;
+}
+
+.doctor-profile-note > span {
+    flex: 0 0 auto;
+
+    font-size: 1.1rem;
+}
+
+.doctor-profile-note p {
+    margin: 0;
+
+    color: #78350f;
+
+    font-size: 0.8rem;
+
+    line-height: 1.55;
+}
+
+
+/* =========================================================
+   DOCTOR ERROR
+   ========================================================= */
+
+.doctor-profile-error {
+    width: 100%;
+
+    max-width: 650px;
+
+    margin: 4rem auto;
+
+    padding: 2.5rem;
+
+    text-align: center;
+
+    background: #ffffff;
+
+    border: 1px solid #fecaca;
+
+    border-radius: 1rem;
+
+    box-shadow:
+        0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.doctor-profile-error p {
+    margin: 1rem 0 1.5rem;
+
+    color: #b91c1c;
+
+    font-size: 0.95rem;
+}
+
+
+/* =========================================================
+   DOCTOR BACK BUTTON
+   ========================================================= */
+
+.doctor-back-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.7rem 1rem;
+
+    color: #ffffff;
+
+    background: #2563eb;
+
+    border-radius: 0.65rem;
+
+    font-size: 0.85rem;
+
+    font-weight: 650;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease;
+}
+
+.doctor-back-button:hover {
+    background: #1d4ed8;
+
+    transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   GENERAL BUTTON HELPERS
+   ========================================================= */
+
+button,
+.doctor-back-button,
+.appointment-card a {
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1024px) {
+
+    .symptoms-container,
+    .about-container,
+    .contact-container {
+        padding-top: 3rem;
     }
 
     .symptoms-layout {
-        gap: 25px;
+        grid-template-columns:
+            minmax(0, 1fr)
+            290px;
+
+        gap: 1.5rem;
     }
 
-    .suggested-symptoms {
-        gap: 7px;
+    .contact-layout {
+        gap: 1.5rem;
     }
 
-    .symptom-chip {
-        font-size: 10px;
-        padding: 6px 10px;
+    .about-features {
+        gap: 1rem;
     }
 
+    #doctor-profile {
+        padding: 2.5rem 1.25rem 4rem;
+    }
+
+    .doctor-profile-grid {
+        grid-template-columns:
+            minmax(0, 1fr)
+            310px;
+
+        gap: 1.5rem;
+    }
+
+    .doctor-hero-card {
+        padding: 1.75rem;
+    }
+
+    .doctor-info-row {
+        grid-template-columns:
+            150px
+            minmax(0, 1fr);
+
+        gap: 1rem;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 767px) {
+
+    .symptoms-container,
+    .about-container,
+    .contact-container {
+        padding: 2rem 1rem 3rem;
+    }
+
+    .symptoms-heading,
+    .about-heading,
+    .contact-heading {
+        margin-bottom: 2rem;
+    }
+
+    .symptoms-heading h1,
+    .about-heading h1,
+    .contact-heading h1 {
+        font-size: 1.9rem;
+    }
+
+    .symptoms-heading p,
+    .about-heading p,
+    .contact-heading p {
+        font-size: 0.88rem;
+    }
+
+
+    /* ---------------------------------------------
+       SYMPTOMS
+       --------------------------------------------- */
+
+    .symptoms-layout {
+        grid-template-columns: 1fr;
+
+        gap: 1.25rem;
+    }
+
+    .symptoms-main {
+        gap: 1rem;
+    }
+
+    .how-it-works {
+        position: static;
+
+        top: auto;
+    }
+
+    .suggested-symptoms-box,
+    .selected-section {
+        padding: 1rem;
+    }
+
+
+    /* ---------------------------------------------
+       ABOUT
+       --------------------------------------------- */
+
+    .about-card {
+        padding: 1.25rem;
+    }
+
+    .about-card h2 {
+        font-size: 1.15rem;
+    }
+
+    .about-card p {
+        font-size: 0.84rem;
+    }
+
+    .about-features {
+        grid-template-columns: 1fr;
+
+        gap: 1rem;
+    }
+
+    .about-feature-card {
+        padding: 1.25rem;
+    }
+
+
+    /* ---------------------------------------------
+       CONTACT
+       --------------------------------------------- */
+
+    .contact-layout {
+        grid-template-columns: 1fr;
+
+        gap: 1.25rem;
+    }
+
+    .contact-form-card {
+        padding: 1.25rem;
+    }
+
+
+    /* ---------------------------------------------
+       DOCTOR HERO
+       --------------------------------------------- */
+
+    #doctor-profile {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .doctor-hero-card {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 1.25rem;
+
+        padding: 1.5rem;
+
+        border-radius: 1rem;
+    }
+
+    .doctor-avatar-large {
+        width: 85px;
+        height: 85px;
+
+        flex-basis: 85px;
+
+        font-size: 2.7rem;
+
+        border-radius: 1rem;
+    }
+
+    .doctor-name {
+        font-size: 1.7rem;
+    }
+
+    .doctor-specialization {
+        font-size: 0.92rem;
+    }
+
+    .doctor-designation {
+        font-size: 0.84rem;
+    }
+
+
+    /* ---------------------------------------------
+       DOCTOR GRID
+       --------------------------------------------- */
+
+    .doctor-profile-grid {
+        grid-template-columns: 1fr;
+
+        gap: 1.25rem;
+    }
+
+    .doctor-main-column {
+        gap: 1.25rem;
+    }
+
+    .doctor-sidebar {
+        gap: 1.25rem;
+    }
+
+
+    /* ---------------------------------------------
+       DOCTOR APPOINTMENT
+       --------------------------------------------- */
+
+    .appointment-card {
+        position: static;
+
+        top: auto;
+
+        padding: 1.25rem;
+
+        border-radius: 0.95rem;
+    }
+
+    .appointment-card h2 {
+        font-size: 1.2rem;
+    }
+
+    .appointment-description {
+        font-size: 0.8rem;
+    }
+
+
+    /* ---------------------------------------------
+       DOCTOR INFO
+       --------------------------------------------- */
+
+    .doctor-info-card {
+        padding: 1.25rem;
+
+        border-radius: 0.95rem;
+    }
+
+    .doctor-card-header {
+        align-items: flex-start;
+    }
+
+    .doctor-card-icon {
+        width: 40px;
+        height: 40px;
+
+        flex-basis: 40px;
+
+        font-size: 1.15rem;
+    }
+
+    .doctor-card-header h2 {
+        font-size: 1rem;
+    }
+
+    .doctor-card-header p {
+        font-size: 0.76rem;
+    }
+
+
+    /* ---------------------------------------------
+       DOCTOR INFO ROW
+       --------------------------------------------- */
+
+    .doctor-info-row {
+        grid-template-columns: 1fr;
+
+        gap: 0.35rem;
+
+        padding: 0.85rem 0;
+    }
+
+    .doctor-info-label {
+        font-size: 0.78rem;
+    }
+
+    .doctor-info-value {
+        padding-left: 1.55rem;
+
+        font-size: 0.86rem;
+    }
+
+
+    /* ---------------------------------------------
+       VISITING HOURS
+       --------------------------------------------- */
+
+    .visiting-hours-box {
+        align-items: flex-start;
+
+        padding: 0.9rem;
+    }
+
+
+    /* ---------------------------------------------
+       QUICK CARD
+       --------------------------------------------- */
+
+    .doctor-quick-card {
+        padding: 1.25rem;
+
+        border-radius: 0.95rem;
+    }
+
+    .quick-item {
+        padding: 0.8rem 0;
+    }
+
+
+    /* ---------------------------------------------
+       NOTE
+       --------------------------------------------- */
+
+    .doctor-profile-note {
+        padding: 0.9rem;
+    }
+
+    .doctor-profile-note p {
+        font-size: 0.76rem;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL DEVICES
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+    .symptoms-container,
+    .about-container,
+    .contact-container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .symptoms-heading h1,
+    .about-heading h1,
+    .contact-heading h1 {
+        font-size: 1.65rem;
+    }
+
+    .technology-list {
+        gap: 0.45rem;
+    }
+
+    .technology-item {
+        font-size: 0.72rem;
+    }
+
+    #doctor-profile {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+
+    .doctor-hero-card {
+        padding: 1.25rem;
+    }
+
+    .doctor-name {
+        font-size: 1.5rem;
+    }
+
+    .doctor-specialization {
+        font-size: 0.86rem;
+    }
+
+    .doctor-info-card,
+    .doctor-quick-card,
+    .appointment-card {
+        padding: 1rem;
+    }
+
+    .appointment-fee {
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 0.3rem;
+    }
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+@media print {
+
+    header,
+    footer,
+    .doctor-back-button {
+        display: none !important;
+    }
+
+    #doctor-profile {
+        max-width: none;
+
+        padding: 0;
+    }
+
+    .doctor-profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .appointment-card {
+        position: static;
+    }
+
+    .doctor-info-card,
+    .appointment-card,
+    .doctor-quick-card,
+    .about-card,
+    .about-feature-card,
+    .contact-info-card,
+    .contact-form-card {
+        box-shadow: none;
+
+        break-inside: avoid;
+    }
 }

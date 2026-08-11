@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
+
 # =========================================================
 # API ROUTERS
 # =========================================================
@@ -10,6 +11,7 @@ from app.api.doctors import router as doctors_router
 from app.api.prediction import router as prediction_router
 from app.api.specializations import router as specializations_router
 
+
 # =========================================================
 # FRONTEND ROUTERS
 # =========================================================
@@ -17,6 +19,7 @@ from app.api.specializations import router as specializations_router
 from app.routes.home import router as home_router
 from app.routes.predict import router as predict_router
 from app.routes.doctor import router as doctor_router
+from app.routes.about import router as about_router
 
 
 # =========================================================
@@ -48,9 +51,9 @@ app.mount(
 API_V1_PREFIX = "/api/v1"
 
 
-# ---------------------------------------------------------
-# Health API
-# ---------------------------------------------------------
+# =========================================================
+# HEALTH
+# =========================================================
 
 app.include_router(
     health_router,
@@ -58,9 +61,9 @@ app.include_router(
 )
 
 
-# ---------------------------------------------------------
-# Doctors API
-# ---------------------------------------------------------
+# =========================================================
+# DOCTORS
+# =========================================================
 
 app.include_router(
     doctors_router,
@@ -68,18 +71,18 @@ app.include_router(
 )
 
 
-# ---------------------------------------------------------
-# Prediction API
-# ---------------------------------------------------------
+# =========================================================
+# PREDICTION
+# =========================================================
 
 app.include_router(
     prediction_router
 )
 
 
-# ---------------------------------------------------------
-# Specializations API
-# ---------------------------------------------------------
+# =========================================================
+# SPECIALIZATIONS
+# =========================================================
 
 app.include_router(
     specializations_router,
@@ -91,19 +94,20 @@ app.include_router(
 # FRONTEND ROUTES
 # =========================================================
 
-# Home
 app.include_router(
     home_router
 )
 
-# Symptoms / Result
 app.include_router(
     predict_router
 )
 
-# Doctors / Doctor Profile
 app.include_router(
     doctor_router
+)
+
+app.include_router(
+    about_router
 )
 
 
@@ -113,6 +117,7 @@ app.include_router(
 
 @app.get("/")
 def root():
+
     return {
         "message": "Welcome to MediMatch",
         "version": "1.0.0",
@@ -127,6 +132,7 @@ def root():
 
 @app.get("/api/v1/")
 def api_v1_root():
+
     return {
         "message": "Welcome to MediMatch API v1",
         "version": "1.0.0",

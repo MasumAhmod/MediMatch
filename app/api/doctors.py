@@ -4,7 +4,8 @@ from app.database.queries import (
     get_all_doctors,
     get_doctor_by_id,
     search_doctors,
-    filter_doctors
+    filter_doctors,
+    get_doctors_by_specialization
 )
 
 
@@ -13,8 +14,11 @@ router = APIRouter(
     tags=["Doctors"]
 )
 
+
+# =========================================================
+# GET ALL DOCTORS
+# =========================================================
 # GET /api/v1/doctors/
-# Get all doctors
 
 @router.get("/")
 def get_doctors():
@@ -22,6 +26,7 @@ def get_doctors():
     doctors = get_all_doctors()
 
     if not doctors:
+
         raise HTTPException(
             status_code=404,
             detail="No active doctors found."
@@ -32,8 +37,10 @@ def get_doctors():
     }
 
 
+# =========================================================
+# SEARCH DOCTORS
+# =========================================================
 # GET /api/v1/doctors/search
-# Search doctors
 
 @router.get("/search")
 def search_doctor(
@@ -47,6 +54,7 @@ def search_doctor(
     )
 
     if not doctors:
+
         raise HTTPException(
             status_code=404,
             detail="No matching doctors found."
@@ -56,8 +64,11 @@ def search_doctor(
         "doctors": doctors
     }
 
+
+# =========================================================
+# FILTER DOCTORS
+# =========================================================
 # GET /api/v1/doctors/filter
-# Filter doctors
 
 @router.get("/filter")
 def filter_doctor(
@@ -77,6 +88,7 @@ def filter_doctor(
     )
 
     if not doctors:
+
         raise HTTPException(
             status_code=404,
             detail="No doctors found matching the filters."
@@ -87,19 +99,77 @@ def filter_doctor(
     }
 
 
-# GET /api/v1/doctors/{doctor_id}
-# Get doctor by ID
+# =========================================================
+# GET DOCTORS BY SPECIALIZATION
+# =========================================================
+#
+# Example:
+#
+# /api/v1/doctors/specialization?specialization=Urology
+#
+# =========================================================
+
+@router.get("/specialization")
+def doctors_by_specialization(
+    specialization: str
+):
+
+    if not specialization.strip():
+
+        raise HTTPException(
+            status_code=400,
+            detail="Specialization is required."
+        )
+
+
+    doctors = get_doctors_by_specialization(
+        specialization.strip()
+    )
+
+
+    if not doctors:
+
+        raise HTTPException(
+            status_code=404,
+            detail=(
+                "No doctors found for specialization: "
+                + specialization
+            )
+        )
+
+
+    return {
+        "specialization": specialization,
+        "doctors": doctors
+    }
+
+
+# =========================================================
+# GET DOCTOR BY ID
+# =========================================================
+#
+# IMPORTANT:
+# This must remain AFTER /specialization.
+#
+# =========================================================
 
 @router.get("/{doctor_id}")
-def get_doctor(doctor_id: int):
+def get_doctor(
+    doctor_id: int
+):
 
-    doctor = get_doctor_by_id(doctor_id)
+    doctor = get_doctor_by_id(
+        doctor_id
+    )
+
 
     if doctor is None:
+
         raise HTTPException(
             status_code=404,
             detail="Doctor not found."
         )
+
 
     return {
         "doctor": doctor

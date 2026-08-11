@@ -4,13 +4,15 @@
 Prediction Result - MediMatch
 {% endblock %}
 
-
 {% block content %}
 
 <section class="max-w-7xl mx-auto px-5 lg:px-8 py-12">
 
+    <!-- =====================================================
+         PAGE HEADER
+         ===================================================== -->
 
-    <h1 class="text-3xl font-bold">
+    <h1 class="text-3xl font-bold text-slate-900">
         Prediction Result
     </h1>
 
@@ -19,12 +21,20 @@ Prediction Result - MediMatch
     </p>
 
 
+    <!-- =====================================================
+         RESULT SECTION
+         ===================================================== -->
+
     <div class="grid lg:grid-cols-[1fr_350px] gap-8 mt-8">
 
 
         <!-- Result -->
 
-        <div class="bg-white rounded-2xl border border-slate-100 p-8 shadow-sm">
+        <div
+            class="bg-white rounded-2xl
+                   border border-slate-100
+                   p-8 shadow-sm"
+        >
 
             <p class="text-sm text-slate-500">
                 Predicted Disease
@@ -44,6 +54,8 @@ Prediction Result - MediMatch
             </p>
 
 
+            <!-- Specialist -->
+
             <div class="mt-8 border-t pt-6">
 
                 <p class="text-sm text-slate-500">
@@ -52,7 +64,7 @@ Prediction Result - MediMatch
 
                 <p
                     id="result-specialization"
-                    class="mt-2 text-lg font-semibold"
+                    class="mt-2 text-lg font-semibold text-blue-600"
                 >
                     Loading...
                 </p>
@@ -62,9 +74,18 @@ Prediction Result - MediMatch
         </div>
 
 
-        <!-- Illustration -->
+        <!-- =================================================
+             Illustration
+             ================================================= -->
 
-        <div class="bg-blue-50 rounded-2xl p-8 flex items-center justify-center">
+        <div
+            class="bg-blue-50
+                   rounded-2xl
+                   p-8
+                   flex
+                   items-center
+                   justify-center"
+        >
 
             <div class="text-center">
 
@@ -87,28 +108,64 @@ Prediction Result - MediMatch
     </div>
 
 
-    <!-- Doctors -->
+    <!-- =====================================================
+         RECOMMENDED DOCTORS
+         ===================================================== -->
 
-    <div class="mt-10 bg-white rounded-2xl border p-6">
+    <div
+        class="mt-10
+               bg-white
+               rounded-2xl
+               border border-slate-100
+               p-6
+               shadow-sm"
+    >
 
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div
+            class="flex flex-col
+                   sm:flex-row
+                   sm:items-center
+                   justify-between
+                   gap-4"
+        >
 
             <div>
 
-                <h2 class="text-xl font-bold">
+                <h2 class="text-xl font-bold text-slate-900">
                     Find Recommended Doctors
                 </h2>
 
-                <p class="text-sm text-slate-500 mt-1">
+                <p
+                    id="recommended-doctors-text"
+                    class="text-sm text-slate-500 mt-1"
+                >
                     Doctors matching the recommended specialization.
                 </p>
 
             </div>
 
 
+            <!-- IMPORTANT:
+                 JavaScript will add
+                 ?specialization=...
+                 to this URL.
+            -->
+
             <a
+                id="view-doctors-button"
                 href="/doctors"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold"
+                class="inline-flex
+                       items-center
+                       justify-center
+                       bg-blue-600
+                       hover:bg-blue-700
+                       text-white
+                       px-5
+                       py-2.5
+                       rounded-lg
+                       text-sm
+                       font-semibold
+                       transition"
             >
                 View Doctors
             </a>
@@ -117,7 +174,6 @@ Prediction Result - MediMatch
 
     </div>
 
-
 </section>
 
 {% endblock %}
@@ -125,8 +181,185 @@ Prediction Result - MediMatch
 
 {% block scripts %}
 
-<script
-    src="{{ url_for('static', path='js/result.js') }}"
-></script>
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        // =====================================================
+        // ELEMENTS
+        // =====================================================
+
+        const diseaseElement =
+            document.getElementById(
+                "result-disease"
+            );
+
+        const specializationElement =
+            document.getElementById(
+                "result-specialization"
+            );
+
+        const viewDoctorsButton =
+            document.getElementById(
+                "view-doctors-button"
+            );
+
+        const recommendedDoctorsText =
+            document.getElementById(
+                "recommended-doctors-text"
+            );
+
+
+        // =====================================================
+        // GET PREDICTION
+        // =====================================================
+
+        const storedPrediction =
+            sessionStorage.getItem(
+                "medimatchPrediction"
+            );
+
+
+        // =====================================================
+        // NO PREDICTION
+        // =====================================================
+
+        if (!storedPrediction) {
+
+            diseaseElement.textContent =
+                "No prediction found.";
+
+            specializationElement.textContent =
+                "No specialist found.";
+
+            viewDoctorsButton.href =
+                "/doctors";
+
+            return;
+        }
+
+
+        try {
+
+            const data =
+                JSON.parse(
+                    storedPrediction
+                );
+
+
+            console.log(
+                "Prediction result:",
+                data
+            );
+
+
+            // =================================================
+            // DISEASE
+            // =================================================
+
+            const disease =
+                data.disease ||
+                data.predicted_disease ||
+                data.predictedDisease ||
+                data.prediction ||
+                "Unknown Disease";
+
+
+            // =================================================
+            // SPECIALIZATION
+            // =================================================
+
+            const specialization =
+                data.specialization ||
+                data.recommended_specialization ||
+                data.recommendedSpecialization ||
+                data.specialist ||
+                data.specialist_type ||
+                "";
+
+
+            // =================================================
+            // DISPLAY DISEASE
+            // =================================================
+
+            diseaseElement.textContent =
+                disease;
+
+
+            // =================================================
+            // DISPLAY SPECIALIZATION
+            // =================================================
+
+            if (specialization) {
+
+                specializationElement.textContent =
+                    specialization;
+
+            }
+            else {
+
+                specializationElement.textContent =
+                    "Not available";
+
+            }
+
+
+            // =================================================
+            // DOCTORS BUTTON
+            // =================================================
+
+            if (specialization) {
+
+                const encodedSpecialization =
+                    encodeURIComponent(
+                        specialization
+                    );
+
+
+                viewDoctorsButton.href =
+                    "/doctors?specialization=" +
+                    encodedSpecialization;
+
+
+                recommendedDoctorsText.textContent =
+                    "Doctors matching " +
+                    specialization +
+                    " specialization.";
+
+            }
+            else {
+
+                viewDoctorsButton.href =
+                    "/doctors";
+
+            }
+
+        }
+        catch (error) {
+
+            console.error(
+                "Prediction parsing error:",
+                error
+            );
+
+
+            diseaseElement.textContent =
+                "Unable to load prediction.";
+
+            specializationElement.textContent =
+                "Unable to determine specialist.";
+
+            viewDoctorsButton.href =
+                "/doctors";
+
+        }
+
+    }
+
+);
+
+</script>
 
 {% endblock %}

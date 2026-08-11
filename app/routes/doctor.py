@@ -1,15 +1,23 @@
 from fastapi import APIRouter, Request
 from fastapi.templating import Jinja2Templates
 
+
 router = APIRouter()
+
 
 templates = Jinja2Templates(
     directory="app/templates"
 )
 
 
+# =========================================================
+# DOCTORS PAGE
+# =========================================================
+
 @router.get("/doctors")
-def doctors_page(request: Request):
+def doctors_page(
+    request: Request
+):
 
     return templates.TemplateResponse(
         request=request,
@@ -17,6 +25,10 @@ def doctors_page(request: Request):
         context={}
     )
 
+
+# =========================================================
+# DOCTOR PROFILE PAGE
+# =========================================================
 
 @router.get("/doctors/{doctor_id}")
 def doctor_page(

@@ -4,7 +4,6 @@ from fastapi.templating import Jinja2Templates
 
 router = APIRouter()
 
-
 templates = Jinja2Templates(
     directory="app/templates"
 )
@@ -34,5 +33,19 @@ def result_page(request: Request):
     return templates.TemplateResponse(
         request=request,
         name="result.html",
+        context={}
+    )
+
+
+# =========================================================
+# CONTACT PAGE
+# =========================================================
+
+@router.get("/contact")
+def contact_page(request: Request):
+
+    return templates.TemplateResponse(
+        request=request,
+        name="contact.html",
         context={}
     )

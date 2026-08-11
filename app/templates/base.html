@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -16,10 +17,14 @@
         {% endblock %}
     </title>
 
+
     <!-- Tailwind CSS CDN -->
+
     <script src="https://cdn.tailwindcss.com"></script>
 
+
     <!-- Google Font -->
+
     <link
         rel="preconnect"
         href="https://fonts.googleapis.com"
@@ -36,11 +41,14 @@
         rel="stylesheet"
     >
 
+
     <!-- Custom CSS -->
+
     <link
         rel="stylesheet"
         href="{{ url_for('static', path='css/custom.css') }}"
     >
+
 
     {% block head %}
     {% endblock %}
@@ -50,11 +58,17 @@
 
 <body class="bg-white text-slate-900">
 
-    <!-- Header -->
+
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
+
     {% include 'header.html' %}
 
 
-    <!-- Main Content -->
+    <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
 
     <main class="min-h-screen">
 
@@ -64,11 +78,16 @@
     </main>
 
 
-    <!-- Footer -->
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
     {% include 'footer.html' %}
 
 
-    <!-- Global JavaScript -->
+    <!-- =====================================================
+         GLOBAL JAVASCRIPT
+    ====================================================== -->
 
     <script
         src="{{ url_for('static', path='js/script.js') }}"
@@ -77,6 +96,7 @@
 
     {% block scripts %}
     {% endblock %}
+
 
 </body>
 

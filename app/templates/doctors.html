@@ -10,21 +10,71 @@ Doctors - MediMatch
 <section class="max-w-7xl mx-auto px-5 lg:px-8 py-12">
 
 
-    <h1 class="text-3xl font-bold">
-        Doctors
-    </h1>
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
 
-    <p class="mt-2 text-slate-500">
-        Find the best specialists near you.
-    </p>
+    <div>
+
+        <h1 class="text-3xl font-bold text-slate-900">
+            Doctors
+        </h1>
+
+        <p
+            id="doctors-subtitle"
+            class="mt-2 text-slate-500"
+        >
+            Find the best specialists near you.
+        </p>
+
+    </div>
 
 
-    <!-- Filters -->
+    <!-- =====================================================
+         SPECIALIZATION MESSAGE
+         ===================================================== -->
 
-    <div class="bg-white border rounded-2xl p-5 mt-8">
+    <div
+        id="specialization-message"
+        class="hidden
+               mt-6
+               p-4
+               bg-blue-50
+               border
+               border-blue-100
+               rounded-xl
+               text-blue-800"
+    >
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+        Showing doctors for:
+        <strong id="selected-specialization"></strong>
 
+    </div>
+
+
+    <!-- =====================================================
+         FILTERS
+         ===================================================== -->
+
+    <div
+        class="bg-white
+               border
+               border-slate-100
+               rounded-2xl
+               p-5
+               mt-8
+               shadow-sm"
+    >
+
+        <div
+            class="grid
+                   md:grid-cols-2
+                   lg:grid-cols-5
+                   gap-4"
+        >
+
+
+            <!-- Search -->
 
             <input
                 id="doctor-search"
@@ -33,6 +83,8 @@ Doctors - MediMatch
                 class="form-input"
             >
 
+
+            <!-- Specialization -->
 
             <select
                 id="specialization-filter"
@@ -45,6 +97,8 @@ Doctors - MediMatch
 
             </select>
 
+
+            <!-- City -->
 
             <select
                 id="city-filter"
@@ -74,6 +128,8 @@ Doctors - MediMatch
             </select>
 
 
+            <!-- Fee -->
+
             <select
                 id="fee-filter"
                 class="form-input"
@@ -84,23 +140,31 @@ Doctors - MediMatch
                 </option>
 
                 <option value="500">
-                    Up to Tk.500
+                    Up to Tk. 500
                 </option>
 
                 <option value="1000">
-                    Up to Tk.1000
+                    Up to Tk. 1000
                 </option>
 
                 <option value="1500">
-                    Up to Tk.1500
+                    Up to Tk. 1500
                 </option>
 
             </select>
 
 
+            <!-- Search -->
+
             <button
                 id="doctor-filter-button"
-                class="bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold"
+                type="button"
+                class="bg-blue-600
+                       hover:bg-blue-700
+                       text-white
+                       rounded-lg
+                       font-semibold
+                       transition"
             >
                 Search
             </button>
@@ -110,30 +174,64 @@ Doctors - MediMatch
     </div>
 
 
-    <!-- Loading -->
+    <!-- =====================================================
+         LOADING
+         ===================================================== -->
 
     <div
         id="doctors-loading"
-        class="text-center py-12 text-slate-500"
+        class="text-center
+               py-12
+               text-slate-500"
     >
         Loading doctors...
     </div>
 
 
-    <!-- Doctors -->
+    <!-- =====================================================
+         DOCTORS
+         ===================================================== -->
 
     <div
         id="doctors-container"
-        class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8"
+        class="grid
+               md:grid-cols-2
+               lg:grid-cols-3
+               gap-6
+               mt-8"
     >
     </div>
 
 
-    <!-- Error -->
+    <!-- =====================================================
+         NO DOCTORS
+         ===================================================== -->
+
+    <div
+        id="doctors-empty"
+        class="hidden
+               text-center
+               py-12
+               text-slate-500"
+    >
+
+        No doctors found for this specialization.
+
+    </div>
+
+
+    <!-- =====================================================
+         ERROR
+         ===================================================== -->
 
     <div
         id="doctors-error"
-        class="hidden mt-6 p-4 bg-red-50 text-red-700 rounded-lg"
+        class="hidden
+               mt-6
+               p-4
+               bg-red-50
+               text-red-700
+               rounded-lg"
     >
     </div>
 
