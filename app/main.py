@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-
+from app.routes.contact import router as contact_router
 
 # =========================================================
 # API ROUTERS
@@ -20,6 +20,7 @@ from app.routes.home import router as home_router
 from app.routes.predict import router as predict_router
 from app.routes.doctor import router as doctor_router
 from app.routes.about import router as about_router
+from app.routes.contact import router as contact_router
 
 
 # =========================================================
@@ -94,21 +95,47 @@ app.include_router(
 # FRONTEND ROUTES
 # =========================================================
 
+# ---------------------------------------------------------
+# Home
+# ---------------------------------------------------------
+
 app.include_router(
     home_router
 )
+
+
+# ---------------------------------------------------------
+# Symptoms / Prediction Result
+# ---------------------------------------------------------
 
 app.include_router(
     predict_router
 )
 
+
+# ---------------------------------------------------------
+# Doctors / Doctor Profile
+# ---------------------------------------------------------
+
 app.include_router(
     doctor_router
 )
 
+
+# ---------------------------------------------------------
+# About
+# ---------------------------------------------------------
+
 app.include_router(
     about_router
 )
+
+
+# ---------------------------------------------------------
+# Contact
+# ---------------------------------------------------------
+
+app.include_router(contact_router)
 
 
 # =========================================================

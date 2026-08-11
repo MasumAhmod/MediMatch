@@ -1,14 +1,34 @@
-# CatBoost
-catboost_info/
+# =========================================================
+# ENVIRONMENT VARIABLES / SECRETS
+# =========================================================
 
-# If it is inside app/
+.env
+.env.*
+!.env.example
+
+
+# =========================================================
+# CATBOOST
+# =========================================================
+
+catboost_info/
 app/catboost_info/
 
-# Python cache
+
+# =========================================================
+# PYTHON CACHE
+# =========================================================
+
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# ML model files
+
+# =========================================================
+# ML MODEL FILES
+# =========================================================
+
 app/ml/decision_tree.pkl
 app/ml/disease_model.pkl
 app/ml/linear_svm.pkl
@@ -16,4 +36,10 @@ app/ml/random_forest.pkl
 app/ml/symptom_encoder.pkl
 app/ml/xgboost.pkl
 app/ml/label_encoder.pkl
+
+
+# =========================================================
+# OLD / UNUSED TRAINING FILE
+# =========================================================
+
 app/ml/old_train.py
