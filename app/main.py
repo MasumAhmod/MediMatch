@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from app.routes.contact import router as contact_router
 
 # =========================================================
 # API ROUTERS
