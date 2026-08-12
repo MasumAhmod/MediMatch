@@ -1,12 +1,16 @@
 <header
-    class="bg-white border-b border-slate-100 sticky top-0 z-50"
+    class="bg-white/95 backdrop-blur-md
+           border-b border-slate-100
+           sticky top-0 z-50"
 >
 
     <nav class="max-w-7xl mx-auto px-5 lg:px-8">
 
-        <div
-            class="h-16 flex items-center justify-between"
-        >
+        <!-- =================================================
+             DESKTOP / MAIN HEADER
+        ================================================== -->
+
+        <div class="h-16 flex items-center justify-between">
 
             <!-- =================================================
                  LOGO
@@ -14,15 +18,21 @@
 
             <a
                 href="/"
-                class="flex items-center gap-3"
+                class="flex items-center gap-3
+                       group"
             >
 
                 <!-- Medical Logo -->
 
                 <div
                     class="relative flex items-center justify-center
-                           w-10 h-10 rounded-xl
-                           bg-blue-600 shadow-md"
+                           w-10 h-10
+                           rounded-xl
+                           bg-blue-600
+                           shadow-sm
+                           group-hover:shadow-md
+                           group-hover:bg-blue-700
+                           transition-all duration-200"
                 >
 
                     <span
@@ -49,9 +59,7 @@
                            tracking-tight
                            text-slate-900"
                 >
-
                     Medi<span class="text-blue-600">Match</span>
-
                 </span>
 
             </a>
@@ -115,32 +123,99 @@
                        gap-3"
             >
 
-                <a
-                    href="/login"
-                    class="bg-blue-600
-                           hover:bg-blue-700
-                           text-white
-                           px-5 py-2
+                <!-- =================================================
+                     LOGIN - COMING SOON
+                ================================================== -->
+
+                <button
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    title="Login will be available soon"
+                    class="group
+                           relative
+                           flex items-center gap-2
+                           bg-slate-100
+                           text-slate-400
+                           px-4 py-2
                            rounded-lg
                            text-sm
                            font-semibold
-                           transition
-                           shadow-sm"
+                           cursor-not-allowed
+                           border border-slate-200"
                 >
-                    Login
-                </a>
+
+                    <!-- Lock Icon -->
+
+                    <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.8"
+                            d="M16 10V7a4 4 0 0 0-8 0v3"
+                        />
+
+                        <rect
+                            x="5"
+                            y="10"
+                            width="14"
+                            height="10"
+                            rx="2"
+                            stroke-width="1.8"
+                        />
+
+                    </svg>
 
 
-                <!-- Mobile Menu Button -->
+                    <span>
+                        Login
+                    </span>
+
+
+                    <!-- Coming Soon Badge -->
+
+                    <span
+                        class="hidden lg:inline-flex
+                               items-center
+                               px-1.5 py-0.5
+                               rounded-md
+                               bg-white
+                               border border-slate-200
+                               text-[10px]
+                               font-bold
+                               uppercase
+                               tracking-wide
+                               text-slate-400"
+                    >
+                        Soon
+                    </span>
+
+                </button>
+
+
+                <!-- =================================================
+                     MOBILE MENU BUTTON
+                ================================================== -->
 
                 <button
                     id="mobile-menu-button"
                     type="button"
                     aria-label="Open menu"
+                    aria-expanded="false"
                     class="md:hidden
                            ml-1
+                           w-10 h-10
+                           flex items-center justify-center
+                           rounded-lg
                            text-slate-600
                            hover:text-blue-600
+                           hover:bg-blue-50
                            transition"
                 >
 
@@ -175,66 +250,178 @@
             id="mobile-menu"
             class="hidden
                    md:hidden
-                   pb-4
-                   pt-2
+                   pb-5
+                   pt-3
                    border-t
                    border-slate-100"
         >
 
-            <a
-                href="/"
-                class="mobile-nav-link"
-            >
-                Home
-            </a>
+            <div class="flex flex-col gap-1">
 
-            <a
-                href="/symptoms"
-                class="mobile-nav-link"
-            >
-                Symptoms
-            </a>
+                <a
+                    href="/"
+                    class="mobile-nav-link"
+                >
+                    Home
+                </a>
 
-            <a
-                href="/doctors"
-                class="mobile-nav-link"
-            >
-                Doctors
-            </a>
+                <a
+                    href="/symptoms"
+                    class="mobile-nav-link"
+                >
+                    Symptoms
+                </a>
 
-            <a
-                href="/about"
-                class="mobile-nav-link"
-            >
-                About
-            </a>
+                <a
+                    href="/doctors"
+                    class="mobile-nav-link"
+                >
+                    Doctors
+                </a>
 
-            <a
-                href="/contact"
-                class="mobile-nav-link"
-            >
-                Contact
-            </a>
+                <a
+                    href="/about"
+                    class="mobile-nav-link"
+                >
+                    About
+                </a>
 
-            <a
-                href="/login"
-                class="block
-                       mt-2
-                       bg-blue-600
-                       hover:bg-blue-700
-                       text-white
-                       px-5 py-2.5
-                       rounded-lg
-                       text-sm
-                       font-semibold
-                       text-center
-                       transition"
-            >
-                Login
-            </a>
+                <a
+                    href="/contact"
+                    class="mobile-nav-link"
+                >
+                    Contact
+                </a>
+
+
+                <!-- =================================================
+                     MOBILE LOGIN - COMING SOON
+                ================================================== -->
+
+                <button
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    class="w-full
+                           mt-3
+                           flex items-center justify-center gap-2
+                           bg-slate-100
+                           border border-slate-200
+                           text-slate-400
+                           px-5 py-2.5
+                           rounded-lg
+                           text-sm
+                           font-semibold
+                           cursor-not-allowed"
+                >
+
+                    <!-- Lock Icon -->
+
+                    <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                    >
+
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.8"
+                            d="M16 10V7a4 4 0 0 0-8 0v3"
+                        />
+
+                        <rect
+                            x="5"
+                            y="10"
+                            width="14"
+                            height="10"
+                            rx="2"
+                            stroke-width="1.8"
+                        />
+
+                    </svg>
+
+                    <span>
+                        Login
+                    </span>
+
+                    <span
+                        class="px-1.5 py-0.5
+                               rounded-md
+                               bg-white
+                               border border-slate-200
+                               text-[10px]
+                               font-bold
+                               uppercase
+                               tracking-wide
+                               text-slate-400"
+                    >
+                        Coming Soon
+                    </span>
+
+                </button>
+
+            </div>
 
         </div>
 
     </nav>
 
 </header>
+
+
+<!-- =========================================================
+     MOBILE MENU SCRIPT
+========================================================= -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        const menuButton =
+            document.getElementById(
+                "mobile-menu-button"
+            );
+
+        const mobileMenu =
+            document.getElementById(
+                "mobile-menu"
+            );
+
+
+        if (!menuButton || !mobileMenu) {
+            return;
+        }
+
+
+        menuButton.addEventListener(
+            "click",
+            () => {
+
+                const isOpen =
+                    !mobileMenu.classList.contains(
+                        "hidden"
+                    );
+
+
+                mobileMenu.classList.toggle(
+                    "hidden"
+                );
+
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    String(!isOpen)
+                );
+
+            }
+        );
+
+    }
+
+);
+
+</script>

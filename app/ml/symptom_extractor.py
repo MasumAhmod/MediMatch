@@ -1,6 +1,8 @@
 import re
 import spacy
 
+from app.ml.translator import translate_to_english
+
 
 # =========================================================
 # LOAD SPACY MODEL
@@ -11,10 +13,12 @@ nlp = spacy.load("en_core_web_sm")
 
 # =========================================================
 # DATASET SYMPTOMS
+#
 # These names must match PatientData.csv exactly
 # =========================================================
 
 SYMPTOMS = [
+
     "anxiety and nervousness",
     "depression",
     "shortness of breath",
@@ -244,6 +248,7 @@ SYMPTOMS = [
     "hesitancy",
     "back stiffness or tightness",
     "low urine output",
+
 ]
 
 
@@ -797,12 +802,6 @@ SYMPTOM_ALIASES = {
         "yellow eyes",
     ],
 
-    "diarrhea": [
-        "diarrhea",
-        "loose stool",
-        "loose motion",
-    ],
-
     "allergic reaction": [
         "allergic reaction",
         "allergy",
@@ -816,6 +815,7 @@ SYMPTOM_ALIASES = {
         "feel sick",
         "unwell",
     ],
+
 }
 
 
@@ -824,6 +824,10 @@ SYMPTOM_ALIASES = {
 # =========================================================
 
 def normalize_text(text: str) -> str:
+    """
+    Converts text into a normalized form suitable
+    for symptom matching.
+    """
 
     text = text.lower()
 
@@ -847,6 +851,9 @@ def normalize_text(text: str) -> str:
 # =========================================================
 
 def get_lemmas(text: str):
+    """
+    Returns lemmatized tokens using spaCy.
+    """
 
     doc = nlp(text)
 
@@ -862,17 +869,50 @@ def get_lemmas(text: str):
 # =========================================================
 
 def extract_symptoms(text: str):
+    """
+    Extracts symptoms from natural-language input.
 
-    normalized_text = normalize_text(text)
+    Bengali input is translated into English first.
+    English input is processed directly.
+    """
+
+    if not text:
+        return []
+
+    # =====================================================
+    # TRANSLATE BENGALI TO ENGLISH
+    # =====================================================
+
+    translated_text = translate_to_english(
+        text
+    )
+
+    print(
+        "Original text:",
+        text
+    )
+
+    print(
+        "English text:",
+        translated_text
+    )
+
+    # =====================================================
+    # NORMALIZE TEXT
+    # =====================================================
+
+    normalized_text = normalize_text(
+        translated_text
+    )
 
     if not normalized_text:
         return []
 
     detected_symptoms = []
 
-    # -----------------------------------------------------
-    # First: exact alias matching
-    # -----------------------------------------------------
+    # =====================================================
+    # FIRST: EXACT ALIAS MATCHING
+    # =====================================================
 
     for symptom, aliases in SYMPTOM_ALIASES.items():
 
@@ -881,27 +921,36 @@ def extract_symptoms(text: str):
 
         for alias in aliases:
 
-            alias_normalized = normalize_text(alias)
+            alias_normalized = normalize_text(
+                alias
+            )
 
             if alias_normalized in normalized_text:
 
                 if symptom not in detected_symptoms:
-                    detected_symptoms.append(symptom)
+
+                    detected_symptoms.append(
+                        symptom
+                    )
 
                 break
 
-    # -----------------------------------------------------
-    # Second: lemma-based matching
-    # -----------------------------------------------------
+    # =====================================================
+    # SECOND: LEMMA-BASED MATCHING
+    # =====================================================
 
-    text_lemmas = get_lemmas(normalized_text)
+    text_lemmas = get_lemmas(
+        normalized_text
+    )
 
     for symptom in SYMPTOMS:
 
         if symptom in detected_symptoms:
             continue
 
-        symptom_lemmas = get_lemmas(symptom)
+        symptom_lemmas = get_lemmas(
+            symptom
+        )
 
         if not symptom_lemmas:
             continue
@@ -910,7 +959,10 @@ def extract_symptoms(text: str):
             lemma in text_lemmas
             for lemma in symptom_lemmas
         ):
-            detected_symptoms.append(symptom)
+
+            detected_symptoms.append(
+                symptom
+            )
 
     return detected_symptoms
 
@@ -921,17 +973,42 @@ def extract_symptoms(text: str):
 
 if __name__ == "__main__":
 
-    test_text = """
-    I have a high fever, severe headache,
-    I am coughing and feeling dizzy.
-    My joints hurt and I feel very tired.
-    """
+    test_queries = [
 
-    symptoms = extract_symptoms(test_text)
+        """
+        I have a high fever, severe headache.
+        I am coughing and feeling dizzy.
+        My joints hurt and I feel very tired.
+        """,
 
-    print("\nDetected symptoms:\n")
+        """
+        আমার জ্বর, মাথাব্যথা এবং কাশি আছে।
+        আমি খুব ক্লান্ত এবং মাথা ঘুরছে।
+        """,
 
-    for symptom in symptoms:
-        print("✓", symptom)
+    ]
 
-    print("\nTotal:", len(symptoms))
+    for test_text in test_queries:
+
+        print("\n")
+        print("=" * 60)
+
+        symptoms = extract_symptoms(
+            test_text
+        )
+
+        print(
+            "\nDetected symptoms:\n"
+        )
+
+        for symptom in symptoms:
+
+            print(
+                "✓",
+                symptom
+            )
+
+        print(
+            "\nTotal:",
+            len(symptoms)
+        )
