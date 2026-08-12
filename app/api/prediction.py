@@ -2,14 +2,19 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from app.ml.predictor import predict_disease
+from app.ml.symptom_extractor import extract_symptoms
+
 from app.utils.specialist import (
     get_specialization,
     get_specialization_keywords
 )
+
 from app.database.db import get_connection
 
 
+# =========================================================
 # ROUTER
+# =========================================================
 
 router = APIRouter(
     prefix="/api/v1/predict",
@@ -17,22 +22,30 @@ router = APIRouter(
 )
 
 
+# =========================================================
 # REQUEST MODEL
+# =========================================================
 
 class PredictionRequest(BaseModel):
-    symptoms: list[str]
+    # Natural-language input
+    text: str | None = None
+
+    # Direct symptom list
+    symptoms: list[str] | None = None
 
 
+# =========================================================
 # GET DOCTORS BY SPECIALIZATION
+# =========================================================
 
 def get_doctors_by_specialization(
     specialization: str
 ):
     """
-    Returns doctors matching a medical specialization.
+    Returns active doctors matching a medical specialization.
 
-    The doctors table contains detailed specialization
-    names, so keyword-based matching is used.
+    Doctors are sorted by consultation fee so that
+    lower-cost doctors appear first.
     """
 
     connection = get_connection()
@@ -99,35 +112,108 @@ def get_doctors_by_specialization(
             return cursor.fetchall()
 
     finally:
+
         connection.close()
 
 
+# =========================================================
 # POST /api/v1/predict/
+# =========================================================
 
 @router.post("/")
 def predict(
     request: PredictionRequest
 ):
     """
-    Predict disease, determine medical specialization,
-    and return matching doctors.
+    Predict disease from either:
+
+    1. Natural-language text
+    OR
+    2. A list of symptoms.
+
+    Then determine the recommended specialization
+    and find matching doctors.
     """
-
-    # Validate symptoms
-
-    if not request.symptoms:
-
-        raise HTTPException(
-            status_code=400,
-            detail="At least one symptom is required."
-        )
 
     try:
 
-        # 1. Predict disease
+        # =================================================
+        # 1. VARIABLES
+        # =================================================
+
+        symptoms = []
+
+        original_text = None
+
+        input_type = None
+
+
+        # =================================================
+        # 2. NATURAL-LANGUAGE INPUT
+        # =================================================
+
+        if request.text and request.text.strip():
+
+            original_text = request.text.strip()
+
+            input_type = "natural_language"
+
+            symptoms = extract_symptoms(
+                original_text
+            )
+
+
+        # =================================================
+        # 3. DIRECT SYMPTOM LIST
+        # =================================================
+
+        elif request.symptoms:
+
+            input_type = "symptom_list"
+
+            symptoms = [
+                symptom.strip().lower()
+                for symptom in request.symptoms
+                if symptom and symptom.strip()
+            ]
+
+
+        # =================================================
+        # 4. NO INPUT
+        # =================================================
+
+        else:
+
+            raise HTTPException(
+                status_code=400,
+                detail=(
+                    "Please provide symptoms or "
+                    "describe your symptoms."
+                )
+            )
+
+
+        # =================================================
+        # 5. CHECK EXTRACTED SYMPTOMS
+        # =================================================
+
+        if not symptoms:
+
+            raise HTTPException(
+                status_code=400,
+                detail=(
+                    "No recognizable symptoms were found. "
+                    "Please describe your symptoms more clearly."
+                )
+            )
+
+
+        # =================================================
+        # 6. PREDICT DISEASE
+        # =================================================
 
         disease = predict_disease(
-            request.symptoms
+            symptoms
         )
 
         if not disease:
@@ -137,7 +223,10 @@ def predict(
                 detail="Unable to predict disease."
             )
 
-        # 2. Determine specialization
+
+        # =================================================
+        # 7. DETERMINE SPECIALIZATION
+        # =================================================
 
         specialization = get_specialization(
             disease
@@ -149,26 +238,92 @@ def predict(
                 status_code=404,
                 detail=(
                     "No specialization found for "
-                    "the predicted disease."
+                    f"the predicted disease: {disease}"
                 )
             )
 
-        # 3. Find doctors
+
+        # =================================================
+        # 8. FIND DOCTORS
+        # =================================================
 
         doctors = get_doctors_by_specialization(
             specialization
         )
 
-        # 4. Return result
+
+        # =================================================
+        # 9. NATURAL-LANGUAGE DESCRIPTION
+        # =================================================
+
+        if len(symptoms) == 1:
+
+            symptoms_text = symptoms[0]
+
+        elif len(symptoms) == 2:
+
+            symptoms_text = (
+                f"{symptoms[0]} and {symptoms[1]}"
+            )
+
+        else:
+
+            symptoms_text = (
+                ", ".join(symptoms[:-1])
+                + f", and {symptoms[-1]}"
+            )
+
+
+        prediction_message = (
+            f"Based on the symptoms you described — "
+            f"{symptoms_text} — our ML model predicts "
+            f"{disease}."
+        )
+
+
+        # =================================================
+        # 10. RETURN RESULT
+        # =================================================
 
         return {
+
+            # Original user input
+            "input_text": original_text,
+
+            # How prediction was made
+            "input_type": input_type,
+
+            # Extracted / selected symptoms
+            "symptoms": symptoms,
+
+            # Human-readable symptoms
+            "symptoms_text": symptoms_text,
+
+            # Prediction
             "disease": disease,
+
+            # Natural-language message
+            "prediction_message": prediction_message,
+
+            # Recommended specialist
             "specialization": specialization,
+
+            # Recommended doctors
             "doctors": doctors
         }
 
+
+    # =====================================================
+    # HTTP EXCEPTIONS
+    # =====================================================
+
     except HTTPException:
         raise
+
+
+    # =====================================================
+    # UNEXPECTED ERROR
+    # =====================================================
 
     except Exception as e:
 

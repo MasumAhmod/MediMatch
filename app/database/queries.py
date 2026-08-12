@@ -1,6 +1,9 @@
 from app.database.db import get_connection
 
-# DOCTORS
+
+# =========================================================
+# GET ALL DOCTORS
+# =========================================================
 
 def get_all_doctors():
     """
@@ -31,7 +34,9 @@ def get_all_doctors():
         connection.close()
 
 
+# =========================================================
 # GET DOCTOR BY ID
+# =========================================================
 
 def get_doctor_by_id(doctor_id: int):
     """
@@ -66,7 +71,9 @@ def get_doctor_by_id(doctor_id: int):
         connection.close()
 
 
+# =========================================================
 # SEARCH DOCTORS
+# =========================================================
 
 def search_doctors(
     name=None,
@@ -93,6 +100,10 @@ def search_doctors(
 
             params = []
 
+            # -------------------------------------------------
+            # NAME
+            # -------------------------------------------------
+
             if name:
 
                 sql += """
@@ -103,15 +114,53 @@ def search_doctors(
                     f"%{name}%"
                 )
 
+            # -------------------------------------------------
+            # SPECIALIZATION
+            # -------------------------------------------------
+
             if specialization:
 
-                sql += """
-                    AND specialization LIKE %s
-                """
-
-                params.append(
-                    f"%{specialization}%"
+                from app.utils.specialist import (
+                    get_specialization_keywords
                 )
+
+                keywords = get_specialization_keywords(
+                    specialization
+                )
+
+                if keywords:
+
+                    conditions = []
+
+                    for keyword in keywords:
+
+                        conditions.append(
+                            "LOWER(specialization) LIKE %s"
+                        )
+
+                        params.append(
+                            f"%{keyword.lower()}%"
+                        )
+
+                    sql += (
+                        " AND ("
+                        + " OR ".join(conditions)
+                        + ")"
+                    )
+
+                else:
+
+                    sql += """
+                        AND LOWER(specialization) LIKE %s
+                    """
+
+                    params.append(
+                        f"%{specialization.lower()}%"
+                    )
+
+            # -------------------------------------------------
+            # ORDER
+            # -------------------------------------------------
 
             sql += """
                 ORDER BY doctor_name
@@ -129,7 +178,9 @@ def search_doctors(
         connection.close()
 
 
+# =========================================================
 # FILTER DOCTORS
+# =========================================================
 
 def filter_doctors(
     city=None,
@@ -140,6 +191,18 @@ def filter_doctors(
 ):
     """
     Filter doctors using optional criteria.
+
+    Specialization is treated as a category.
+    For example:
+
+        General Medicine
+
+    can match:
+
+        Medicine Specialist
+        Internal Medicine Specialist
+        Cardiology & Medicine Specialist
+        etc.
     """
 
     connection = get_connection()
@@ -159,27 +222,68 @@ def filter_doctors(
 
             params = []
 
-            # City
+            # =================================================
+            # CITY
+            # =================================================
+
             if city:
 
                 sql += """
-                    AND city = %s
+                    AND LOWER(city) = LOWER(%s)
                 """
 
                 params.append(city)
 
-            # Specialization
+
+            # =================================================
+            # SPECIALIZATION
+            # =================================================
+
             if specialization:
 
-                sql += """
-                    AND specialization LIKE %s
-                """
-
-                params.append(
-                    f"%{specialization}%"
+                from app.utils.specialist import (
+                    get_specialization_keywords
                 )
 
-            # Minimum appointment fee
+                keywords = get_specialization_keywords(
+                    specialization
+                )
+
+                if keywords:
+
+                    conditions = []
+
+                    for keyword in keywords:
+
+                        conditions.append(
+                            "LOWER(specialization) LIKE %s"
+                        )
+
+                        params.append(
+                            f"%{keyword.lower()}%"
+                        )
+
+                    sql += (
+                        " AND ("
+                        + " OR ".join(conditions)
+                        + ")"
+                    )
+
+                else:
+
+                    sql += """
+                        AND LOWER(specialization) LIKE %s
+                    """
+
+                    params.append(
+                        f"%{specialization.lower()}%"
+                    )
+
+
+            # =================================================
+            # MINIMUM FEE
+            # =================================================
+
             if min_fee is not None:
 
                 sql += """
@@ -188,7 +292,11 @@ def filter_doctors(
 
                 params.append(min_fee)
 
-            # Maximum appointment fee
+
+            # =================================================
+            # MAXIMUM FEE
+            # =================================================
+
             if max_fee is not None:
 
                 sql += """
@@ -197,7 +305,11 @@ def filter_doctors(
 
                 params.append(max_fee)
 
-            # Availability
+
+            # =================================================
+            # AVAILABILITY
+            # =================================================
+
             if availability:
 
                 sql += """
@@ -206,9 +318,15 @@ def filter_doctors(
 
                 params.append(availability)
 
+
+            # =================================================
+            # ORDER
+            # =================================================
+
             sql += """
                 ORDER BY appointment_fee ASC
             """
+
 
             cursor.execute(
                 sql,
@@ -221,8 +339,6 @@ def filter_doctors(
 
         connection.close()
 
-
-# GET DOCTORS BY SPECIALIZATION
 
 # =========================================================
 # GET DOCTORS BY SPECIALIZATION CATEGORY
@@ -239,7 +355,9 @@ def get_doctors_by_specialization(
     so multiple keywords are used for matching.
     """
 
-    from app.utils.specialist import get_specialization_keywords
+    from app.utils.specialist import (
+        get_specialization_keywords
+    )
 
     connection = get_connection()
 
@@ -253,6 +371,34 @@ def get_doctors_by_specialization(
         )
 
         with connection.cursor() as cursor:
+
+            # -------------------------------------------------
+            # FALLBACK
+            # -------------------------------------------------
+
+            if not keywords:
+
+                sql = """
+                    SELECT *
+                    FROM doctors
+                    WHERE is_active = 1
+                    AND LOWER(specialization) LIKE %s
+                    ORDER BY appointment_fee ASC
+                """
+
+                cursor.execute(
+                    sql,
+                    (
+                        f"%{specialization.lower()}%",
+                    )
+                )
+
+                return cursor.fetchall()
+
+
+            # -------------------------------------------------
+            # KEYWORD MATCHING
+            # -------------------------------------------------
 
             conditions = []
 
@@ -268,9 +414,11 @@ def get_doctors_by_specialization(
                     f"%{keyword.lower()}%"
                 )
 
+
             where_clause = " OR ".join(
                 conditions
             )
+
 
             sql = f"""
                 SELECT *
@@ -280,10 +428,12 @@ def get_doctors_by_specialization(
                 ORDER BY appointment_fee ASC
             """
 
+
             cursor.execute(
                 sql,
                 tuple(params)
             )
+
 
             return cursor.fetchall()
 
@@ -292,7 +442,9 @@ def get_doctors_by_specialization(
         connection.close()
 
 
-# SPECIALIZATIONS FROM DOCTORS TABLE
+# =========================================================
+# GET ALL SPECIALIZATIONS
+# =========================================================
 
 def get_all_specializations():
     """
@@ -327,7 +479,9 @@ def get_all_specializations():
         connection.close()
 
 
+# =========================================================
 # SEARCH SPECIALIZATIONS
+# =========================================================
 
 def search_specializations(
     name: str
@@ -358,7 +512,9 @@ def search_specializations(
 
             cursor.execute(
                 sql,
-                (f"%{name}%",)
+                (
+                    f"%{name}%",
+                )
             )
 
             return cursor.fetchall()

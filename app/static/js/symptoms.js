@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    // =====================================================
+    // ELEMENTS
+    // =====================================================
+
     const searchInput =
         document.getElementById("symptom-search");
 
@@ -16,12 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("prediction-error");
 
 
+    // =====================================================
+    // STATE
+    // =====================================================
+
     let selectedSymptoms = [];
 
+    let naturalLanguageText = "";
 
-    /* =====================================================
-       ADD SYMPTOM
-       ===================================================== */
+
+    // =====================================================
+    // ADD SYMPTOM
+    // =====================================================
 
     function addSymptom(symptom) {
 
@@ -31,11 +41,11 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-
         const normalized =
             symptom.toLowerCase();
 
 
+        // Prevent duplicate symptoms
         const alreadySelected =
             selectedSymptoms.some(
                 item =>
@@ -50,14 +60,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         selectedSymptoms.push(symptom);
 
-        renderSelectedSymptoms();
 
+        // If user manually selects symptoms,
+        // remove natural-language input.
+        naturalLanguageText = "";
+
+
+        renderSelectedSymptoms();
     }
 
 
-    /* =====================================================
-       REMOVE SYMPTOM
-       ===================================================== */
+    // =====================================================
+    // REMOVE SYMPTOM
+    // =====================================================
 
     function removeSymptom(symptom) {
 
@@ -68,15 +83,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     symptom.toLowerCase()
             );
 
-
         renderSelectedSymptoms();
-
     }
 
 
-    /* =====================================================
-       RENDER SELECTED SYMPTOMS
-       ===================================================== */
+    // =====================================================
+    // RENDER SELECTED SYMPTOMS
+    // =====================================================
 
     function renderSelectedSymptoms() {
 
@@ -98,7 +111,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
             element.innerHTML = `
-
                 <span>
                     ${escapeHtml(symptom)}
                 </span>
@@ -109,7 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 >
                     ×
                 </button>
-
             `;
 
 
@@ -123,16 +134,81 @@ document.addEventListener("DOMContentLoaded", () => {
             );
 
 
-            selectedContainer.appendChild(element);
-
+            selectedContainer.appendChild(
+                element
+            );
         });
-
     }
 
 
-    /* =====================================================
-       ESCAPE HTML
-       ===================================================== */
+    // =====================================================
+    // SHOW NATURAL-LANGUAGE INPUT
+    // =====================================================
+
+    function showNaturalLanguage(text) {
+
+        naturalLanguageText =
+            text.trim();
+
+
+        if (!naturalLanguageText) {
+            return;
+        }
+
+
+        // Natural language has priority,
+        // so clear manually selected symptoms.
+        selectedSymptoms = [];
+
+
+        selectedContainer.innerHTML = `
+            <div class="natural-language-input">
+
+                <span>
+                    ${escapeHtml(naturalLanguageText)}
+                </span>
+
+                <button
+                    type="button"
+                    id="remove-natural-language"
+                    aria-label="Remove description"
+                >
+                    ×
+                </button>
+
+            </div>
+        `;
+
+
+        countElement.textContent = "1";
+
+
+        const removeButton =
+            document.getElementById(
+                "remove-natural-language"
+            );
+
+
+        if (removeButton) {
+
+            removeButton.addEventListener(
+                "click",
+                () => {
+
+                    naturalLanguageText = "";
+
+                    selectedContainer.innerHTML = "";
+
+                    countElement.textContent = "0";
+                }
+            );
+        }
+    }
+
+
+    // =====================================================
+    // ESCAPE HTML
+    // =====================================================
 
     function escapeHtml(value) {
 
@@ -142,13 +218,12 @@ document.addEventListener("DOMContentLoaded", () => {
         div.textContent = value;
 
         return div.innerHTML;
-
     }
 
 
-    /* =====================================================
-       SUGGESTED SYMPTOMS
-       ===================================================== */
+    // =====================================================
+    // SUGGESTED SYMPTOMS
+    // =====================================================
 
     document
         .querySelectorAll(".symptom-chip")
@@ -168,9 +243,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
 
-    /* =====================================================
-       SEARCH INPUT
-       ===================================================== */
+    // =====================================================
+    // SEARCH / NATURAL LANGUAGE INPUT
+    // =====================================================
 
     if (searchInput) {
 
@@ -178,29 +253,47 @@ document.addEventListener("DOMContentLoaded", () => {
             "keydown",
             event => {
 
-                if (event.key === "Enter") {
-
-                    event.preventDefault();
-
-
-                    addSymptom(
-                        searchInput.value
-                    );
-
-
-                    searchInput.value = "";
-
+                if (event.key !== "Enter") {
+                    return;
                 }
 
+
+                event.preventDefault();
+
+
+                const text =
+                    searchInput.value.trim();
+
+
+                if (!text) {
+                    return;
+                }
+
+
+                /*
+                 * If the user enters a sentence such as:
+                 *
+                 * "I have fever, headache and cough"
+                 *
+                 * send the entire sentence to FastAPI.
+                 *
+                 * symptom_extractor.py will extract:
+                 *
+                 * ["fever", "headache", "cough"]
+                 */
+
+                showNaturalLanguage(text);
+
+
+                searchInput.value = "";
             }
         );
-
     }
 
 
-    /* =====================================================
-       PREDICTION
-       ===================================================== */
+    // =====================================================
+    // PREDICT DISEASE
+    // =====================================================
 
     if (predictButton) {
 
@@ -208,32 +301,35 @@ document.addEventListener("DOMContentLoaded", () => {
             "click",
             async () => {
 
-                errorElement.classList.add("hidden");
+                // Clear previous error
+                errorElement.classList.add(
+                    "hidden"
+                );
 
 
-                /* -----------------------------------------
-                   Validate
-                   ----------------------------------------- */
+                // =================================================
+                // VALIDATION
+                // =================================================
 
                 if (
+                    !naturalLanguageText &&
                     selectedSymptoms.length === 0
                 ) {
 
                     errorElement.textContent =
-                        "Please select at least one symptom.";
+                        "Please describe your symptoms or select at least one symptom.";
 
                     errorElement.classList.remove(
                         "hidden"
                     );
 
                     return;
-
                 }
 
 
-                /* -----------------------------------------
-                   Loading
-                   ----------------------------------------- */
+                // =================================================
+                // LOADING
+                // =================================================
 
                 predictButton.disabled = true;
 
@@ -243,9 +339,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 try {
 
-                    /* -------------------------------------
-                       API REQUEST
-                       ------------------------------------- */
+                    // =================================================
+                    // BUILD REQUEST
+                    // =================================================
+
+                    let requestBody;
+
+
+                    /*
+                     * Natural-language input
+                     */
+
+                    if (naturalLanguageText) {
+
+                        requestBody = {
+                            text: naturalLanguageText
+                        };
+
+                    }
+
+
+                    /*
+                     * Direct symptom selection
+                     */
+
+                    else {
+
+                        requestBody = {
+                            symptoms:
+                                selectedSymptoms
+                        };
+
+                    }
+
+
+                    // =================================================
+                    // API REQUEST
+                    // =================================================
 
                     const response =
                         await fetch(
@@ -258,21 +388,25 @@ document.addEventListener("DOMContentLoaded", () => {
                                         "application/json"
                                 },
 
-                                body: JSON.stringify({
-                                    symptoms:
-                                        selectedSymptoms
-                                })
+                                body:
+                                    JSON.stringify(
+                                        requestBody
+                                    )
                             }
                         );
 
+
+                    // =================================================
+                    // READ RESPONSE
+                    // =================================================
 
                     const data =
                         await response.json();
 
 
-                    /* -------------------------------------
-                       API ERROR
-                       ------------------------------------- */
+                    // =================================================
+                    // API ERROR
+                    // =================================================
 
                     if (!response.ok) {
 
@@ -280,13 +414,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             data.detail ||
                             "Prediction failed."
                         );
-
                     }
 
 
-                    /* -------------------------------------
-                       STORE RESULT
-                       ------------------------------------- */
+                    // =================================================
+                    // STORE RESULT
+                    // =================================================
 
                     sessionStorage.setItem(
                         "medimatchPrediction",
@@ -294,15 +427,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     );
 
 
-                    /* -------------------------------------
-                       RESULT PAGE
-                       ------------------------------------- */
+                    // =================================================
+                    // RESULT PAGE
+                    // =================================================
 
                     window.location.href =
                         "/result";
 
                 }
 
+
+                // =================================================
+                // ERROR HANDLING
+                // =================================================
 
                 catch (error) {
 
@@ -317,6 +454,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
 
 
+                // =================================================
+                // FINALLY
+                // =================================================
+
                 finally {
 
                     predictButton.disabled =
@@ -324,12 +465,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     predictButton.textContent =
                         "Predict Disease";
-
                 }
 
             }
         );
-
     }
 
 });

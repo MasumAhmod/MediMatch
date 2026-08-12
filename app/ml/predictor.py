@@ -2,53 +2,87 @@ import joblib
 from pathlib import Path
 
 
+# =========================================================
+# MODEL DIRECTORY
+# =========================================================
+
 MODEL_DIR = Path(__file__).parent
 
 
-# Load model
+# =========================================================
+# LOAD MODEL
+# =========================================================
 
 model = joblib.load(
     MODEL_DIR / "catboost.pkl"
 )
 
 
-# Load label encoder
+# =========================================================
+# LOAD LABEL ENCODER
+# =========================================================
 
 label_encoder = joblib.load(
     MODEL_DIR / "label_encoder.pkl"
 )
 
 
-# Get model symptoms
+# =========================================================
+# MODEL FEATURES
+# =========================================================
 
 MODEL_FEATURES = model.feature_names_
 
 
-# Disease prediction
+# =========================================================
+# DISEASE PREDICTION
+# =========================================================
 
-def predict_disease(symptoms: list[str]):
+def predict_disease(symptoms: list[str]) -> str:
     """
-    Predict disease from symptom names.
+    Predict disease from a list of symptom names.
     """
 
-    # Normalize input symptoms
-    symptoms = [
+    # -----------------------------------------------------
+    # Normalize symptoms
+    # -----------------------------------------------------
+
+    normalized_symptoms: set[str] = {
         symptom.strip().lower()
         for symptom in symptoms
-    ]
+        if symptom.strip()
+    }
 
-    # Create a binary feature vector
+
+    # -----------------------------------------------------
+    # Create binary feature vector
+    # -----------------------------------------------------
+
     feature_vector = [
-        1 if feature.lower() in symptoms else 0
-        for feature in model.feature_names_
+        1 if feature.strip().lower() in normalized_symptoms else 0
+        for feature in MODEL_FEATURES
     ]
 
+
+    # -----------------------------------------------------
     # Predict disease
+    # -----------------------------------------------------
+
     prediction = model.predict([feature_vector])
+
+
+    # -----------------------------------------------------
+    # Convert prediction to integer
+    # -----------------------------------------------------
 
     prediction = prediction.ravel().astype(int)
 
+
+    # -----------------------------------------------------
     # Decode disease label
+    # -----------------------------------------------------
+
     disease = label_encoder.inverse_transform(prediction)
 
-    return disease[0]
+
+    return str(disease[0])
