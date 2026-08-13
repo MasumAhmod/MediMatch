@@ -15,18 +15,25 @@ def get_connection():
     """
 
     try:
+
         connection = pymysql.connect(
             host=DB_HOST,
             port=DB_PORT,
             user=DB_USER,
             password=DB_PASSWORD,
             database=DB_NAME,
-            cursorclass=pymysql.cursors.DictCursor
+
+            cursorclass=pymysql.cursors.DictCursor,
+
+            ssl={
+                "ca": "/etc/secrets/ca.pem"
+            }
         )
 
         return connection
 
     except pymysql.MySQLError as e:
+
         print(f"Database Connection Error: {e}")
 
     return None

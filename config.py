@@ -1,16 +1,28 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+
+# =========================================================
 # DATABASE CONFIGURATION
-DB_HOST = "localhost"
+# =========================================================
 
-DB_PORT = 3306
+DB_HOST = os.environ["MYSQLHOST"]
 
-DB_USER = "root"
+DB_PORT = int(os.environ["MYSQLPORT"])
 
-DB_PASSWORD = "@Lovedit0"
+DB_USER = os.environ["MYSQLUSER"]
 
-DB_NAME = "medimatch"
+DB_PASSWORD = os.environ["MYSQLPASSWORD"]
+
+DB_NAME = os.environ["MYSQLDATABASE"]
 
 
+# =========================================================
 # APPLICATION CONFIGURATION
+# =========================================================
+
 APP_NAME = "MediMatch"
 
 APP_VERSION = "1.0.0"
