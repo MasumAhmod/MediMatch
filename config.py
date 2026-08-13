@@ -1,27 +1,36 @@
 import os
-from dotenv import load_dotenv
-
-
-# Load .env when running locally.
-# On Render, environment variables are provided by Render.
-load_dotenv()
 
 
 # =========================================================
 # DATABASE CONFIGURATION
 # =========================================================
 
-DB_HOST = os.environ["MYSQLHOST"]
-
-DB_PORT = int(
-    os.environ["MYSQLPORT"]
+DB_HOST = os.getenv(
+    "MYSQLHOST",
+    "localhost"
 )
 
-DB_USER = os.environ["MYSQLUSER"]
+DB_PORT = int(
+    os.getenv(
+        "MYSQLPORT",
+        "3306"
+    )
+)
 
-DB_PASSWORD = os.environ["MYSQLPASSWORD"]
+DB_USER = os.getenv(
+    "MYSQLUSER",
+    "root"
+)
 
-DB_NAME = os.environ["MYSQLDATABASE"]
+DB_PASSWORD = os.getenv(
+    "MYSQLPASSWORD",
+    ""
+)
+
+DB_NAME = os.getenv(
+    "MYSQLDATABASE",
+    "medimatch"
+)
 
 
 # =========================================================
@@ -32,4 +41,7 @@ APP_NAME = "MediMatch"
 
 APP_VERSION = "1.0.0"
 
-DEBUG = True
+DEBUG = os.getenv(
+    "DEBUG",
+    "False"
+).lower() == "true"
