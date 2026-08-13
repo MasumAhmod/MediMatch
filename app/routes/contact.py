@@ -5,7 +5,6 @@ from dotenv import load_dotenv
 from fastapi import APIRouter, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-from typing import cast
 
 from fastapi_mail import (
     FastMail,
@@ -14,6 +13,7 @@ from fastapi_mail import (
     MessageType,
     NameEmail,
 )
+
 from pydantic import SecretStr
 
 
@@ -41,32 +41,36 @@ templates = Jinja2Templates(
 
 
 # =========================================================
-# ENVIRONMENT VARIABLES
+# REQUIRED ENVIRONMENT VARIABLE
 # =========================================================
 
-MAIL_USERNAME = os.getenv("MAIL_USERNAME")
-MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
-MAIL_TO = cast(str, os.getenv("MAIL_TO"))
+def get_required_env(name: str) -> str:
+
+    value = os.getenv(name)
+
+    if value is None or value.strip() == "":
+        raise RuntimeError(
+            f"{name} environment variable is missing."
+        )
+
+    return value
 
 
 # =========================================================
-# CHECK ENVIRONMENT VARIABLES
+# MAIL ENVIRONMENT VARIABLES
 # =========================================================
 
-if not MAIL_USERNAME:
-    raise RuntimeError(
-        "MAIL_USERNAME is missing from .env"
-    )
+MAIL_USERNAME = get_required_env(
+    "MAIL_USERNAME"
+)
 
-if not MAIL_PASSWORD:
-    raise RuntimeError(
-        "MAIL_PASSWORD is missing from .env"
-    )
+MAIL_PASSWORD = get_required_env(
+    "MAIL_PASSWORD"
+)
 
-if not MAIL_TO:
-    raise RuntimeError(
-        "MAIL_TO is missing from .env"
-    )
+MAIL_TO = get_required_env(
+    "MAIL_TO"
+)
 
 
 # =========================================================
@@ -74,17 +78,25 @@ if not MAIL_TO:
 # =========================================================
 
 conf = ConnectionConfig(
+
     MAIL_USERNAME=MAIL_USERNAME,
-    MAIL_PASSWORD=SecretStr(MAIL_PASSWORD),
+
+    MAIL_PASSWORD=SecretStr(
+        MAIL_PASSWORD
+    ),
+
     MAIL_FROM=MAIL_USERNAME,
 
     MAIL_PORT=587,
+
     MAIL_SERVER="smtp.gmail.com",
 
     MAIL_STARTTLS=True,
+
     MAIL_SSL_TLS=False,
 
     USE_CREDENTIALS=True,
+
     VALIDATE_CERTS=True,
 )
 
@@ -102,8 +114,11 @@ async def contact_page(
 ):
 
     return templates.TemplateResponse(
+
         request=request,
+
         name="contact.html",
+
         context={
             "success": False,
             "message": None
@@ -120,11 +135,15 @@ async def contact_page(
     response_class=HTMLResponse
 )
 async def submit_contact(
+
     request: Request,
 
     name: str = Form(...),
+
     email: str = Form(...),
+
     subject: str = Form(...),
+
     message: str = Form(...)
 ):
 
@@ -145,15 +164,17 @@ async def submit_contact(
 New message from MediMatch contact form
 
 Name: {name}
+
 Email: {email}
+
 Subject: {subject}
 
 Message:
 {message}
 
---------------------------------------------------
+---
+
 This message was sent from the MediMatch website.
---------------------------------------------------
 """
 
 
@@ -162,6 +183,7 @@ This message was sent from the MediMatch website.
     # =====================================================
 
     email_message = MessageSchema(
+
         subject=email_subject,
 
         recipients=[
@@ -193,10 +215,14 @@ This message was sent from the MediMatch website.
     # =====================================================
 
     return templates.TemplateResponse(
+
         request=request,
+
         name="contact.html",
+
         context={
             "success": True,
+
             "message": (
                 "Your message has been sent successfully!"
             )
