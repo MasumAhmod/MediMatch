@@ -43,3 +43,8 @@ app/ml/label_encoder.pkl
 # =========================================================
 
 app/ml/old_train.py
+
+.env
+venv/
+__pycache__/
+ca.pem

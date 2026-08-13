@@ -192,17 +192,9 @@ def filter_doctors(
     """
     Filter doctors using optional criteria.
 
-    Specialization is treated as a category.
-    For example:
-
-        General Medicine
-
-    can match:
-
-        Medicine Specialist
-        Internal Medicine Specialist
-        Cardiology & Medicine Specialist
-        etc.
+    availability:
+        Available / available / 1 -> 1
+        Unavailable / unavailable / 0 -> 0
     """
 
     connection = get_connection()
@@ -229,7 +221,7 @@ def filter_doctors(
             if city:
 
                 sql += """
-                    AND LOWER(city) = LOWER(%s)
+                    AND LOWER(TRIM(city)) = LOWER(TRIM(%s))
                 """
 
                 params.append(city)
@@ -310,13 +302,33 @@ def filter_doctors(
             # AVAILABILITY
             # =================================================
 
-            if availability:
+            if availability is not None:
 
-                sql += """
-                    AND availability = %s
-                """
+                availability_value = None
 
-                params.append(availability)
+                if str(availability).lower() in [
+                    "available",
+                    "1",
+                    "true"
+                ]:
+                    availability_value = 1
+
+                elif str(availability).lower() in [
+                    "unavailable",
+                    "0",
+                    "false"
+                ]:
+                    availability_value = 0
+
+                if availability_value is not None:
+
+                    sql += """
+                        AND availability = %s
+                    """
+
+                    params.append(
+                        availability_value
+                    )
 
 
             # =================================================
@@ -327,6 +339,9 @@ def filter_doctors(
                 ORDER BY appointment_fee ASC
             """
 
+
+            print("SQL:", sql)
+            print("PARAMS:", params)
 
             cursor.execute(
                 sql,
