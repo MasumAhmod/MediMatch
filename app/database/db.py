@@ -13,14 +13,13 @@ from config import (
 def get_connection():
     """
     Create and return a MySQL database connection.
-
-    Works both locally and on Render.
+    Works locally and on Render.
     """
 
     try:
 
         # =================================================
-        # Determine SSL certificate location
+        # SSL certificate
         # =================================================
 
         render_ca = "/etc/secrets/ca.pem"
@@ -30,32 +29,31 @@ def get_connection():
             "ca.pem"
         )
 
-
         if os.path.exists(render_ca):
 
-            # Running on Render
             ssl_config = {
                 "ca": render_ca
             }
 
+            print("Using Render CA certificate.")
+
         elif os.path.exists(local_ca):
 
-            # Running locally
             ssl_config = {
                 "ca": local_ca
             }
 
+            print("Using local CA certificate.")
+
         else:
 
-            print(
-                "WARNING: SSL CA certificate not found."
-            )
+            print("WARNING: SSL CA certificate not found.")
 
             ssl_config = None
 
 
         # =================================================
-        # Connect to MySQL
+        # Connect
         # =================================================
 
         connection = pymysql.connect(
@@ -76,9 +74,66 @@ def get_connection():
         )
 
 
-        print(
-            "Successfully connected to MySQL."
-        )
+        print("Successfully connected to MySQL.")
+
+        print("HOST:", DB_HOST)
+
+        print("DATABASE:", DB_NAME)
+
+
+        # =================================================
+        # DEBUG: Check actual database
+        # =================================================
+
+        with connection.cursor() as cursor:
+
+            cursor.execute(
+                "SELECT DATABASE() AS database_name"
+            )
+
+            result = cursor.fetchone()
+
+            print(
+                "Connected database:",
+                result
+            )
+
+
+            # =================================================
+            # DEBUG: Count doctors
+            # =================================================
+
+            cursor.execute(
+                "SELECT COUNT(*) AS total FROM doctors"
+            )
+
+            result = cursor.fetchone()
+
+            print(
+                "Total doctors:",
+                result
+            )
+
+
+            # =================================================
+            # DEBUG: Count active doctors
+            # =================================================
+
+            cursor.execute(
+                """
+                SELECT COUNT(*) AS active
+                FROM doctors
+                WHERE is_active = 1
+                """
+            )
+
+            result = cursor.fetchone()
+
+            print(
+                "Active doctors:",
+                result
+            )
+
 
         return connection
 
