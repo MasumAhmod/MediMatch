@@ -1,6 +1,9 @@
 import os
 from dotenv import load_dotenv
 
+
+# Load .env when running locally.
+# On Render, environment variables are provided by Render.
 load_dotenv()
 
 
@@ -10,7 +13,9 @@ load_dotenv()
 
 DB_HOST = os.environ["MYSQLHOST"]
 
-DB_PORT = int(os.environ["MYSQLPORT"])
+DB_PORT = int(
+    os.environ["MYSQLPORT"]
+)
 
 DB_USER = os.environ["MYSQLUSER"]
 
