@@ -1,3 +1,3 @@
-#MediMatch: An Intelligent Multi-Agent System for Medical Specialist and Doctor Recommendation
- MediMatch: An AI-Powered Disease Prediction and Doctor Recommendation System.
-The main purpose of our project is to help users move from their symptoms to a probable disease prediction and then find an appropriate medical specialist.
+MediMatch is an AI-powered disease prediction and doctor recommendation system designed to help users move from their symptoms to a probable disease prediction and then find an appropriate medical specialist.
+
+The system accepts symptoms or natural-language descriptions of symptoms, predicts a probable disease using machine learning, determines the appropriate medical specialization, and recommends suitable doctors from the available doctor database.
