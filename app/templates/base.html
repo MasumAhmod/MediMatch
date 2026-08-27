@@ -1,103 +1,88 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
     >
-
     <title>
         {% block title %}
         MediMatch
         {% endblock %}
     </title>
 
-
     <!-- Tailwind CSS CDN -->
-
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    screens: {
+                        'xs': '480px',
+                    }
+                }
+            }
+        }
+    </script>
 
     <!-- Google Font -->
-
     <link
         rel="preconnect"
         href="https://fonts.googleapis.com"
     >
-
     <link
         rel="preconnect"
         href="https://fonts.gstatic.com"
         crossorigin
     >
-
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet"
     >
 
-
-    <!-- Custom CSS -->
-
+    <!-- Custom CSS (with cache-busting parameter) -->
     <link
         rel="stylesheet"
-        href="{{ url_for('static', path='css/custom.css') }}"
+        href="{{ url_for('static', path='css/custom.css') }}?v=2.0"
     >
-
 
     {% block head %}
     {% endblock %}
-
 </head>
 
-
-<body class="bg-white text-slate-900">
-
+<body class="bg-white text-slate-900 min-h-screen flex flex-col antialiased">
 
     <!-- =====================================================
          HEADER
     ====================================================== -->
-
     {% include 'header.html' %}
-
 
     <!-- =====================================================
          MAIN CONTENT
     ====================================================== -->
-
-    <main class="min-h-screen">
-
+    <main class="flex-1 w-full">
         {% block content %}
         {% endblock %}
-
     </main>
-
 
     <!-- =====================================================
          FOOTER
     ====================================================== -->
-
     {% include 'footer.html' %}
 
-
     <!-- =====================================================
-         GLOBAL JAVASCRIPT
+         GLOBAL JAVASCRIPT (with cache-busting parameter)
     ====================================================== -->
-
     <script
-        src="{{ url_for('static', path='js/script.js') }}"
+        src="{{ url_for('static', path='js/script.js') }}?v=2.0"
     ></script>
-
 
     {% block scripts %}
     {% endblock %}
 
-
 </body>
-
 </html>

@@ -1,18 +1,14 @@
 {% extends "base.html" %}
 
-
 {% block title %}
 MediMatch - Describe Your Symptoms
 {% endblock %}
-
-
 
 {% block content %}
 
 <section class="symptoms-page">
 
     <div class="symptoms-container">
-
 
         <!-- =====================================================
              PAGE HEADER
@@ -31,20 +27,17 @@ MediMatch - Describe Your Symptoms
         </div>
 
 
-
         <!-- =====================================================
              MAIN TWO COLUMN AREA
              ===================================================== -->
 
         <div class="symptoms-layout">
 
-
             <!-- =================================================
                  LEFT SIDE
                  ================================================= -->
 
             <div class="symptoms-main">
-
 
                 <!-- =============================================
                      SEARCH SECTION
@@ -58,7 +51,6 @@ MediMatch - Describe Your Symptoms
                     >
                         Select or type your symptoms
                     </label>
-
 
                     <div class="symptom-search-box">
 
@@ -90,11 +82,10 @@ MediMatch - Describe Your Symptoms
 
                         </svg>
 
-
                         <input
                             type="text"
                             id="symptom-search"
-                            placeholder="Search symptoms..."
+                            placeholder="Search symptoms or describe condition..."
                             autocomplete="off"
                         >
 
@@ -103,13 +94,11 @@ MediMatch - Describe Your Symptoms
                 </div>
 
 
-
                 <!-- =============================================
                      SUGGESTED SYMPTOMS
                      ============================================= -->
 
                 <div class="suggested-symptoms-box">
-
 
                     <div class="suggested-symptoms">
 
@@ -202,13 +191,11 @@ MediMatch - Describe Your Symptoms
                 </div>
 
 
-
                 <!-- =============================================
                      SELECTED SYMPTOMS
                      ============================================= -->
 
                 <div class="selected-section">
-
 
                     <div class="selected-heading">
 
@@ -225,7 +212,6 @@ MediMatch - Describe Your Symptoms
 
                     </div>
 
-
                     <div
                         id="selected-symptoms"
                         class="selected-symptoms"
@@ -233,7 +219,6 @@ MediMatch - Describe Your Symptoms
                     </div>
 
                 </div>
-
 
 
                 <!-- =============================================
@@ -245,7 +230,6 @@ MediMatch - Describe Your Symptoms
                     class="prediction-error hidden"
                 >
                 </div>
-
 
 
                 <!-- =============================================
@@ -260,24 +244,18 @@ MediMatch - Describe Your Symptoms
                     Predict Disease
                 </button>
 
-
             </div>
 
 
-
             <!-- =================================================
-                 RIGHT SIDE
-                 HOW IT WORKS
+                 RIGHT SIDE - HOW IT WORKS
                  ================================================= -->
 
             <aside class="how-it-works">
 
-
                 <h2>
                     How it works?
                 </h2>
-
-
 
                 <!-- STEP 1 -->
 
@@ -286,7 +264,6 @@ MediMatch - Describe Your Symptoms
                     <div class="step-number step-one">
                         1
                     </div>
-
 
                     <div class="step-content">
 
@@ -304,7 +281,6 @@ MediMatch - Describe Your Symptoms
                 </div>
 
 
-
                 <!-- STEP 2 -->
 
                 <div class="how-step">
@@ -312,7 +288,6 @@ MediMatch - Describe Your Symptoms
                     <div class="step-number step-two">
                         2
                     </div>
-
 
                     <div class="step-content">
 
@@ -330,7 +305,6 @@ MediMatch - Describe Your Symptoms
                 </div>
 
 
-
                 <!-- STEP 3 -->
 
                 <div class="how-step">
@@ -338,7 +312,6 @@ MediMatch - Describe Your Symptoms
                     <div class="step-number step-three">
                         3
                     </div>
-
 
                     <div class="step-content">
 
@@ -355,9 +328,7 @@ MediMatch - Describe Your Symptoms
 
                 </div>
 
-
             </aside>
-
 
         </div>
 
@@ -368,11 +339,10 @@ MediMatch - Describe Your Symptoms
 {% endblock %}
 
 
-
 {% block scripts %}
 
 <script
-    src="{{ url_for('static', path='js/symptoms.js') }}"
+    src="{{ url_for('static', path='js/symptoms.js') }}?v=2.0"
 ></script>
 
 {% endblock %}

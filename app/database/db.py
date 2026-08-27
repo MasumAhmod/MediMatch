@@ -18,10 +18,6 @@ def get_connection():
 
     try:
 
-        # =================================================
-        # SSL certificate
-        # =================================================
-
         render_ca = "/etc/secrets/ca.pem"
 
         local_ca = os.getenv(
@@ -52,10 +48,6 @@ def get_connection():
             ssl_config = None
 
 
-        # =================================================
-        # Connect
-        # =================================================
-
         connection = pymysql.connect(
 
             host=DB_HOST,
@@ -73,67 +65,7 @@ def get_connection():
             ssl=ssl_config
         )
 
-
-        print("Successfully connected to MySQL.")
-
-        print("HOST:", DB_HOST)
-
-        print("DATABASE:", DB_NAME)
-
-
-        # =================================================
-        # DEBUG: Check actual database
-        # =================================================
-
-        with connection.cursor() as cursor:
-
-            cursor.execute(
-                "SELECT DATABASE() AS database_name"
-            )
-
-            result = cursor.fetchone()
-
-            print(
-                "Connected database:",
-                result
-            )
-
-
-            # =================================================
-            # DEBUG: Count doctors
-            # =================================================
-
-            cursor.execute(
-                "SELECT COUNT(*) AS total FROM doctors"
-            )
-
-            result = cursor.fetchone()
-
-            print(
-                "Total doctors:",
-                result
-            )
-
-
-            # =================================================
-            # DEBUG: Count active doctors
-            # =================================================
-
-            cursor.execute(
-                """
-                SELECT COUNT(*) AS active
-                FROM doctors
-                WHERE is_active = 1
-                """
-            )
-
-            result = cursor.fetchone()
-
-            print(
-                "Active doctors:",
-                result
-            )
-
+        print("Successfully connected to Aiven MySQL.")
 
         return connection
 

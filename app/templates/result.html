@@ -6,166 +6,119 @@ Prediction Result - MediMatch
 
 {% block content %}
 
-<section class="max-w-7xl mx-auto px-5 lg:px-8 py-12">
+<section class="page-wrapper">
 
-    <!-- =====================================================
-         PAGE HEADER
-         ===================================================== -->
+    <div class="app-container" style="max-width: 1100px;">
 
-    <h1 class="text-3xl font-bold text-slate-900">
-        Prediction Result
-    </h1>
+        <!-- Header -->
 
-    <p class="mt-2 text-slate-500">
-        Based on the symptoms you provided.
-    </p>
+        <div style="margin-bottom: 2rem;">
 
+            <h1 style="font-size: clamp(1.65rem, 3.5vw, 2.25rem); font-weight: 800; color: #0f172a;">
+                Prediction Result
+            </h1>
 
-    <!-- =====================================================
-         RESULT SECTION
-         ===================================================== -->
-
-    <div class="grid lg:grid-cols-[1fr_350px] gap-8 mt-8">
-
-
-        <!-- Result -->
-
-        <div
-            class="bg-white rounded-2xl
-                   border border-slate-100
-                   p-8 shadow-sm"
-        >
-
-            <p class="text-sm text-slate-500">
-                Predicted Disease
+            <p style="font-size: 0.95rem; color: #64748b; margin-top: 0.35rem;">
+                Based on the symptoms you provided.
             </p>
 
-            <h2
-                id="result-disease"
-                class="mt-2 text-2xl font-bold text-teal-600"
-            >
-                Loading...
-            </h2>
+        </div>
 
 
-            <p class="mt-3 text-slate-600">
-                Based on the symptoms provided, this is the disease
-                predicted by the MediMatch ML model.
-            </p>
+        <!-- Main Grid -->
 
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem;">
 
-            <!-- Specialist -->
+            <!-- Result Card -->
 
-            <div class="mt-8 border-t pt-6">
+            <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.75rem; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);">
 
-                <p class="text-sm text-slate-500">
-                    Recommended Specialist
+                <p style="font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">
+                    Predicted Disease
                 </p>
 
-                <p
-                    id="result-specialization"
-                    class="mt-2 text-lg font-semibold text-blue-600"
+                <h2
+                    id="result-disease"
+                    style="font-size: clamp(1.4rem, 3vw, 1.85rem); font-weight: 800; color: #0d9488; margin-top: 0.5rem; word-break: break-word;"
                 >
                     Loading...
+                </h2>
+
+                <p style="font-size: 0.9rem; color: #64748b; line-height: 1.6; margin-top: 0.75rem;">
+                    Based on the symptoms provided, this is the disease
+                    predicted by the MediMatch ML model.
                 </p>
 
-            </div>
 
-        </div>
+                <!-- Specialist -->
 
+                <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid #f1f5f9;">
 
-        <!-- =================================================
-             Illustration
-             ================================================= -->
+                    <p style="font-size: 0.8rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em;">
+                        Recommended Specialist
+                    </p>
 
-        <div
-            class="bg-blue-50
-                   rounded-2xl
-                   p-8
-                   flex
-                   items-center
-                   justify-center"
-        >
+                    <p
+                        id="result-specialization"
+                        style="font-size: 1.15rem; font-weight: 700; color: #2563eb; margin-top: 0.4rem; word-break: break-word;"
+                    >
+                        Loading...
+                    </p>
 
-            <div class="text-center">
-
-                <div class="text-7xl">
-                    🩺
                 </div>
 
-                <p class="mt-5 font-semibold text-blue-800">
-                    Your health matters
-                </p>
+            </div>
 
-                <p class="mt-2 text-sm text-blue-600">
-                    Find the right specialist for your condition.
-                </p>
+
+            <!-- Illustration Card -->
+
+            <div style="background: #eff6ff; border: 1px solid #dbeafe; border-radius: 1rem; padding: 2rem; display: flex; align-items: center; justify-content: center; text-align: center;">
+
+                <div>
+
+                    <div style="font-size: 3.5rem; margin-bottom: 0.75rem;">
+                        🩺
+                    </div>
+
+                    <p style="font-size: 1.1rem; font-weight: 750; color: #1e3a8a; margin-bottom: 0.35rem;">
+                        Your health matters
+                    </p>
+
+                    <p style="font-size: 0.85rem; color: #2563eb; max-width: 240px; margin: 0 auto; line-height: 1.45;">
+                        Find the right specialist for your condition.
+                    </p>
+
+                </div>
 
             </div>
 
         </div>
 
-    </div>
 
+        <!-- Recommended Doctors Box -->
 
-    <!-- =====================================================
-         RECOMMENDED DOCTORS
-         ===================================================== -->
-
-    <div
-        class="mt-10
-               bg-white
-               rounded-2xl
-               border border-slate-100
-               p-6
-               shadow-sm"
-    >
-
-        <div
-            class="flex flex-col
-                   sm:flex-row
-                   sm:items-center
-                   justify-between
-                   gap-4"
-        >
+        <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.5rem; margin-top: 2rem; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04); display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.25rem;">
 
             <div>
 
-                <h2 class="text-xl font-bold text-slate-900">
+                <h2 style="font-size: 1.15rem; font-weight: 750; color: #0f172a; margin: 0;">
                     Find Recommended Doctors
                 </h2>
 
                 <p
                     id="recommended-doctors-text"
-                    class="text-sm text-slate-500 mt-1"
+                    style="font-size: 0.85rem; color: #64748b; margin-top: 0.25rem;"
                 >
                     Doctors matching the recommended specialization.
                 </p>
 
             </div>
 
-
-            <!-- IMPORTANT:
-                 JavaScript will add
-                 ?specialization=...
-                 to this URL.
-            -->
-
             <a
                 id="view-doctors-button"
                 href="/doctors"
-                class="inline-flex
-                       items-center
-                       justify-center
-                       bg-blue-600
-                       hover:bg-blue-700
-                       text-white
-                       px-5
-                       py-2.5
-                       rounded-lg
-                       text-sm
-                       font-semibold
-                       transition"
+                class="btn btn-primary"
+                style="width: 100%; max-width: 200px;"
             >
                 View Doctors
             </a>
@@ -187,10 +140,6 @@ document.addEventListener(
     "DOMContentLoaded",
     () => {
 
-        // =====================================================
-        // ELEMENTS
-        // =====================================================
-
         const diseaseElement =
             document.getElementById(
                 "result-disease"
@@ -211,20 +160,10 @@ document.addEventListener(
                 "recommended-doctors-text"
             );
 
-
-        // =====================================================
-        // GET PREDICTION
-        // =====================================================
-
         const storedPrediction =
             sessionStorage.getItem(
                 "medimatchPrediction"
             );
-
-
-        // =====================================================
-        // NO PREDICTION
-        // =====================================================
 
         if (!storedPrediction) {
 
@@ -240,7 +179,6 @@ document.addEventListener(
             return;
         }
 
-
         try {
 
             const data =
@@ -248,28 +186,12 @@ document.addEventListener(
                     storedPrediction
                 );
 
-
-            console.log(
-                "Prediction result:",
-                data
-            );
-
-
-            // =================================================
-            // DISEASE
-            // =================================================
-
             const disease =
                 data.disease ||
                 data.predicted_disease ||
                 data.predictedDisease ||
                 data.prediction ||
                 "Unknown Disease";
-
-
-            // =================================================
-            // SPECIALIZATION
-            // =================================================
 
             const specialization =
                 data.specialization ||
@@ -279,18 +201,8 @@ document.addEventListener(
                 data.specialist_type ||
                 "";
 
-
-            // =================================================
-            // DISPLAY DISEASE
-            // =================================================
-
             diseaseElement.textContent =
                 disease;
-
-
-            // =================================================
-            // DISPLAY SPECIALIZATION
-            // =================================================
 
             if (specialization) {
 
@@ -305,11 +217,6 @@ document.addEventListener(
 
             }
 
-
-            // =================================================
-            // DOCTORS BUTTON
-            // =================================================
-
             if (specialization) {
 
                 const encodedSpecialization =
@@ -317,11 +224,9 @@ document.addEventListener(
                         specialization
                     );
 
-
                 viewDoctorsButton.href =
                     "/doctors?specialization=" +
                     encodedSpecialization;
-
 
                 recommendedDoctorsText.textContent =
                     "Doctors matching " +
@@ -343,7 +248,6 @@ document.addEventListener(
                 "Prediction parsing error:",
                 error
             );
-
 
             diseaseElement.textContent =
                 "Unable to load prediction.";

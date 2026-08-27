@@ -62,15 +62,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 </option>
             `;
 
-
             const specializations =
                 data.specializations || [];
-
 
             specializations.forEach(item => {
 
                 let specialization;
-
 
                 if (typeof item === "string") {
 
@@ -85,11 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 }
 
-
                 if (!specialization) {
                     return;
                 }
-
 
                 const option =
                     document.createElement("option");
@@ -100,17 +95,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 option.textContent =
                     specialization;
 
-
                 specializationFilter.appendChild(
                     option
                 );
 
             });
 
-
-            // =================================================
-            // SET SPECIALIZATION FROM URL
-            // =================================================
 
             if (urlSpecialization) {
 
@@ -139,73 +129,50 @@ document.addEventListener("DOMContentLoaded", () => {
 
         doctorsContainer.innerHTML = "";
 
-
         if (!doctors || doctors.length === 0) {
 
             doctorsContainer.innerHTML = `
-                <div class="col-span-full
-                            text-center
-                            py-12
-                            text-slate-500">
-
-                    No doctors found for this
-                    specialization.
-
+                <div style="grid-column: 1 / -1; text-align: center; padding: 3rem 1rem; color: #64748b; font-size: 0.95rem;">
+                    No doctors found matching your criteria.
                 </div>
             `;
 
             return;
         }
 
-
         doctors.forEach(doctor => {
 
             const card =
                 document.createElement("div");
 
+            card.style.cssText =
+                "background: #ffffff; border: 1px solid #e2e8f0; border-radius: 1rem; padding: 1.25rem; box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04); display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;";
 
-            card.className =
-                "bg-white border border-slate-100 " +
-                "rounded-2xl p-6 shadow-sm " +
-                "hover:shadow-lg transition";
+            card.addEventListener("mouseenter", () => {
+                card.style.transform = "translateY(-3px)";
+                card.style.boxShadow = "0 12px 28px rgba(37, 99, 235, 0.08)";
+                card.style.borderColor = "#bfdbfe";
+            });
 
-
-            // =================================================
-            // DOCTOR NAME
-            // =================================================
+            card.addEventListener("mouseleave", () => {
+                card.style.transform = "translateY(0)";
+                card.style.boxShadow = "0 4px 18px rgba(15, 23, 42, 0.04)";
+                card.style.borderColor = "#e2e8f0";
+            });
 
             const doctorName =
                 doctor.doctor_name ||
                 "Unknown Doctor";
 
-
-            // =================================================
-            // SPECIALIZATION
-            // =================================================
-
             const specialization =
                 doctor.specialization ||
                 "Medical Specialist";
-
-
-            // =================================================
-            // QUALIFICATION
-            //
-            // Your database uses "degree"
-            // =================================================
 
             const qualification =
                 doctor.degree ||
                 doctor.qualification ||
                 doctor.qualifications ||
                 "Qualification not specified";
-
-
-            // =================================================
-            // HOSPITAL
-            //
-            // Your database uses "chamber_hospital"
-            // =================================================
 
             const hospital =
                 doctor.chamber_hospital ||
@@ -214,214 +181,118 @@ document.addEventListener("DOMContentLoaded", () => {
                 doctor.current_workplace ||
                 "Hospital not specified";
 
-
-            // =================================================
-            // CURRENT WORKPLACE
-            // =================================================
-
             const currentWorkplace =
                 doctor.current_workplace ||
                 "";
-
-
-            // =================================================
-            // DESIGNATION
-            // =================================================
 
             const designation =
                 doctor.designation ||
                 "";
 
-
-            // =================================================
-            // CITY
-            // =================================================
-
             const city =
                 doctor.city ||
                 "";
 
-
-            // =================================================
-            // VISITING HOURS
-            // =================================================
-
             const visitingHours =
                 doctor.visiting_hours ||
                 "";
-
-
-            // =================================================
-            // FEE
-            // =================================================
 
             const fee =
                 doctor.appointment_fee ??
                 doctor.fee ??
                 0;
 
-
-            // =================================================
-            // DOCTOR ID
-            // =================================================
-
             const doctorId =
                 doctor.doctor_id;
 
-
-            // =================================================
-            // DOCTOR CARD
-            // =================================================
-
             card.innerHTML = `
+                <div>
+                    <div style="display: flex; align-items: center; gap: 0.85rem;">
+                        <div
+                            style="width: 48px; height: 48px; border-radius: 50%; background: #eff6ff; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0; border: 1px solid #dbeafe;"
+                        >
+                            👨‍⚕️
+                        </div>
 
-                <div class="flex items-center gap-4">
+                        <div style="min-width: 0; flex: 1;">
+                            <h3
+                                style="font-size: 1.05rem; font-weight: 750; color: #0f172a; word-break: break-word; line-height: 1.25; margin: 0;"
+                            >
+                                ${escapeHTML(doctorName)}
+                            </h3>
 
-                    <div
-                        class="w-14 h-14
-                               rounded-full
-                               bg-blue-50
-                               flex items-center
-                               justify-center
-                               text-2xl"
-                    >
-                        👨‍⚕️
+                            <p
+                                style="font-size: 0.82rem; color: #2563eb; font-weight: 600; word-break: break-word; margin-top: 0.2rem;"
+                            >
+                                ${escapeHTML(specialization)}
+                            </p>
+                        </div>
                     </div>
 
+                    <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.4rem; font-size: 0.82rem; color: #475569;">
+                        ${
+                            designation
+                            ? `
+                            <p style="margin: 0; word-break: break-word;">
+                                <strong style="color: #334155;">Designation:</strong>
+                                ${escapeHTML(designation)}
+                            </p>
+                            `
+                            : ""
+                        }
 
-                    <div>
-
-                        <h3
-                            class="text-lg
-                                   font-bold
-                                   text-slate-900"
-                        >
-                            ${escapeHTML(doctorName)}
-                        </h3>
-
-
-                        <p
-                            class="text-sm
-                                   text-blue-600
-                                   font-medium"
-                        >
-                            ${escapeHTML(specialization)}
+                        <p style="margin: 0; word-break: break-word;">
+                            <strong style="color: #334155;">Qualification:</strong>
+                            ${escapeHTML(qualification)}
                         </p>
 
+                        <p style="margin: 0; word-break: break-word;">
+                            <strong style="color: #334155;">Hospital:</strong>
+                            ${escapeHTML(hospital)}
+                        </p>
+
+                        ${
+                            city
+                            ? `
+                            <p style="margin: 0; word-break: break-word;">
+                                <strong style="color: #334155;">Location:</strong>
+                                ${escapeHTML(city)}
+                            </p>
+                            `
+                            : ""
+                        }
+
+                        ${
+                            visitingHours
+                            ? `
+                            <p style="margin: 0; word-break: break-word;">
+                                <strong style="color: #334155;">Visiting Hours:</strong>
+                                ${escapeHTML(visitingHours)}
+                            </p>
+                            `
+                            : ""
+                        }
                     </div>
-
                 </div>
-
-
-                <div class="mt-5 space-y-2">
-
-                    ${
-                        designation
-                        ? `
-                        <p class="text-sm text-slate-600">
-
-                            <span class="font-semibold">
-                                Designation:
-                            </span>
-
-                            ${escapeHTML(designation)}
-
-                        </p>
-                        `
-                        : ""
-                    }
-
-
-                    <p class="text-sm text-slate-600">
-
-                        <span class="font-semibold">
-                            Qualification:
-                        </span>
-
-                        ${escapeHTML(qualification)}
-
-                    </p>
-
-
-                    <p class="text-sm text-slate-600">
-
-                        <span class="font-semibold">
-                            Hospital:
-                        </span>
-
-                        ${escapeHTML(hospital)}
-
-                    </p>
-
-
-                    ${
-                        city
-                        ? `
-                        <p class="text-sm text-slate-600">
-
-                            <span class="font-semibold">
-                                Location:
-                            </span>
-
-                            ${escapeHTML(city)}
-
-                        </p>
-                        `
-                        : ""
-                    }
-
-
-                    ${
-                        visitingHours
-                        ? `
-                        <p class="text-sm text-slate-600">
-
-                            <span class="font-semibold">
-                                Visiting Hours:
-                            </span>
-
-                            ${escapeHTML(visitingHours)}
-
-                        </p>
-                        `
-                        : ""
-                    }
-
-                </div>
-
 
                 <div
-                    class="mt-5
-                           flex items-center
-                           justify-between"
+                    style="margin-top: 1.25rem; padding-top: 0.85rem; border-top: 1px solid #f1f5f9; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;"
                 >
-
                     <p
-                        class="font-bold
-                               text-slate-800"
+                        style="font-weight: 800; color: #0f172a; font-size: 0.95rem; white-space: nowrap; margin: 0;"
                     >
                         Fee: Tk. ${escapeHTML(fee)}
                     </p>
 
-
                     <a
                         href="/doctors/${doctorId}"
-                        class="bg-blue-600
-                               hover:bg-blue-700
-                               text-white
-                               px-4 py-2
-                               rounded-lg
-                               text-sm
-                               font-semibold
-                               transition"
+                        class="btn btn-primary"
+                        style="padding: 0.45rem 1rem; min-height: 38px; font-size: 0.82rem;"
                     >
                         View Profile
                     </a>
-
                 </div>
-
             `;
-
 
             doctorsContainer.appendChild(card);
 
@@ -440,38 +311,15 @@ document.addEventListener("DOMContentLoaded", () => {
             value === null ||
             value === undefined
         ) {
-
             return "";
-
         }
 
-
         return String(value)
-
-            .replace(
-                /&/g,
-                "&amp;"
-            )
-
-            .replace(
-                /</g,
-                "&lt;"
-            )
-
-            .replace(
-                />/g,
-                "&gt;"
-            )
-
-            .replace(
-                /"/g,
-                "&quot;"
-            )
-
-            .replace(
-                /'/g,
-                "&#039;"
-            );
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
 
     }
 
@@ -482,142 +330,81 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function loadDoctors() {
 
-        loadingElement.classList.remove(
-            "hidden"
-        );
-
+        loadingElement.classList.remove("hidden");
         doctorsContainer.innerHTML = "";
-
-        errorElement.classList.add(
-            "hidden"
-        );
-
+        errorElement.classList.add("hidden");
 
         try {
 
             let response;
 
-
-            // =================================================
-            // SPECIALIZATION FROM PREDICTION RESULT
-            // =================================================
-
             if (urlSpecialization) {
 
                 const specialization =
-                    encodeURIComponent(
-                        urlSpecialization
-                    );
-
+                    encodeURIComponent(urlSpecialization);
 
                 const url =
-                    `/api/v1/doctors/filter` +
-                    `?specialization=${specialization}`;
-
+                    `/api/v1/doctors/filter?specialization=${specialization}`;
 
                 response =
                     await fetch(url);
 
-            }
-
-
-            // =================================================
-            // NORMAL FILTER
-            // =================================================
-
-            else {
+            } else {
 
                 const params =
                     new URLSearchParams();
-
 
                 const name =
                     searchInput
                         ? searchInput.value.trim()
                         : "";
 
-
                 const specialization =
                     specializationFilter
                         ? specializationFilter.value
                         : "";
-
 
                 const city =
                     cityFilter
                         ? cityFilter.value
                         : "";
 
-
                 const fee =
                     feeFilter
                         ? feeFilter.value
                         : "";
 
-
                 if (name) {
-
-                    params.append(
-                        "name",
-                        name
-                    );
-
+                    params.append("name", name);
                 }
-
 
                 if (specialization) {
-
-                    params.append(
-                        "specialization",
-                        specialization
-                    );
-
+                    params.append("specialization", specialization);
                 }
-
 
                 if (city) {
-
-                    params.append(
-                        "city",
-                        city
-                    );
-
+                    params.append("city", city);
                 }
-
 
                 if (fee) {
-
-                    params.append(
-                        "max_fee",
-                        fee
-                    );
-
+                    params.append("max_fee", fee);
                 }
 
-
-                if (
-                    specialization ||
-                    city ||
-                    fee
-                ) {
+                if (specialization || city || fee) {
 
                     response =
                         await fetch(
                             `/api/v1/doctors/filter?${params.toString()}`
                         );
 
-                }
-
-                else if (name) {
+                } else if (name) {
 
                     response =
                         await fetch(
                             `/api/v1/doctors/search?name=${encodeURIComponent(name)}`
                         );
 
-                }
-
-                else {
+                } else {
 
                     response =
                         await fetch(
@@ -628,10 +415,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-
             const data =
                 await response.json();
-
 
             if (!response.ok) {
 
@@ -642,11 +427,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
 
-
             displayDoctors(
                 data.doctors || []
             );
-
 
         } catch (error) {
 
@@ -655,21 +438,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 error
             );
 
-
             errorElement.textContent =
                 error.message ||
                 "Failed to load doctors.";
 
-
-            errorElement.classList.remove(
-                "hidden"
-            );
+            errorElement.classList.remove("hidden");
 
         } finally {
 
-            loadingElement.classList.add(
-                "hidden"
-            );
+            loadingElement.classList.add("hidden");
 
         }
 
@@ -677,59 +454,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // =====================================================
-    // FILTER BUTTON
+    // EVENTS
     // =====================================================
 
     if (filterButton) {
 
-        filterButton.addEventListener(
-            "click",
-            () => {
-
-                loadDoctors();
-
-            }
-        );
+        filterButton.addEventListener("click", () => {
+            loadDoctors();
+        });
 
     }
-
-
-    // =====================================================
-    // ENTER KEY SEARCH
-    // =====================================================
 
     if (searchInput) {
 
-        searchInput.addEventListener(
-            "keydown",
-            event => {
+        searchInput.addEventListener("keydown", event => {
 
-                if (event.key === "Enter") {
-
-                    event.preventDefault();
-
-                    loadDoctors();
-
-                }
-
+            if (event.key === "Enter") {
+                event.preventDefault();
+                loadDoctors();
             }
-        );
+
+        });
 
     }
-
-
-    // =====================================================
-    // INITIAL LOAD
-    // =====================================================
 
     async function initialize() {
 
         await loadSpecializations();
-
         await loadDoctors();
 
     }
-
 
     initialize();
 

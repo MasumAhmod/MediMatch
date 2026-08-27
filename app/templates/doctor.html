@@ -1,19 +1,14 @@
 {% extends "base.html" %}
 
-
 {% block title %}
-
 Doctor Profile - MediMatch
-
 {% endblock %}
-
 
 {% block content %}
 
 <div class="doctor-profile-page">
 
     <div class="doctor-profile-container">
-
 
         <!-- =================================================
              BACK
@@ -46,7 +41,6 @@ Doctor Profile - MediMatch
 
         </div>
 
-
     </div>
 
 </div>
@@ -57,7 +51,7 @@ Doctor Profile - MediMatch
 {% block scripts %}
 
 <script
-    src="{{ url_for('static', path='js/doctor.js') }}"
+    src="{{ url_for('static', path='js/doctor.js') }}?v=2.0"
 ></script>
 
 {% endblock %}
