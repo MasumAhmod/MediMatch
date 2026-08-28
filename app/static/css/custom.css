@@ -33,6 +33,18 @@ body {
     line-height: 1.5;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+}
+
+
 img,
 svg,
 video,
@@ -61,6 +73,11 @@ button {
     cursor: pointer;
     border: none;
     background: none;
+}
+
+/* Utility: replaces Tailwind's 'hidden' class */
+.hidden {
+    display: none !important;
 }
 
 

@@ -12,23 +12,6 @@
         {% endblock %}
     </title>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    screens: {
-                        'xs': '480px',
-                    }
-                }
-            }
-        }
-    </script>
-
     <!-- Google Font -->
     <link
         rel="preconnect"
@@ -44,17 +27,17 @@
         rel="stylesheet"
     >
 
-    <!-- Custom CSS (with cache-busting parameter) -->
+    <!-- Custom CSS -->
     <link
         rel="stylesheet"
-        href="{{ url_for('static', path='css/custom.css') }}?v=2.0"
+        href="{{ url_for('static', path='css/custom.css') }}?v=3.0"
     >
 
     {% block head %}
     {% endblock %}
 </head>
 
-<body class="bg-white text-slate-900 min-h-screen flex flex-col antialiased">
+<body>
 
     <!-- =====================================================
          HEADER
@@ -64,7 +47,7 @@
     <!-- =====================================================
          MAIN CONTENT
     ====================================================== -->
-    <main class="flex-1 w-full">
+    <main>
         {% block content %}
         {% endblock %}
     </main>
@@ -75,10 +58,10 @@
     {% include 'footer.html' %}
 
     <!-- =====================================================
-         GLOBAL JAVASCRIPT (with cache-busting parameter)
+         GLOBAL JAVASCRIPT
     ====================================================== -->
     <script
-        src="{{ url_for('static', path='js/script.js') }}?v=2.0"
+        src="{{ url_for('static', path='js/script.js') }}?v=3.0"
     ></script>
 
     {% block scripts %}
