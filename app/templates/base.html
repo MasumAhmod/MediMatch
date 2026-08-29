@@ -1,71 +1,126 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
-    >
-    <title>
-        {% block title %}
-        MediMatch
-        {% endblock %}
-    </title>
+<meta charset="UTF-8">
 
-    <!-- Google Font -->
-    <link
-        rel="preconnect"
-        href="https://fonts.googleapis.com"
-    >
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet"
-    >
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
 
-    <!-- Custom CSS -->
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', path='css/custom.css') }}?v=3.0"
-    >
+<meta
+    name="theme-color"
+    content="#f6ebff"
+>
 
-    {% block head %}
+<title>
+    {% block title %}
+    MediMatch
     {% endblock %}
+</title>
+
+
+<!-- =====================================================
+     GOOGLE FONT
+====================================================== -->
+
+<link
+    rel="preconnect"
+    href="https://fonts.googleapis.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin
+>
+
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+>
+
+
+<!-- =====================================================
+     TAILWIND CSS
+====================================================== -->
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                },
+
+                screens: {
+                    xs: '480px'
+                }
+            }
+        }
+    };
+</script>
+
+
+<!-- =====================================================
+     MEDIMATCH CUSTOM CSS
+====================================================== -->
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', path='css/custom.css') }}?v=6.0"
+>
+
+
+{% block head %}
+{% endblock %}
+
 </head>
 
-<body>
+<body class="bg-white text-slate-900 min-h-screen flex flex-col antialiased">
 
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-    {% include 'header.html' %}
+<!-- =====================================================
+     HEADER
+====================================================== -->
 
-    <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
+{% include 'header.html' %}
 
-    <!-- =====================================================
-         FOOTER
-    ====================================================== -->
-    {% include 'footer.html' %}
 
-    <!-- =====================================================
-         GLOBAL JAVASCRIPT
-    ====================================================== -->
-    <script
-        src="{{ url_for('static', path='js/script.js') }}?v=3.0"
-    ></script>
+<!-- =====================================================
+     MAIN CONTENT
+====================================================== -->
 
-    {% block scripts %}
+<main class="flex-1 w-full min-w-0">
+
+    {% block content %}
     {% endblock %}
 
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+====================================================== -->
+
+{% include 'footer.html' %}
+
+
+<!-- =====================================================
+     GLOBAL JAVASCRIPT
+====================================================== -->
+
+<script
+    src="{{ url_for('static', path='js/script.js') }}?v=6.0"
+></script>
+
+
+{% block scripts %}
+{% endblock %}
+
 </body>
+
 </html>

@@ -8,213 +8,261 @@ Contact - MediMatch
 
 <section class="contact-page">
 
-    <div class="contact-container">
+<div class="contact-container">
 
-        <!-- Page Header -->
+    <!-- =================================================
+         PAGE HEADER
+    ================================================== -->
 
-        <div class="contact-heading">
+    <div class="contact-heading">
 
-            <h1>Contact Us</h1>
+        <h1>
+            Contact Us
+        </h1>
 
-            <p>
-                Have a question, suggestion, or need help with MediMatch?
-                We'd love to hear from you.
-            </p>
+        <p>
+            Have a question, suggestion, or need help with MediMatch?
+            We'd love to hear from you.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         CONTACT LAYOUT
+    ================================================== -->
+
+    <div class="contact-layout">
+
+
+        <!-- =================================================
+             CONTACT INFORMATION
+        ================================================== -->
+
+        <div class="contact-info">
+
+
+            <!-- Email -->
+
+            <div class="contact-info-card">
+
+                <div class="contact-icon" aria-hidden="true">
+                    ✉
+                </div>
+
+                <div class="contact-info-content">
+
+                    <h3>
+                        Email
+                    </h3>
+
+                    <p>
+                        masumahmod332@gmail.com
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Phone -->
+
+            <div class="contact-info-card">
+
+                <div class="contact-icon" aria-hidden="true">
+                    ☎
+                </div>
+
+                <div class="contact-info-content">
+
+                    <h3>
+                        Phone
+                    </h3>
+
+                    <p>
+                        +880 1784-266446
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Location -->
+
+            <div class="contact-info-card">
+
+                <div class="contact-icon" aria-hidden="true">
+                    📍
+                </div>
+
+                <div class="contact-info-content">
+
+                    <h3>
+                        Location
+                    </h3>
+
+                    <p>
+                        Sylhet, Bangladesh
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Medical Assistance -->
+
+            <div class="contact-help-box">
+
+                <h3>
+                    Need medical assistance?
+                </h3>
+
+                <p>
+                    MediMatch helps you identify a suitable medical
+                    specialist based on your symptoms.
+                </p>
+
+                <a href="/symptoms">
+                    Check Your Symptoms →
+                </a>
+
+            </div>
 
         </div>
 
 
-        <!-- Contact Layout -->
+        <!-- =================================================
+             CONTACT FORM
+        ================================================== -->
 
-        <div class="contact-layout">
+        <div class="contact-form-card">
 
-            <!-- Left: Contact Information -->
+            <h2>
+                Send us a message
+            </h2>
 
-            <div class="contact-info">
+            <p class="contact-form-description">
+                Fill out the form below and we'll get back to you.
+            </p>
 
-                <div class="contact-info-card">
 
-                    <div class="contact-icon">
-                        ✉
+            <!-- Success / Error Feedback -->
+
+            {% if message %}
+
+                {% if success %}
+
+                    <div class="contact-feedback contact-feedback-success">
+                        <span aria-hidden="true">✓</span>
+                        <span>{{ message }}</span>
                     </div>
 
-                    <div>
-                        <h3>Email</h3>
+                {% else %}
 
-                        <p>
-                            masumahmod332@gmail.com
-                        </p>
+                    <div class="contact-feedback contact-feedback-error">
+                        <span aria-hidden="true">⚠</span>
+                        <span>{{ message }}</span>
                     </div>
 
-                </div>
-
-
-                <div class="contact-info-card">
-
-                    <div class="contact-icon">
-                        ☎
-                    </div>
-
-                    <div>
-                        <h3>Phone</h3>
-
-                        <p>
-                            +880 1784-266446
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div class="contact-info-card">
-
-                    <div class="contact-icon">
-                        📍
-                    </div>
-
-                    <div>
-                        <h3>Location</h3>
-
-                        <p>
-                            Sylhet, Bangladesh
-                        </p>
-                    </div>
-
-                </div>
-
-
-                <div class="contact-help-box">
-
-                    <h3>Need medical assistance?</h3>
-
-                    <p>
-                        MediMatch helps you identify a suitable medical
-                        specialist based on your symptoms.
-                    </p>
-
-                    <a href="/symptoms">
-                        Check Your Symptoms →
-                    </a>
-
-                </div>
-
-            </div>
-
-
-            <!-- Right: Contact Form -->
-
-            <div class="contact-form-card">
-
-                <h2>Send us a message</h2>
-
-                <p class="contact-form-description">
-                    Fill out the form below and we'll get back to you.
-                </p>
-
-
-                <!-- Success / Error Feedback Banner -->
-
-                {% if message %}
-                    {% if success %}
-                        <div style="margin-bottom: 1.25rem; padding: 0.85rem 1rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.65rem; color: #166534; font-size: 0.88rem; font-weight: 500;">
-                            ✓ {{ message }}
-                        </div>
-                    {% else %}
-                        <div style="margin-bottom: 1.25rem; padding: 0.85rem 1rem; background: #fef2f2; border: 1px solid #fecaca; border-radius: 0.65rem; color: #991b1b; font-size: 0.88rem; font-weight: 500;">
-                            ⚠ {{ message }}
-                        </div>
-                    {% endif %}
                 {% endif %}
 
-
-                <form
-                    method="POST"
-                    action="/contact"
-                    class="contact-form"
-                >
-
-                    <div class="contact-form-group">
-
-                        <label for="contact-name">
-                            Name
-                        </label>
-
-                        <input
-                            id="contact-name"
-                            name="name"
-                            type="text"
-                            placeholder="Enter your name"
-                            required
-                        >
-
-                    </div>
+            {% endif %}
 
 
-                    <div class="contact-form-group">
+            <!-- Form -->
 
-                        <label for="contact-email">
-                            Email
-                        </label>
+            <form
+                method="POST"
+                action="/contact"
+                class="contact-form"
+            >
 
-                        <input
-                            id="contact-email"
-                            name="email"
-                            type="email"
-                            placeholder="Enter your email"
-                            required
-                        >
+                <div class="contact-form-group">
 
-                    </div>
+                    <label for="contact-name">
+                        Name
+                    </label>
 
-
-                    <div class="contact-form-group">
-
-                        <label for="contact-subject">
-                            Subject
-                        </label>
-
-                        <input
-                            id="contact-subject"
-                            name="subject"
-                            type="text"
-                            placeholder="What is this about?"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="contact-form-group">
-
-                        <label for="contact-message">
-                            Message
-                        </label>
-
-                        <textarea
-                            id="contact-message"
-                            name="message"
-                            rows="6"
-                            placeholder="Write your message..."
-                            required
-                        ></textarea>
-
-                    </div>
-
-
-                    <button
-                        type="submit"
-                        class="contact-submit-button"
+                    <input
+                        id="contact-name"
+                        name="name"
+                        type="text"
+                        placeholder="Enter your name"
+                        autocomplete="name"
+                        required
                     >
-                        Send Message
-                    </button>
 
-                </form>
+                </div>
 
-            </div>
+
+                <div class="contact-form-group">
+
+                    <label for="contact-email">
+                        Email
+                    </label>
+
+                    <input
+                        id="contact-email"
+                        name="email"
+                        type="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="contact-form-group">
+
+                    <label for="contact-subject">
+                        Subject
+                    </label>
+
+                    <input
+                        id="contact-subject"
+                        name="subject"
+                        type="text"
+                        placeholder="What is this about?"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="contact-form-group">
+
+                    <label for="contact-message">
+                        Message
+                    </label>
+
+                    <textarea
+                        id="contact-message"
+                        name="message"
+                        rows="6"
+                        placeholder="Write your message..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="contact-submit-button"
+                >
+                    Send Message
+                </button>
+
+            </form>
 
         </div>
 
     </div>
+
+</div>
 
 </section>
 
