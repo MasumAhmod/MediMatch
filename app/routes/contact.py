@@ -1,4 +1,3 @@
-```python
 import os
 import logging
 
@@ -183,4 +182,3 @@ This message was sent from the MediMatch website.
                 )
             }
         )
-```
